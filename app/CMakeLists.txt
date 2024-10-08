@@ -13,20 +13,20 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        ToolBar.cpp
-        ToolBar.h
-        Painter.cpp
-        Painter.h
-        Point.cpp
-        Point.h
-        Edge.cpp
-        Edge.h
-        ObjectMgr.cpp
-        ObjectMgr.h
+        src/main.cpp
+        src/mainwindow.cpp
+        src/mainwindow.h
+        src/mainwindow.ui
+        src/ToolBar.cpp
+        src/ToolBar.h
+        src/Painter.cpp
+        src/Painter.h
+        src/Point.cpp
+        src/Point.h
+        src/Edge.cpp
+        src/Edge.h
+        src/ObjectMgr.cpp
+        src/ObjectMgr.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -48,7 +48,7 @@ else()
     else()
         add_executable(app
             ${PROJECT_SOURCES}
-            images.qrc
+                images.qrc
         )
     endif()
 endif()

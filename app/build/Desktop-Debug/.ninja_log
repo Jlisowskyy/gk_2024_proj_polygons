@@ -1,9 +1,0 @@
-# ninja log v6
-3	92	1728413329619942217	app_autogen/timestamp	2cb0a63031274889
-3	92	1728413329619942217	app_autogen/mocs_compilation.cpp	2cb0a63031274889
-92	760	1728413329626608883	CMakeFiles/app.dir/app_autogen/mocs_compilation.cpp.o	1c8eb1ccc1fd36ee
-3	92	1728413329619942217	/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/timestamp	2cb0a63031274889
-93	766	1728413329626608883	CMakeFiles/app.dir/mainwindow.cpp.o	e9fc1245a74947e
-92	725	1728413329626608883	CMakeFiles/app.dir/main.cpp.o	600dcb8b32475198
-766	884	1728413330299942203	app	7308321c45be0610
-3	92	1728413329619942217	/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/mocs_compilation.cpp	2cb0a63031274889
