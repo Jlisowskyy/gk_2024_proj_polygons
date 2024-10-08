@@ -1,0 +1,9 @@
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/app.dir
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/edit_cache.dir
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/rebuild_cache.dir
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/list_install_components.dir
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/install.dir
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/install/local.dir
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/install/strip.dir
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/app_autogen_timestamp_deps.dir
+/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/CMakeFiles/app_autogen.dir

@@ -1,0 +1,16 @@
+/home/Jlisowskyy/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=/home/Jlisowskyy/.local/share/JetBrains/Toolbox/apps/clion/bin/ninja/linux/x64/ninja -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ "-DCMAKE_CXX_FLAGS=-Wall -Wextra -pedantic -O3 -march=native" -G Ninja -S /home/Jlisowskyy/Repos/gk_2024_proj_polygons/app -B /home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/gcc-release
+-- The CXX compiler identification is GNU 14.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /sbin/g++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (2.6s)
+-- Generating done (2.5s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_C_COMPILER
+
+
+-- Build files have been written to: /home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/gcc-release
