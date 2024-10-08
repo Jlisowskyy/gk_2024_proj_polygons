@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        ToolBar.cpp
+        ToolBar.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -38,6 +40,7 @@ else()
     else()
         add_executable(app
             ${PROJECT_SOURCES}
+            images.qrc
         )
     endif()
 endif()

@@ -1,4 +1,4 @@
-# Install script for directory: /home/Jlisowskyy/Repos/gk_2024_proj_polygons/app
+# Install script for directory: /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -49,7 +49,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/app"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/app" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/app")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -73,6 +73,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

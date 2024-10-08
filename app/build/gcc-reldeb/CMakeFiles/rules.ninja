@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /home/Jlisowskyy/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake --regenerate-during-build -S/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app -B/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/gcc-reldeb
+  command = /home/Jlisowskyy/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake --regenerate-during-build -S/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app -B/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-reldeb
   description = Re-running CMake...
   generator = 1
 

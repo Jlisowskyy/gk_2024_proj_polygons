@@ -1,0 +1,31 @@
+{
+	"BUILD_DIR" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen",
+	"CMAKE_BINARY_DIR" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app",
+	"CMAKE_SOURCE_DIR" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/include",
+	"INPUTS" : 
+	[
+		"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/icons/const_length.png",
+		"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/icons/vertical.png",
+		"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/icons/bezier.png",
+		"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/icons/horizontal.png",
+		"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/icons/trash.png",
+		"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/icons/cont.png",
+		"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/icons/add_vertex.png"
+	],
+	"LOCK_FILE" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/CMakeFiles/app_autogen.dir/AutoRcc_images_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "images" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_images.cpp",
+	"RCC_EXECUTABLE" : "/usr/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/CMakeFiles/app_autogen.dir/AutoRcc_images_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/images.qrc",
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}

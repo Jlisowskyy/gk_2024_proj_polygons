@@ -1,8 +1,0 @@
-# ninja log v6
-1	125	1728385614993289135	app_autogen/timestamp	9f05c45120057d69
-1	125	1728385614993289135	app_autogen/mocs_compilation.cpp	9f05c45120057d69
-1	125	1728385614993289135	/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/app_autogen/timestamp	9f05c45120057d69
-1	125	1728385614993289135	/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/intel-debug/app_autogen/mocs_compilation.cpp	9f05c45120057d69
-126	712	1728385614999955802	CMakeFiles/app.dir/app_autogen/mocs_compilation.cpp.o	f032bcd7c986677c
-126	732	1728385614999955802	CMakeFiles/app.dir/main.cpp.o	bc0bb122630755ea
-126	774	1728385614999955802	CMakeFiles/app.dir/mainwindow.cpp.o	3bec38e07266c8ac

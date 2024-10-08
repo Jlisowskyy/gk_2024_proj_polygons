@@ -2,16 +2,14 @@
 #include "./ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
+        : QMainWindow(parent), m_ui(new Ui::MainWindow), m_toolBar(new ToolBar(this)) {
+    m_ui->setupUi(this);
+    m_toolBar->setupToolBar(m_ui->toolBar);
 
-    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+    connect(m_ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 }
 
 
-MainWindow::~MainWindow()
-{
-    delete ui;
+MainWindow::~MainWindow() {
+    delete m_ui;
 }

@@ -1,5 +1,5 @@
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/mainwindow.h \
-  /home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/moc_predefs.h \
+/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/mainwindow.h \
+  /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/moc_predefs.h \
   /usr/include/alloca.h \
   /usr/include/assert.h \
   /usr/include/bits/atomic_wide_counter.h \

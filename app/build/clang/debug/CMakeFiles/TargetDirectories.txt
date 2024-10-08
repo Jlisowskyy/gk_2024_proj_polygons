@@ -1,9 +1,0 @@
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/app.dir
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/edit_cache.dir
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/rebuild_cache.dir
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/list_install_components.dir
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/install.dir
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/install/local.dir
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/install/strip.dir
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/app_autogen_timestamp_deps.dir
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/clang/debug/CMakeFiles/app_autogen.dir

@@ -1,5 +1,6 @@
-/home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/gcc-debug/app_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/mainwindow.h \
-  /home/Jlisowskyy/Repos/gk_2024_proj_polygons/app/build/gcc-debug/app_autogen/moc_predefs.h \
+/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-debug/app_autogen/EWIEGA46WW/moc_mainwindow.cpp: /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/mainwindow.h \
+  /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-debug/app_autogen/moc_predefs.h \
+  /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ToolBar.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/asm/errno.h \
@@ -234,6 +235,7 @@
   /usr/include/linux/errno.h \
   /usr/include/locale.h \
   /usr/include/pthread.h \
+  /usr/include/qt/QtCore/QObject \
   /usr/include/qt/QtCore/qalgorithms.h \
   /usr/include/qt/QtCore/qarraydata.h \
   /usr/include/qt/QtCore/qatomic.h \
@@ -322,10 +324,14 @@
   /usr/include/qt/QtGui/qwindowdefs.h \
   /usr/include/qt/QtWidgets/QApplication \
   /usr/include/qt/QtWidgets/QMainWindow \
+  /usr/include/qt/QtWidgets/QToolBar \
+  /usr/include/qt/QtWidgets/qaction.h \
+  /usr/include/qt/QtWidgets/qactiongroup.h \
   /usr/include/qt/QtWidgets/qapplication.h \
   /usr/include/qt/QtWidgets/qmainwindow.h \
   /usr/include/qt/QtWidgets/qsizepolicy.h \
   /usr/include/qt/QtWidgets/qtabwidget.h \
+  /usr/include/qt/QtWidgets/qtoolbar.h \
   /usr/include/qt/QtWidgets/qtwidgets-config.h \
   /usr/include/qt/QtWidgets/qtwidgetsglobal.h \
   /usr/include/qt/QtWidgets/qwidget.h \
