@@ -30,14 +30,36 @@ public:
 // ------------------------------
 private:
 
+    void addSeparator();
     void addToolbarLiteral(const char* strLiteral);
-    void addButtonToToolbar(const char* name, const char* imgPath, const char* toolTip);
+    QAction* addButtonToToolbar(const char* name, const char* imgPath, const char* toolTip, void (ToolBar::*func)());
 
+// ------------------------------
+// Class slots
+// ------------------------------
+public slots:
+
+    void onCleanSpaceTriggered();
+    void onAddVertexTriggered(bool isChecked);
+    void onSetVerticalTriggered();
+    void onSetHorizontalTriggered();
+    void onSetConstLengthTriggered();
+    void onSetBezierTriggered();
+    void onsetContinuousCurveTriggered();
+
+private:
 // ------------------------------
 // Class fields
 // ------------------------------
 
-    QToolBar *m_toolBar;
+    QToolBar *m_toolBar{};
+    QAction *m_cleanSpaceAction{};
+    QAction *m_addVertexAction{};
+    QAction *m_setHorizontalAction{};
+    QAction *m_setVerticalAction{};
+    QAction *m_setConstLengthAction{};
+    QAction *m_setBezierAction{};
+    QAction *m_setContinuousAction{};
 };
 
 
