@@ -73,6 +73,22 @@ build CMakeFiles/app.dir/mainwindow.cpp.o: CXX_COMPILER__app_unscanned_Debug /ho
   OBJECT_DIR = CMakeFiles/app.dir
   OBJECT_FILE_DIR = CMakeFiles/app.dir
 
+build CMakeFiles/app.dir/ToolBar.cpp.o: CXX_COMPILER__app_unscanned_Debug /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ToolBar.cpp || cmake_object_order_depends_target_app
+  DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
+  DEP_FILE = CMakeFiles/app.dir/ToolBar.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fcolor-diagnostics -fPIC
+  INCLUDES = -I/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/include -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -isystem /usr/lib/qt/mkspecs/linux-g++
+  OBJECT_DIR = CMakeFiles/app.dir
+  OBJECT_FILE_DIR = CMakeFiles/app.dir
+
+build CMakeFiles/app.dir/Painter.cpp.o: CXX_COMPILER__app_unscanned_Debug /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Painter.cpp || cmake_object_order_depends_target_app
+  DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
+  DEP_FILE = CMakeFiles/app.dir/Painter.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fcolor-diagnostics -fPIC
+  INCLUDES = -I/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/include -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -isystem /usr/lib/qt/mkspecs/linux-g++
+  OBJECT_DIR = CMakeFiles/app.dir
+  OBJECT_FILE_DIR = CMakeFiles/app.dir
+
 build CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o: CXX_COMPILER__app_unscanned_Debug /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/app_autogen/EWIEGA46WW/qrc_images.cpp || cmake_object_order_depends_target_app
   DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB
   DEP_FILE = CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o.d
@@ -89,7 +105,7 @@ build CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o: CXX_COMPILER__
 #############################################
 # Link the executable app
 
-build app: CXX_EXECUTABLE_LINKER__app_Debug CMakeFiles/app.dir/app_autogen/mocs_compilation.cpp.o CMakeFiles/app.dir/main.cpp.o CMakeFiles/app.dir/mainwindow.cpp.o CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o | /usr/lib/libQt5Widgets.so.5.15.15 /usr/lib/libQt5Gui.so.5.15.15 /usr/lib/libQt5Core.so.5.15.15 || app_autogen app_autogen_timestamp_deps
+build app: CXX_EXECUTABLE_LINKER__app_Debug CMakeFiles/app.dir/app_autogen/mocs_compilation.cpp.o CMakeFiles/app.dir/main.cpp.o CMakeFiles/app.dir/mainwindow.cpp.o CMakeFiles/app.dir/ToolBar.cpp.o CMakeFiles/app.dir/Painter.cpp.o CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o | /usr/lib/libQt5Widgets.so.5.15.15 /usr/lib/libQt5Gui.so.5.15.15 /usr/lib/libQt5Core.so.5.15.15 || app_autogen app_autogen_timestamp_deps
   FLAGS = -DQT_QML_DEBUG -g
   LINK_LIBRARIES = /usr/lib/libQt5Widgets.so.5.15.15  /usr/lib/libQt5Gui.so.5.15.15  /usr/lib/libQt5Core.so.5.15.15
   OBJECT_DIR = CMakeFiles/app.dir

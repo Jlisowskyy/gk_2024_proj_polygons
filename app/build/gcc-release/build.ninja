@@ -81,6 +81,38 @@ build CMakeFiles/app.dir/ToolBar.cpp.o: CXX_COMPILER__app_unscanned_Release /hom
   OBJECT_DIR = CMakeFiles/app.dir
   OBJECT_FILE_DIR = CMakeFiles/app.dir
 
+build CMakeFiles/app.dir/Painter.cpp.o: CXX_COMPILER__app_unscanned_Release /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Painter.cpp || cmake_object_order_depends_target_app
+  DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB
+  DEP_FILE = CMakeFiles/app.dir/Painter.cpp.o.d
+  FLAGS = -Wall -Wextra -pedantic -O3 -march=native -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always -fPIC
+  INCLUDES = -I/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-release/app_autogen/include -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -isystem /usr/lib/qt/mkspecs/linux-g++
+  OBJECT_DIR = CMakeFiles/app.dir
+  OBJECT_FILE_DIR = CMakeFiles/app.dir
+
+build CMakeFiles/app.dir/Point.cpp.o: CXX_COMPILER__app_unscanned_Release /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Point.cpp || cmake_object_order_depends_target_app
+  DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB
+  DEP_FILE = CMakeFiles/app.dir/Point.cpp.o.d
+  FLAGS = -Wall -Wextra -pedantic -O3 -march=native -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always -fPIC
+  INCLUDES = -I/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-release/app_autogen/include -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -isystem /usr/lib/qt/mkspecs/linux-g++
+  OBJECT_DIR = CMakeFiles/app.dir
+  OBJECT_FILE_DIR = CMakeFiles/app.dir
+
+build CMakeFiles/app.dir/Edge.cpp.o: CXX_COMPILER__app_unscanned_Release /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Edge.cpp || cmake_object_order_depends_target_app
+  DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB
+  DEP_FILE = CMakeFiles/app.dir/Edge.cpp.o.d
+  FLAGS = -Wall -Wextra -pedantic -O3 -march=native -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always -fPIC
+  INCLUDES = -I/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-release/app_autogen/include -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -isystem /usr/lib/qt/mkspecs/linux-g++
+  OBJECT_DIR = CMakeFiles/app.dir
+  OBJECT_FILE_DIR = CMakeFiles/app.dir
+
+build CMakeFiles/app.dir/ObjectMgr.cpp.o: CXX_COMPILER__app_unscanned_Release /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ObjectMgr.cpp || cmake_object_order_depends_target_app
+  DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB
+  DEP_FILE = CMakeFiles/app.dir/ObjectMgr.cpp.o.d
+  FLAGS = -Wall -Wextra -pedantic -O3 -march=native -O3 -DNDEBUG -std=gnu++17 -fdiagnostics-color=always -fPIC
+  INCLUDES = -I/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-release/app_autogen/include -isystem /usr/include/qt -isystem /usr/include/qt/QtWidgets -isystem /usr/include/qt/QtGui -isystem /usr/include/qt/QtCore -isystem /usr/lib/qt/mkspecs/linux-g++
+  OBJECT_DIR = CMakeFiles/app.dir
+  OBJECT_FILE_DIR = CMakeFiles/app.dir
+
 build CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o: CXX_COMPILER__app_unscanned_Release /home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-release/app_autogen/EWIEGA46WW/qrc_images.cpp || cmake_object_order_depends_target_app
   DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB
   DEP_FILE = CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o.d
@@ -97,7 +129,7 @@ build CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o: CXX_COMPILER__
 #############################################
 # Link the executable app
 
-build app: CXX_EXECUTABLE_LINKER__app_Release CMakeFiles/app.dir/app_autogen/mocs_compilation.cpp.o CMakeFiles/app.dir/main.cpp.o CMakeFiles/app.dir/mainwindow.cpp.o CMakeFiles/app.dir/ToolBar.cpp.o CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o | /usr/lib/libQt5Widgets.so.5.15.15 /usr/lib/libQt5Gui.so.5.15.15 /usr/lib/libQt5Core.so.5.15.15 || app_autogen app_autogen_timestamp_deps
+build app: CXX_EXECUTABLE_LINKER__app_Release CMakeFiles/app.dir/app_autogen/mocs_compilation.cpp.o CMakeFiles/app.dir/main.cpp.o CMakeFiles/app.dir/mainwindow.cpp.o CMakeFiles/app.dir/ToolBar.cpp.o CMakeFiles/app.dir/Painter.cpp.o CMakeFiles/app.dir/Point.cpp.o CMakeFiles/app.dir/Edge.cpp.o CMakeFiles/app.dir/ObjectMgr.cpp.o CMakeFiles/app.dir/app_autogen/EWIEGA46WW/qrc_images.cpp.o | /usr/lib/libQt5Widgets.so.5.15.15 /usr/lib/libQt5Gui.so.5.15.15 /usr/lib/libQt5Core.so.5.15.15 || app_autogen app_autogen_timestamp_deps
   FLAGS = -Wall -Wextra -pedantic -O3 -march=native -O3 -DNDEBUG
   LINK_LIBRARIES = /usr/lib/libQt5Widgets.so.5.15.15  /usr/lib/libQt5Gui.so.5.15.15  /usr/lib/libQt5Core.so.5.15.15
   OBJECT_DIR = CMakeFiles/app.dir

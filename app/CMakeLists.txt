@@ -19,6 +19,14 @@ set(PROJECT_SOURCES
         mainwindow.ui
         ToolBar.cpp
         ToolBar.h
+        Painter.cpp
+        Painter.h
+        Point.cpp
+        Point.h
+        Edge.cpp
+        Edge.h
+        ObjectMgr.cpp
+        ObjectMgr.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

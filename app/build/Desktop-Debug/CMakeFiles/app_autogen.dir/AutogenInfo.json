@@ -90,6 +90,18 @@
 	"HEADERS" : 
 	[
 		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ObjectMgr.h",
+			"MU",
+			"EWIEGA46WW/moc_ObjectMgr.cpp",
+			null
+		],
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ToolBar.h",
+			"MU",
+			"EWIEGA46WW/moc_ToolBar.cpp",
+			null
+		],
+		[
 			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
@@ -146,6 +158,16 @@
 	"SETTINGS_FILE" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/Desktop-Debug/CMakeFiles/app_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ObjectMgr.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ToolBar.cpp",
+			"MU",
+			null
+		],
 		[
 			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/main.cpp",
 			"MU",

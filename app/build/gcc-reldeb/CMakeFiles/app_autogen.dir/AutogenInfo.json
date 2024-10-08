@@ -86,6 +86,30 @@
 	"HEADERS" : 
 	[
 		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Edge.h",
+			"MU",
+			"EWIEGA46WW/moc_Edge.cpp",
+			null
+		],
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ObjectMgr.h",
+			"MU",
+			"EWIEGA46WW/moc_ObjectMgr.cpp",
+			null
+		],
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Painter.h",
+			"MU",
+			"EWIEGA46WW/moc_Painter.cpp",
+			null
+		],
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Point.h",
+			"MU",
+			"EWIEGA46WW/moc_Point.cpp",
+			null
+		],
+		[
 			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ToolBar.h",
 			"MU",
 			"EWIEGA46WW/moc_ToolBar.cpp",
@@ -149,6 +173,26 @@
 	"SETTINGS_FILE" : "/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/build/gcc-reldeb/CMakeFiles/app_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Edge.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ObjectMgr.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Painter.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/Point.cpp",
+			"MU",
+			null
+		],
 		[
 			"/home/Jlisowskyy/Storage/Repos/gk_2024_proj_polygons/app/ToolBar.cpp",
 			"MU",

@@ -7,6 +7,8 @@
 
 /* Internal includes */
 #include "ToolBar.h"
+#include "Painter.h"
+#include "ObjectMgr.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -38,5 +40,7 @@ public:
 private:
     Ui::MainWindow *m_ui;
     ToolBar *m_toolBar;
+    Painter *m_painter;
+    ObjectMgr *m_objectMgr;
 };
 #endif // MAINWINDOW_H

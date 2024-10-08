@@ -9,20 +9,22 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>883</width>
-    <height>598</height>
+    <width>960</width>
+    <height>540</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>GK Proj 2024</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout"/>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>883</width>
+     <width>960</width>
      <height>22</height>
     </rect>
    </property>
@@ -36,7 +38,6 @@
    </widget>
    <addaction name="menuExit"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -48,6 +49,7 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionHelp">
    <property name="text">
     <string>Help</string>
