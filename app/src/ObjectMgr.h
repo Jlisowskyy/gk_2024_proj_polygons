@@ -20,7 +20,6 @@ class ObjectMgr : QObject {
     // Class constants
     // ------------------------------
 public:
-
     static constexpr int FINAL_POINT_HIT_BOX_SIZE = 20;
 
     // ------------------------------

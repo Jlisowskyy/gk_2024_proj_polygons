@@ -16,49 +16,59 @@
 class ToolBar : public QObject {
     Q_OBJECT
 
-// ------------------------------
-// Class creation
-// ------------------------------
+    // ------------------------------
+    // Class creation
+    // ------------------------------
 
 public:
     explicit ToolBar(QObject *parent);
+
     ~ToolBar() override;
 
-// ------------------------------
-// Class interaction
-// ------------------------------
+    // ------------------------------
+    // Class interaction
+    // ------------------------------
 
-    void setupToolBar(QToolBar *toolBar, Painter* painter, ObjectMgr *objectMgr);
+    void setupToolBar(QToolBar *toolBar, Painter *painter, ObjectMgr *objectMgr);
 
-// ------------------------------
-// Class private methods
-// ------------------------------
+    // ------------------------------
+    // Class private methods
+    // ------------------------------
 private:
-
     void addSeparator();
-    void addToolbarLiteral(const char* strLiteral);
-    QAction* addButtonToToolbar(const char* name, const char* imgPath, const char* toolTip, void (ToolBar::*func)());
 
-// ------------------------------
-// Class slots
-// ------------------------------
+    void addToolbarLiteral(const char *strLiteral);
+
+    QAction *addButtonToToolbar(const char *name, const char *imgPath, const char *toolTip, void (ToolBar::*func)());
+
+    // ------------------------------
+    // Class slots
+    // ------------------------------
 public slots:
-
     void onCleanSpaceTriggered();
+
     void onAddVertexTriggered(bool isChecked) const;
+
     void onSetVerticalTriggered();
+
     void onSetHorizontalTriggered();
+
     void onSetConstLengthTriggered();
+
     void onSetBezierTriggered();
+
     void onSetContinuousCurveTriggered();
+
     void onDrawAlgorithmTriggered(bool isChecked) const;
+
     void onCutEdgeTriggered();
+
     void onMoveActionTriggered(bool isChecked) const;
 
 private:
-// ------------------------------
-// Class fields
-// ------------------------------
+    // ------------------------------
+    // Class fields
+    // ------------------------------
 
     QToolBar *m_toolBar{};
     Painter *m_painter{};
@@ -73,7 +83,7 @@ private:
     QAction *m_setContinuousAction{};
     QAction *m_cutEdgeAction{};
     QAction *m_drawAlgorithmAction{};
-    QAction* m_moveAction{};
+    QAction *m_moveAction{};
 };
 
 

@@ -67,8 +67,8 @@ void Painter::updateInteractivity() {
 void Painter::mousePressEvent(QMouseEvent *event) {
     if (m_scene)
 
-    /* Ensure only single item can be selected */
-    m_scene->clearSelection();
+        /* Ensure only single item can be selected */
+        m_scene->clearSelection();
 
     QGraphicsView::mousePressEvent(event);
 

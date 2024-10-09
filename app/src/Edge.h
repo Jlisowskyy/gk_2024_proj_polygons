@@ -12,35 +12,33 @@
 #include <QGraphicsLineItem>
 
 class Edge : public QGraphicsLineItem {
-// ------------------------------
-// Class constants
-// ------------------------------
+    // ------------------------------
+    // Class constants
+    // ------------------------------
 public:
-
     static constexpr int LINE_WIDTH = 5;
 
-// ------------------------------
-// Class creation
-// ------------------------------
+    // ------------------------------
+    // Class creation
+    // ------------------------------
 
-    explicit Edge(Point* start, Point* end);
+    explicit Edge(Point *start, Point *end);
 
-// ------------------------------
-// Class interaction
-// ------------------------------
+    // ------------------------------
+    // Class interaction
+    // ------------------------------
 
-// ------------------------------
-// Private methods
-// ------------------------------
+    // ------------------------------
+    // Private methods
+    // ------------------------------
 
 protected:
+    // ------------------------------
+    // Class fields
+    // ------------------------------
 
-// ------------------------------
-// Class fields
-// ------------------------------
-
-    Point* m_start{};
-    Point* m_end{};
+    Point *m_start{};
+    Point *m_end{};
 };
 
 
