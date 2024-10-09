@@ -68,6 +68,7 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Painter *painter, ObjectMgr *objec
         "Remove all objects from the space",
         &ToolBar::onCleanSpaceTriggered
     );
+    m_cleanSpaceAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Delete));
 
     m_addVertexAction = addButtonToToolbar(
         "Place vertex",
@@ -76,6 +77,15 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Painter *painter, ObjectMgr *objec
     );
     m_addVertexAction->setCheckable(true);
     connect(m_addVertexAction, &QAction::triggered, this, &ToolBar::onAddVertexTriggered);
+
+    m_moveAction = addButtonToToolbar(
+        "Move space",
+        ":/icons/move.png",
+        "Move the whole space around"
+    );
+    m_moveAction->setCheckable(true);
+    m_moveAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+    connect(m_moveAction, &QAction::triggered, this, &ToolBar::onMoveActionTriggered);
 
     addSeparator();
 
@@ -147,7 +157,6 @@ void ToolBar::onAddVertexTriggered(const bool isChecked) const {
     qDebug() << "onAddVertexTriggered";
 
     m_objectMgr->setIsAddingVertices(isChecked);
-    m_painter->setInteractive(!isChecked);
 }
 
 void ToolBar::onSetVerticalTriggered() {
@@ -176,4 +185,10 @@ void ToolBar::onDrawAlgorithmTriggered(bool isChecked) const {
 
 void ToolBar::onCutEdgeTriggered() {
     qDebug() << "onCutEdgeTriggered";
+}
+
+void ToolBar::onMoveActionTriggered(const bool isChecked) const {
+    qDebug() << "onMoveActionTriggered";
+
+    m_painter->setMovingSpace(isChecked);
 }

@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>960</width>
+    <width>959</width>
     <height>540</height>
    </rect>
   </property>
@@ -17,15 +17,15 @@
    <string>GK Proj 2024</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout"/>
+   <layout class="QVBoxLayout" name="verticalLayout"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>960</width>
-     <height>22</height>
+     <width>959</width>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuExit">

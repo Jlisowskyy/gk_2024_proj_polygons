@@ -53,6 +53,7 @@ public slots:
     void onSetContinuousCurveTriggered();
     void onDrawAlgorithmTriggered(bool isChecked) const;
     void onCutEdgeTriggered();
+    void onMoveActionTriggered(bool isChecked) const;
 
 private:
 // ------------------------------
@@ -72,6 +73,7 @@ private:
     QAction *m_setContinuousAction{};
     QAction *m_cutEdgeAction{};
     QAction *m_drawAlgorithmAction{};
+    QAction* m_moveAction{};
 };
 
 

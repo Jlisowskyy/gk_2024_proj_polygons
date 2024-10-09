@@ -9,5 +9,6 @@
         <file>icons/bezier.png</file>
         <file>icons/cut_edge.png</file>
         <file>icons/draw_algo.png</file>
+        <file>icons/move.png</file>
     </qresource>
 </RCC>

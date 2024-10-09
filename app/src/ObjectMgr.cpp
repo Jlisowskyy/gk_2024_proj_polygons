@@ -32,6 +32,7 @@ bool ObjectMgr::getIsAddingVertices() const {
 
 void ObjectMgr::setIsAddingVertices(const bool value) {
     m_isAddingVertices = value;
+    m_painter->updateInteractivity();
 }
 
 bool ObjectMgr::isFullPolygon() const {

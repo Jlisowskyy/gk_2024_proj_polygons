@@ -9,7 +9,7 @@
 #include <QObject>
 #include <QGraphicsView>
 #include <QMouseEvent>
-#include <QGraphicsItem>
+#include <QLabel>
 
 /* internal includes */
 #include "Point.h"
@@ -19,27 +19,28 @@
 class ObjectMgr;
 
 class Painter : public QGraphicsView {
-Q_OBJECT
+    Q_OBJECT
 
-// ------------------------------
-// Class constants
-// ------------------------------
+    // ------------------------------
+    // Class constants
+    // ------------------------------
 public:
-    static constexpr int POINT_RADIUS = 5;
+    static constexpr int SPACE_WIDTH = 5000;
+    static constexpr int SPACE_HEIGHT = 5000;
 
-// ------------------------------
-// Class creation
-// ------------------------------
+    // ------------------------------
+    // Class creation
+    // ------------------------------
 
     explicit Painter(QWidget *parent);
 
     ~Painter() override;
 
-// ------------------------------
-// Class interaction
-// ------------------------------
+    // ------------------------------
+    // Class interaction
+    // ------------------------------
 
-    void setupPainter(ObjectMgr *objectMgr);
+    void setupPainter(ObjectMgr *objectMgr, QLabel *label);
 
     [[maybe_unused]] Point *addPoint(int x, int y) const;
 
@@ -47,25 +48,35 @@ public:
 
     void clearContent() const;
 
-// ------------------------------
-// Protected methods
-// ------------------------------
-protected:
+    void setMovingSpace(bool moving);
 
+    [[nodiscard]] bool isMovingSpace() const;
+
+    void updateInteractivity();
+
+    // ------------------------------
+    // Protected methods
+    // ------------------------------
+protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
-// ------------------------------
-// Private methods
-// ------------------------------
-private:
+    // ------------------------------
+    // Private methods
+    // ------------------------------
 
-// ------------------------------
-// Class fields
-// ------------------------------
+    void updateSpacePosition() const;
+private:
+    // ------------------------------
+    // Class fields
+    // ------------------------------
+
+    bool m_isMovingSpace{};
 
     ObjectMgr *m_objectMgr{};
     QGraphicsScene *m_scene{};
+    QLabel *m_label{};
 };
 
 
