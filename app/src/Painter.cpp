@@ -60,10 +60,16 @@ bool Painter::isMovingSpace() const {
 }
 
 void Painter::updateInteractivity() {
+    m_scene->clearSelection();
     setInteractive(!m_isMovingSpace && !m_objectMgr->getIsAddingVertices());
 }
 
 void Painter::mousePressEvent(QMouseEvent *event) {
+    if (m_scene)
+
+    /* Ensure only single item can be selected */
+    m_scene->clearSelection();
+
     QGraphicsView::mousePressEvent(event);
 
     if (event->button() != Qt::LeftButton) {
