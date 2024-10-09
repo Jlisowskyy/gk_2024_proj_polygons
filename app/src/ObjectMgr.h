@@ -16,11 +16,17 @@
 
 class ObjectMgr : QObject {
     Q_OBJECT
+    // ------------------------------
+    // Class constants
+    // ------------------------------
+public:
+
+    static constexpr int FINAL_POINT_HIT_BOX_SIZE = 20;
 
     // ------------------------------
     // Class creation
     // ------------------------------
-public:
+
     explicit ObjectMgr(QObject *parent);
 
     // ------------------------------
@@ -34,13 +40,17 @@ public:
     void clearItems();
 
     [[nodiscard]] bool getIsAddingVertices() const;
+
     void setIsAddingVertices(bool value);
+
+    [[nodiscard]] bool isFullPolygon() const;
 
     // ------------------------------
     // Private methods
     // ------------------------------
-
 private:
+    [[nodiscard]] Point *findPointSpot(int x, int y) const;
+
     // ------------------------------
     // Class fields
     // ------------------------------

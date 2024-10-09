@@ -9,7 +9,7 @@
 #include <QPen>
 #include <QBrush>
 
-Point::Point(int x, int y):
+Point::Point(const int x, const int y):
         QGraphicsEllipseItem(x - POINT_RADIUS,
                              y - POINT_RADIUS,
                              POINT_RADIUS * 2,
@@ -18,4 +18,8 @@ Point::Point(int x, int y):
     setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
     setPen(QPen(Qt::black));
     setBrush(QBrush(Qt::black));
+}
+
+QPointF Point::getPositionOnPainter() const {
+    return rect().center();
 }

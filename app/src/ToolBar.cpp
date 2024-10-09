@@ -139,6 +139,8 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Painter *painter, ObjectMgr *objec
 
 void ToolBar::onCleanSpaceTriggered() {
     qDebug() << "onCleanSpaceTriggered";
+
+    m_objectMgr->clearItems();
 }
 
 void ToolBar::onAddVertexTriggered(const bool isChecked) const {

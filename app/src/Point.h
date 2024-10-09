@@ -15,7 +15,7 @@ class Point : public QGraphicsEllipseItem {
 // Class constants
 // ------------------------------
 public:
-    static constexpr int POINT_RADIUS = 10;
+    static constexpr int POINT_RADIUS = 7;
 
 // ------------------------------
 // Class creation
@@ -26,6 +26,8 @@ public:
 // ------------------------------
 // Class interaction
 // ------------------------------
+
+    [[nodiscard]] QPointF getPositionOnPainter() const;
 
 // ------------------------------
 // Private methods
