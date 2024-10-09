@@ -83,11 +83,14 @@ void Painter::mousePressEvent(QMouseEvent *event) {
         return;
     }
 
-    if (const QPoint pos = event->pos(); pos.x() > 0 && pos.y() > 0) {
-        m_objectMgr->addPoint(pos.x(), pos.y());
-        qDebug() << "Adding point on coordinates: " << pos;
+    // Convert the mouse position from view coordinates to scene coordinates
+    QPoint scenePos = mapToScene(event->pos()).toPoint();
+
+    if (scenePos.x() > 0 && scenePos.y() > 0) {
+        m_objectMgr->addPoint(scenePos.x(), scenePos.y());
+        qDebug() << "Adding point on coordinates: " << scenePos;
     } else {
-        qDebug() << "Point on wrong coordinates: " << pos;
+        qDebug() << "Point on wrong coordinates: " << scenePos;
     }
 }
 

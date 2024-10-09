@@ -8,12 +8,12 @@ TOTAL TODOS:
     - Przycisk pionowa kreska
     - Przycisk dodaj Beziera
     - Przycisk dodaj Ciaglosc
-    - Przycisk zmien algorytm3
+    - Przycisk zmien algorytm
     - Przycisk podziel krawędź
 - skrot na usuwanie wierzcholkow i krawedzi
 
 DEV PATH:
-interaktywne zaznaczanie obiektów -> proste przesuwanie wiezrchołków -> proste przesuwanie krawiędzi ->
+proste przesuwanie wiezrchołków -> proste przesuwanie krawiędzi ->
 zmiana algorytmu rysowania -> kod do ograniczeń -> ograniczenie poziome -> ograniczenie pionowe -> ograniczenie dlugosc
 
 
