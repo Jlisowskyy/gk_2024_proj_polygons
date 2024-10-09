@@ -7,14 +7,14 @@
 #include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      m_ui(new Ui::MainWindow),
-      m_toolBar(new ToolBar(this)),
-      m_painter(new Painter(this)),
-      m_objectMgr(new ObjectMgr(this)),
-      m_label(new QLabel("Space coordinates: (0, 0)", this)) {
+        : QMainWindow(parent),
+          m_ui(new Ui::MainWindow),
+          m_toolBar(new ToolBar(this)),
+          m_painter(new Painter(this)),
+          m_objectMgr(new ObjectMgr(this)),
+          m_label(new QLabel("Space coordinates: (0, 0)", this)) {
     m_ui->setupUi(this);
-    m_toolBar->setupToolBar(m_ui->toolBar, m_painter, m_objectMgr);
+    m_toolBar->setupToolBar(m_ui->toolBar);
     m_painter->setupPainter(m_objectMgr, m_label);
     m_objectMgr->setupMgr(m_painter);
 
@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->verticalLayout->addWidget(m_label);
 
     connect(m_ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+    connect(m_toolBar->m_cleanSpaceAction, &QAction::triggered, m_objectMgr, &ObjectMgr::clearItems);
+    connect(m_toolBar->m_addVertexAction, &QAction::triggered, m_objectMgr, &ObjectMgr::setIsAddingVertices);
+    connect(m_toolBar->m_moveAction, &QAction::triggered, m_painter, &Painter::setMovingSpace);
 }
 
 

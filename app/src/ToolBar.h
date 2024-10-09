@@ -29,7 +29,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    void setupToolBar(QToolBar *toolBar, Painter *painter, ObjectMgr *objectMgr);
+    void setupToolBar(QToolBar *toolBar);
 
     // ------------------------------
     // Class private methods
@@ -39,40 +39,12 @@ private:
 
     void addToolbarLiteral(const char *strLiteral);
 
-    QAction *addButtonToToolbar(const char *name, const char *imgPath, const char *toolTip, void (ToolBar::*func)());
+    QAction *addButtonToToolbar(const char *name, const char *imgPath, const char *toolTip);
 
-    // ------------------------------
-    // Class slots
-    // ------------------------------
-public slots:
-    void onCleanSpaceTriggered();
-
-    void onAddVertexTriggered(bool isChecked) const;
-
-    void onSetVerticalTriggered();
-
-    void onSetHorizontalTriggered();
-
-    void onSetConstLengthTriggered();
-
-    void onSetBezierTriggered();
-
-    void onSetContinuousCurveTriggered();
-
-    void onDrawAlgorithmTriggered(bool isChecked) const;
-
-    void onCutEdgeTriggered();
-
-    void onMoveActionTriggered(bool isChecked) const;
-
-private:
-    // ------------------------------
-    // Class fields
-    // ------------------------------
-
-    QToolBar *m_toolBar{};
-    Painter *m_painter{};
-    ObjectMgr *m_objectMgr{};
+// ------------------------------
+// Public fields
+// ------------------------------
+public:
 
     QAction *m_cleanSpaceAction{};
     QAction *m_addVertexAction{};
@@ -84,6 +56,13 @@ private:
     QAction *m_cutEdgeAction{};
     QAction *m_drawAlgorithmAction{};
     QAction *m_moveAction{};
+
+protected:
+    // ------------------------------
+    // Class fields
+    // ------------------------------
+
+    QToolBar *m_toolBar{};
 };
 
 

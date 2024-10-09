@@ -65,10 +65,11 @@ void Painter::updateInteractivity() {
 }
 
 void Painter::mousePressEvent(QMouseEvent *event) {
-    if (m_scene)
+    if (m_scene) {
 
         /* Ensure only single item can be selected */
         m_scene->clearSelection();
+    }
 
     QGraphicsView::mousePressEvent(event);
 
@@ -80,15 +81,11 @@ void Painter::mousePressEvent(QMouseEvent *event) {
         return;
     }
 
-    if (m_objectMgr->getIsAddingVertices()) {
-        if (const QPoint pos = event->pos(); pos.x() > 0 && pos.y() > 0) {
-            m_objectMgr->addPoint(pos.x(), pos.y());
-            qDebug() << "Adding point on coordinates: " << pos;
-        } else {
-            qDebug() << "Point on wrong coordinates: " << pos;
-        }
-
-        return;
+    if (const QPoint pos = event->pos(); pos.x() > 0 && pos.y() > 0) {
+        m_objectMgr->addPoint(pos.x(), pos.y());
+        qDebug() << "Adding point on coordinates: " << pos;
+    } else {
+        qDebug() << "Point on wrong coordinates: " << pos;
     }
 }
 

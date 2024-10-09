@@ -19,7 +19,7 @@
 class ObjectMgr;
 
 class Painter : public QGraphicsView {
-    Q_OBJECT
+Q_OBJECT
 
     // ------------------------------
     // Class constants
@@ -46,13 +46,18 @@ public:
 
     [[maybe_unused]] Edge *addEdge(Point *start, Point *end) const;
 
-    void clearContent() const;
-
-    void setMovingSpace(bool moving);
+    void updateInteractivity();
 
     [[nodiscard]] bool isMovingSpace() const;
 
-    void updateInteractivity();
+    // ------------------------------
+    // Class slots
+    // ------------------------------
+public slots:
+
+    void setMovingSpace(bool moving);
+
+    void clearContent() const;
 
     // ------------------------------
     // Protected methods

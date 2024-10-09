@@ -14,8 +14,8 @@
 #include <vector>
 #include <QObject>
 
-class ObjectMgr : QObject {
-    Q_OBJECT
+class ObjectMgr : public QObject {
+Q_OBJECT
     // ------------------------------
     // Class constants
     // ------------------------------
@@ -36,13 +36,18 @@ public:
 
     void addPoint(int x, int y);
 
-    void clearItems();
-
     [[nodiscard]] bool getIsAddingVertices() const;
 
-    void setIsAddingVertices(bool value);
-
     [[nodiscard]] bool isFullPolygon() const;
+
+    // ------------------------------
+    // Class slots
+    // ------------------------------
+public slots:
+
+    void clearItems();
+
+    void setIsAddingVertices(bool value);
 
     // ------------------------------
     // Private methods
