@@ -5,8 +5,13 @@
 #ifndef APP_TOOLBAR_H
 #define APP_TOOLBAR_H
 
-#include "QObject"
-#include "QToolBar"
+/* internal includes */
+#include "Painter.h"
+#include "ObjectMgr.h"
+
+/* external includes */
+#include <QObject>
+#include <QToolBar>
 
 class ToolBar : public QObject {
     Q_OBJECT
@@ -23,7 +28,7 @@ public:
 // Class interaction
 // ------------------------------
 
-    void setupToolBar(QToolBar *toolBar);
+    void setupToolBar(QToolBar *toolBar, Painter* painter, ObjectMgr *objectMgr);
 
 // ------------------------------
 // Class private methods
@@ -40,12 +45,14 @@ private:
 public slots:
 
     void onCleanSpaceTriggered();
-    void onAddVertexTriggered(bool isChecked);
+    void onAddVertexTriggered(bool isChecked) const;
     void onSetVerticalTriggered();
     void onSetHorizontalTriggered();
     void onSetConstLengthTriggered();
     void onSetBezierTriggered();
-    void onsetContinuousCurveTriggered();
+    void onSetContinuousCurveTriggered();
+    void onDrawAlgorithmTriggered(bool isChecked) const;
+    void onCutEdgeTriggered();
 
 private:
 // ------------------------------
@@ -53,6 +60,9 @@ private:
 // ------------------------------
 
     QToolBar *m_toolBar{};
+    Painter *m_painter{};
+    ObjectMgr *m_objectMgr{};
+
     QAction *m_cleanSpaceAction{};
     QAction *m_addVertexAction{};
     QAction *m_setHorizontalAction{};
@@ -60,6 +70,8 @@ private:
     QAction *m_setConstLengthAction{};
     QAction *m_setBezierAction{};
     QAction *m_setContinuousAction{};
+    QAction *m_cutEdgeAction{};
+    QAction *m_drawAlgorithmAction{};
 };
 
 

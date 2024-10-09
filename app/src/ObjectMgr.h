@@ -15,18 +15,17 @@
 #include <QObject>
 
 class ObjectMgr : QObject {
-Q_OBJECT
+    Q_OBJECT
 
-// ------------------------------
-// Class creation
-// ------------------------------
+    // ------------------------------
+    // Class creation
+    // ------------------------------
 public:
+    explicit ObjectMgr(QObject *parent);
 
-    explicit ObjectMgr(QObject* parent);
-
-// ------------------------------
-// Class interaction
-// ------------------------------
+    // ------------------------------
+    // Class interaction
+    // ------------------------------
 
     void setupMgr(Painter *painter);
 
@@ -34,18 +33,20 @@ public:
 
     void clearItems();
 
-// ------------------------------
-// Private methods
-// ------------------------------
+    [[nodiscard]] bool getIsAddingVertices() const;
+    void setIsAddingVertices(bool value);
+
+    // ------------------------------
+    // Private methods
+    // ------------------------------
 
 private:
-
-// ------------------------------
-// Class fields
-// ------------------------------
+    // ------------------------------
+    // Class fields
+    // ------------------------------
 
 protected:
-
+    bool m_isAddingVertices{};
     Painter *m_painter{};
     std::vector<Point *> m_points{};
     std::vector<Edge *> m_edges{};

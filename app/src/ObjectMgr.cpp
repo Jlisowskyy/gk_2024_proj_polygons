@@ -13,9 +13,11 @@ void ObjectMgr::setupMgr(Painter *painter) {
     Q_ASSERT(m_painter == nullptr);
     m_painter = painter;
 
+    setIsAddingVertices(true);
     addPoint(3 * 50, 3 * 50);
     addPoint(3 * 100, 3 * 50);
     addPoint(3 * 100, 3 * 100);
+    setIsAddingVertices(false);
 }
 
 void ObjectMgr::clearItems() {
@@ -24,7 +26,19 @@ void ObjectMgr::clearItems() {
     m_painter->clearContent();
 }
 
+bool ObjectMgr::getIsAddingVertices() const {
+    return m_isAddingVertices;
+}
+
+void ObjectMgr::setIsAddingVertices(const bool value) {
+    m_isAddingVertices = value;
+}
+
 void ObjectMgr::addPoint(int x, int y) {
+    if (!m_isAddingVertices) {
+        return;
+    }
+
     auto *point = m_painter->addPoint(x, y);
     m_points.push_back(point);
 

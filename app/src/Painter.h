@@ -41,16 +41,19 @@ public:
 
     void setupPainter(ObjectMgr *objectMgr);
 
-    [[maybe_unused]] Point *addPoint(int x, int y);
+    [[maybe_unused]] Point *addPoint(int x, int y) const;
 
-    [[maybe_unused]] Edge *addEdge(Point *start, Point *end);
+    [[maybe_unused]] Edge *addEdge(Point *start, Point *end) const;
 
-    void clearContent();
+    void clearContent() const;
 
 // ------------------------------
 // Protected methods
 // ------------------------------
 protected:
+
+    void mousePressEvent(QMouseEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 // ------------------------------
 // Private methods

@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
           m_painter(new Painter(this)),
           m_objectMgr(new ObjectMgr(this)) {
     m_ui->setupUi(this);
-    m_toolBar->setupToolBar(m_ui->toolBar);
+    m_toolBar->setupToolBar(m_ui->toolBar, m_painter, m_objectMgr);
     m_painter->setupPainter(m_objectMgr);
     m_objectMgr->setupMgr(m_painter);
     m_ui->horizontalLayout->addWidget(m_painter);
