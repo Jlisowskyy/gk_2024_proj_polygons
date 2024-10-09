@@ -7,6 +7,8 @@
 
 /* internal includes */
 #include "ToolBar.h"
+#include "Point.h"
+#include "Edge.h"
 
 #define EDGE_TOOLTIP_STR(str) str" for selected edge"
 #define EDGE_CONSTRAINT_TOOLTIP_STR(str) "Set " EDGE_TOOLTIP_STR(str " constraint")
@@ -85,19 +87,19 @@ void ToolBar::setupToolBar(QToolBar *toolBar) {
             "Horizontal constraint",
             ":/icons/horizontal.png",
             EDGE_CONSTRAINT_TOOLTIP_STR("horizontal constraint")
-            );
+    );
 
     m_setConstLengthAction = addButtonToToolbar(
             "Const length constraint",
             ":/icons/const_length.png",
             EDGE_CONSTRAINT_TOOLTIP_STR("const length")
-            );
+    );
 
     m_setBezierAction = addButtonToToolbar(
             "Bezier edge",
             ":/icons/bezier.png",
             "Enable Bezier Curve for selected edge"
-            );
+    );
 
     m_drawAlgorithmAction = addButtonToToolbar(
             "Draw algorithm",
@@ -122,4 +124,32 @@ void ToolBar::setupToolBar(QToolBar *toolBar) {
             ":/icons/cont.png",
             VERTEX_CONSTRAINT_TOOLTIP_STR("Continuous curve")
     );
+
+    setEdgeButtonsIsDisabledState(true);
+    setVertexButtonsIsDisabledState(true);
+}
+
+void ToolBar::setEdgeButtonsIsDisabledState(bool isDisabled) {
+    m_setVerticalAction->setDisabled(isDisabled);
+    m_setHorizontalAction->setDisabled(isDisabled);
+    m_setConstLengthAction->setDisabled(isDisabled);
+    m_setBezierAction->setDisabled(isDisabled);
+    m_cutEdgeAction->setDisabled(isDisabled);
+}
+
+void ToolBar::setVertexButtonsIsDisabledState(bool isDisabled) {
+    m_setContinuousAction->setDisabled(isDisabled);
+}
+
+void ToolBar::selectionChanged(QGraphicsItem *item) {
+    if (auto *point = dynamic_cast<Point *>(item); point != nullptr) {
+        setVertexButtonsIsDisabledState(false);
+        setEdgeButtonsIsDisabledState(true);
+    } else if (auto *edge = dynamic_cast<Edge *>(item); edge != nullptr) {
+        setVertexButtonsIsDisabledState(true);
+        setEdgeButtonsIsDisabledState(false);
+    } else {
+        setVertexButtonsIsDisabledState(true);
+        setEdgeButtonsIsDisabledState(true);
+    }
 }

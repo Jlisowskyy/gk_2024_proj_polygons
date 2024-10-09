@@ -73,6 +73,8 @@ void Painter::mousePressEvent(QMouseEvent *event) {
 
     QGraphicsView::mousePressEvent(event);
 
+    setSelectedItem(m_scene->selectedItems().empty() ? nullptr : m_scene->selectedItems()[0]);
+
     if (event->button() != Qt::LeftButton) {
         return;
     }
@@ -125,4 +127,13 @@ Edge *Painter::addEdge(Point *start, Point *end) const {
     auto *edge = new Edge(start, end);
     m_scene->addItem(edge);
     return edge;
+}
+
+void Painter::setSelectedItem(QGraphicsItem *item) {
+    if (m_selectedItem == item) {
+        return;
+    }
+
+    m_selectedItem = item;
+    emit selectedItemChanged(item);
 }

@@ -33,10 +33,19 @@ MainWindow::MainWindow(QWidget *parent)
     m_label->setFont(font);
     m_ui->verticalLayout->addWidget(m_label);
 
+    /* other connects */
     connect(m_ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+
+    /* m_toolbar -> ??? connects */
     connect(m_toolBar->m_cleanSpaceAction, &QAction::triggered, m_objectMgr, &ObjectMgr::clearItems);
     connect(m_toolBar->m_addVertexAction, &QAction::triggered, m_objectMgr, &ObjectMgr::setIsAddingVertices);
     connect(m_toolBar->m_moveAction, &QAction::triggered, m_painter, &Painter::setMovingSpace);
+
+    /* m_painter -> ??? connects */
+    connect(m_painter, &Painter::selectedItemChanged, m_toolBar, &ToolBar::selectionChanged);
+
+    /* m_objectMgr -> ??? connects */
+
 }
 
 

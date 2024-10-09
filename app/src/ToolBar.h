@@ -12,6 +12,7 @@
 /* external includes */
 #include <QObject>
 #include <QToolBar>
+#include <QGraphicsItem>
 
 class ToolBar : public QObject {
     Q_OBJECT
@@ -32,6 +33,13 @@ public:
     void setupToolBar(QToolBar *toolBar);
 
     // ------------------------------
+    // Class slots
+    // ------------------------------
+public slots:
+
+    void selectionChanged(QGraphicsItem *item);
+
+    // ------------------------------
     // Class private methods
     // ------------------------------
 private:
@@ -40,6 +48,9 @@ private:
     void addToolbarLiteral(const char *strLiteral);
 
     QAction *addButtonToToolbar(const char *name, const char *imgPath, const char *toolTip);
+
+    void setEdgeButtonsIsDisabledState(bool isDisabled);
+    void setVertexButtonsIsDisabledState(bool isDisabled);
 
 // ------------------------------
 // Public fields

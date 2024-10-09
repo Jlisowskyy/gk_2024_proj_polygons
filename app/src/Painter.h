@@ -10,6 +10,7 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QLabel>
+#include <QGraphicsItem>
 
 /* internal includes */
 #include "Point.h"
@@ -50,6 +51,8 @@ public:
 
     [[nodiscard]] bool isMovingSpace() const;
 
+    [[nodiscard]] QGraphicsItem *getSelectedItem() const { return m_selectedItem; }
+
     // ------------------------------
     // Class slots
     // ------------------------------
@@ -60,6 +63,13 @@ public slots:
     void clearContent() const;
 
     // ------------------------------
+    // Class signals
+    // ------------------------------
+signals:
+
+    void selectedItemChanged(QGraphicsItem *selectedItem);
+
+    // ------------------------------
     // Protected methods
     // ------------------------------
 protected:
@@ -68,6 +78,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
 
     void resizeEvent(QResizeEvent *event) override;
+
+    void setSelectedItem(QGraphicsItem *item);
 
     // ------------------------------
     // Private methods
@@ -80,6 +92,7 @@ private:
     // Class fields
     // ------------------------------
 
+    QGraphicsItem *m_selectedItem;
     bool m_isMovingSpace{};
 
     ObjectMgr *m_objectMgr{};
