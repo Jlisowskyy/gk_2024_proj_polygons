@@ -5,6 +5,7 @@
 /* external includes */
 #include <QFrame>
 #include <QLabel>
+#include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent),

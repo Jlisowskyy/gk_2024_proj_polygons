@@ -14,7 +14,7 @@
 /* Forward declaration */
 class ObjectMgr;
 
-class Edge : public QGraphicsLineItem {
+class Edge : public QGraphicsLineItem, public IConnectableElement<Point> {
     // ------------------------------
     // Class creation
     // ------------------------------
@@ -40,16 +40,18 @@ public:
 
     void repositionByPoints();
 
+    void remove();
+
     // ------------------------------
     // Private methods
     // ------------------------------
 private:
 
-    QVariant onSelectionChange(const QVariant &value);
+    QVariant _onSelectionChange(const QVariant &value);
 
-    QVariant onPositionChange(const QVariant &value);
+    QVariant _onPositionChange(const QVariant &value);
 
-    QVariant onPositionChanged(const QVariant &value);
+    QVariant _onPositionChanged(const QVariant &value);
 
 
     // ------------------------------

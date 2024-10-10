@@ -7,6 +7,7 @@
 
 /* internal includes */
 #include "Constants.h"
+#include "IConnectableElement.h"
 
 /* external includes */
 #include <QGraphicsEllipseItem>
@@ -16,7 +17,7 @@ class ObjectMgr;
 
 class Edge;
 
-class Point : public QGraphicsEllipseItem {
+class Point : public QGraphicsEllipseItem, public IConnectableElement<Edge> {
     // ------------------------------
     // Class creation
     // ------------------------------
@@ -30,24 +31,20 @@ public:
 
     [[nodiscard]] QPointF getPositionOnPainter() const;
 
-    [[nodiscard]] ConnectionType getEdgeType(Edge *edge);
-
-    [[nodiscard]] Edge *getConnectedEdge(ConnectionType type) const;
-
-    void setConnectedEdge(ConnectionType type, Edge *edge);
-
     [[nodiscard]] double getRadius() const;
+
+    void remove();
 
     // ------------------------------
     // Private methods
     // ------------------------------
 private:
 
-    QVariant onSelectionChange(const QVariant &value);
+    QVariant _onSelectionChange(const QVariant &value);
 
-    QVariant onPositionChange(const QVariant &value);
+    QVariant _onPositionChange(const QVariant &value);
 
-    QVariant onPositionChanged(const QVariant &value);
+    QVariant _onPositionChanged(const QVariant &value);
 
     // ------------------------------
     // Protected Methods
@@ -59,8 +56,6 @@ protected:
     // ------------------------------
     // Class fields
     // ------------------------------
-
-    Edge *m_edges[MAX_CONNECTIONS]{};
 };
 
 

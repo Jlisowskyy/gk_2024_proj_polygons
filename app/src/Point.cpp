@@ -16,7 +16,8 @@
 Point::Point(const int x, const int y) : QGraphicsEllipseItem(0,
                                                               0,
                                                               DEFAULT_POINT_RADIUS * 2,
-                                                              DEFAULT_POINT_RADIUS * 2) {
+                                                              DEFAULT_POINT_RADIUS * 2),
+                                         IConnectableElement<Edge>() {
     setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
              QGraphicsItem::ItemSendsScenePositionChanges);
     setPen(QPen(DEFAULT_COLOR));
@@ -30,21 +31,21 @@ Point::Point(const int x, const int y) : QGraphicsEllipseItem(0,
 QVariant Point::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
     switch (change) {
         case GraphicsItemChange::ItemPositionChange:
-            return onPositionChange(value);
+            return _onPositionChange(value);
         case GraphicsItemChange::ItemSelectedHasChanged :
-            return onSelectionChange(value);
+            return _onSelectionChange(value);
         case GraphicsItemChange::ItemPositionHasChanged:
-            return onPositionChanged(value);
+            return _onPositionChanged(value);
         default:
             return QGraphicsEllipseItem::itemChange(change, value);
     }
 }
 
-QVariant Point::onPositionChange(const QVariant &value) {
+QVariant Point::_onPositionChange(const QVariant &value) {
     return value;
 }
 
-QVariant Point::onSelectionChange(const QVariant &value) {
+QVariant Point::_onSelectionChange(const QVariant &value) {
     setPen(QPen(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR));
     setBrush(QBrush(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR));
 
@@ -63,35 +64,13 @@ QVariant Point::onSelectionChange(const QVariant &value) {
     return value;
 }
 
-ConnectionType Point::getEdgeType(Edge *edge) {
-    if (edge == nullptr) {
-        return NOT_CONNECTED;
-    }
-
-    for (size_t idx = 0; idx << MAX_CONNECTIONS; ++idx) {
-        if (m_edges[idx] == edge) {
-            return static_cast<ConnectionType>(idx);
-        }
-    }
-
-    return NOT_CONNECTED;
-}
-
-Edge *Point::getConnectedEdge(ConnectionType type) const {
-    return m_edges[static_cast<size_t>(type)];
-}
-
-void Point::setConnectedEdge(ConnectionType type, Edge *edge) {
-    m_edges[static_cast<size_t>(type)] = edge;
-}
-
 QPointF Point::getPositionOnPainter() const {
     const auto radius = getRadius();
     return scenePos() + QPointF(radius, radius);
 }
 
-QVariant Point::onPositionChanged(const QVariant &value) {
-    for (auto &m_edge: m_edges) {
+QVariant Point::_onPositionChanged(const QVariant &value) {
+    for (auto &m_edge: m_connectedElements) {
         if (m_edge) {
             m_edge->repositionByPoints();
         }
@@ -102,4 +81,21 @@ QVariant Point::onPositionChanged(const QVariant &value) {
 
 double Point::getRadius() const {
     return static_cast<double>(isSelected() ? SELECTED_POINT_RADIUS : DEFAULT_POINT_RADIUS);
+}
+
+void Point::remove() {
+    scene()->removeItem(this);
+
+//    Point *connections[MAX_CONNECTIONS];
+//
+//    for (size_t idx = 0; idx < MAX_CONNECTIONS; ++idx) {
+//        Edge *itemToRemove = getConnectedElement(idx);
+//
+//        if (itemToRemove != nullptr) {
+//            connections[idx] = itemToRemove->getConnectedElement(idx);
+//
+//            scene()->removeItem(itemToRemove);
+//            delete itemToRemove;
+//        }
+//    }
 }

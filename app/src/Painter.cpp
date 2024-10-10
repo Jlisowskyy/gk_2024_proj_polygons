@@ -5,14 +5,13 @@
 /* internal includes */
 #include "Painter.h"
 #include "Point.h"
+#include "ObjectMgr.h"
 
 /* external includes */
 #include <QGraphicsEllipseItem>
 #include <QDebug>
 #include <format>
-
-/* internal includes */
-#include "ObjectMgr.h"
+#include <QShortcut>
 
 Painter::Painter(QWidget *parent) : QGraphicsView(parent),
                                     m_scene(new QGraphicsScene(this)) {
@@ -33,6 +32,8 @@ Painter::Painter(QWidget *parent) : QGraphicsView(parent),
     /* Additional space options */
     setViewportUpdateMode(FullViewportUpdate);
     setRenderHint(QPainter::Antialiasing, true);
+
+    new QShortcut(QKeySequence(Qt::Key_Delete), this, SLOT(removeSelected()));
 }
 
 Painter::~Painter() {
@@ -46,17 +47,7 @@ Point *Painter::addPoint(const int x, const int y) const {
 }
 
 void Painter::clearContent() const {
-    std::vector<QGraphicsItem *> items{};
-
-    for (auto *ptr: m_scene->items()) {
-        items.push_back(ptr);
-    }
-
     m_scene->clear();
-
-    for (auto *ptr: items) {
-        delete ptr;
-    }
 }
 
 void Painter::setMovingSpace(const bool moving) {
@@ -107,15 +98,15 @@ void Painter::mousePressEvent(QMouseEvent *event) {
 
 void Painter::mouseMoveEvent(QMouseEvent *event) {
     QGraphicsView::mouseMoveEvent(event);
-    updateSpacePosition();
+    _updateSpacePosition();
 }
 
 void Painter::resizeEvent(QResizeEvent *event) {
     QGraphicsView::resizeEvent(event);
-    updateSpacePosition();
+    _updateSpacePosition();
 }
 
-void Painter::updateSpacePosition() const {
+void Painter::_updateSpacePosition() const {
     const QPointF topLeft = mapToScene(viewport()->rect().topLeft());
     const QPointF bottomRight = mapToScene(viewport()->rect().bottomRight());
 
@@ -134,7 +125,7 @@ void Painter::setupPainter(ObjectMgr *objectMgr, QLabel *label) {
     Q_ASSERT(m_label == nullptr);
     m_label = label;
 
-    updateSpacePosition();
+    _updateSpacePosition();
 }
 
 Edge *Painter::addEdge(Point *start, Point *end) const {
@@ -150,4 +141,20 @@ void Painter::setSelectedItem(QGraphicsItem *item) {
 
     m_selectedItem = item;
     emit selectedItemChanged(item);
+}
+
+void Painter::removeSelected() {
+    QGraphicsItem *selectedItem = getSelectedItem();
+
+    if (selectedItem == nullptr) {
+        return;
+    }
+
+    if (auto *pEdge = dynamic_cast<Edge *>(selectedItem); pEdge != nullptr) {
+        pEdge->remove();
+    } else if (auto *pPoint = dynamic_cast<Point *>(selectedItem); pPoint != nullptr) {
+        pPoint->remove();
+    } else {
+        qDebug() << "Unexpected graphic element occurred!";
+    }
 }

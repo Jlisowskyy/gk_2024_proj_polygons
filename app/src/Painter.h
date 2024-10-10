@@ -62,6 +62,8 @@ public slots:
 
     void clearContent() const;
 
+    void removeSelected();
+
     // ------------------------------
     // Class signals
     // ------------------------------
@@ -85,7 +87,7 @@ protected:
     // Private methods
     // ------------------------------
 
-    void updateSpacePosition() const;
+    void _updateSpacePosition() const;
 
 private:
     // ------------------------------

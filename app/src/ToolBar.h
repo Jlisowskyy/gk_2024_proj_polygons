@@ -43,14 +43,14 @@ public slots:
     // Class private methods
     // ------------------------------
 private:
-    void addSeparator();
+    void _addSeparator();
 
-    void addToolbarLiteral(const char *strLiteral);
+    void _addToolbarLiteral(const char *strLiteral);
 
-    QAction *addButtonToToolbar(const char *name, const char *imgPath, const char *toolTip);
+    QAction *_addButtonToToolbar(const char *name, const char *imgPath, const char *toolTip);
 
-    void setEdgeButtonsIsDisabledState(bool isDisabled);
-    void setVertexButtonsIsDisabledState(bool isDisabled);
+    void _setEdgeButtonsIsDisabledState(bool isDisabled);
+    void _setVertexButtonsIsDisabledState(bool isDisabled);
 
 // ------------------------------
 // Public fields

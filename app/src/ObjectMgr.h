@@ -54,7 +54,7 @@ public slots:
     // Private methods
     // ------------------------------
 private:
-    [[nodiscard]] Point *findPointSpot(int x, int y) const;
+    [[nodiscard]] Point *_findPointSpot(int x, int y) const;
 
     // ------------------------------
     // Class fields
@@ -63,8 +63,9 @@ private:
 protected:
     bool m_isAddingVertices{};
     Painter *m_painter{};
-    std::vector<Point *> m_points{};
-    std::vector<Edge *> m_edges{};
+
+    Point *m_startingPoint{};
+    Point *m_endingPoint{};
 };
 
 
