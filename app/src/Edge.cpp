@@ -4,18 +4,60 @@
 
 /* internal includes */
 #include "Edge.h"
+#include "Constants.h"
+#include "ObjectMgr.h"
 
 /* external includes */
 #include <QPen>
+#include <QDebug>
 
 
 Edge::Edge(Point *start, Point *end) : QGraphicsLineItem(QLineF(start->getPositionOnPainter(),
                                                                 end->getPositionOnPainter())),
-                                       m_start(start),
-                                       m_end(end) {
-    QPen pen(Qt::black);
-    pen.setWidth(LINE_WIDTH);
+                                       m_connections{start, end} {
+    QPen pen(DEFAULT_COLOR);
+    pen.setWidth(DEFAULT_EDGE_WIDTH);
     setPen(pen);
 
-    setFlags(flags() | QGraphicsItem::ItemIsSelectable); // Removed ItemIsMovable
+    /* Edges should be displayed under points */
+    setZValue(0);
+
+    setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
+             QGraphicsItem::ItemSendsScenePositionChanges); // Removed ItemIsMovable
 }
+
+QVariant Edge::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
+    switch (change) {
+        case GraphicsItemChange::ItemPositionChange:
+            return onPositionChange(value);
+        case GraphicsItemChange::ItemSelectedHasChanged :
+            return onSelectionChange(value);
+        case GraphicsItemChange::ItemPositionHasChanged:
+            return onPositionChanged(value);
+        default:
+            return QGraphicsLineItem::itemChange(change, value);
+    }
+}
+
+QVariant Edge::onSelectionChange(const QVariant &value) {
+    QPen pen(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR);
+    pen.setWidth(isSelected() ? SELECTED_EDGE_WIDTH : DEFAULT_EDGE_WIDTH);
+    setPen(pen);
+
+    return value;
+}
+
+QVariant Edge::onPositionChange(const QVariant &value) {
+    qDebug() << value.toPointF();
+    return value;
+}
+
+QVariant Edge::onPositionChanged(const QVariant &value) {
+    return value;
+}
+
+void Edge::repositionByPoints() {
+    setLine(QLineF(m_connections[LEFT]->getPositionOnPainter(),
+                   m_connections[RIGHT]->getPositionOnPainter()));
+}
+

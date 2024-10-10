@@ -21,9 +21,9 @@ void ObjectMgr::setupMgr(Painter *painter) {
 }
 
 void ObjectMgr::clearItems() {
+    m_painter->clearContent();
     m_edges.clear();
     m_points.clear();
-    m_painter->clearContent();
 }
 
 bool ObjectMgr::getIsAddingVertices() const {
@@ -66,5 +66,16 @@ void ObjectMgr::addPoint(const int x, const int y) {
         auto *prevPoint = m_points[m_points.size() - 2];
         auto *edge = m_painter->addEdge(prevPoint, point);
         m_edges.push_back(edge);
+
+        prevPoint->setConnectedEdge(RIGHT, edge);
+        point->setConnectedEdge(LEFT, edge);
+
+        if (isFullPolygon()) {
+            Point *firstPoint = m_points[0];
+            Point *lastPoint = m_points[m_points.size() - 1];
+
+            lastPoint->setConnectedEdge(RIGHT, edge);
+            firstPoint->setConnectedEdge(LEFT, edge);
+        }
     }
 }

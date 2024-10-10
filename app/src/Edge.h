@@ -11,16 +11,14 @@
 /* external includes */
 #include <QGraphicsLineItem>
 
-class Edge : public QGraphicsLineItem {
-    // ------------------------------
-    // Class constants
-    // ------------------------------
-public:
-    static constexpr int LINE_WIDTH = 5;
+/* Forward declaration */
+class ObjectMgr;
 
+class Edge : public QGraphicsLineItem {
     // ------------------------------
     // Class creation
     // ------------------------------
+public:
 
     explicit Edge(Point *start, Point *end);
 
@@ -28,17 +26,36 @@ public:
     // Class interaction
     // ------------------------------
 
+    [[nodiscard]] bool isConnected(Point *point) const {
+        return m_connections[LEFT] == point || m_connections[RIGHT] == point;
+    }
+
+    void repositionByPoints();
+
     // ------------------------------
     // Private methods
     // ------------------------------
+private:
 
+    QVariant onSelectionChange(const QVariant &value);
+
+    QVariant onPositionChange(const QVariant &value);
+
+    QVariant onPositionChanged(const QVariant &value);
+
+
+    // ------------------------------
+    // Protected Methods
+    // ------------------------------
 protected:
+
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+
     // ------------------------------
     // Class fields
     // ------------------------------
 
-    Point *m_start{};
-    Point *m_end{};
+    Point *m_connections[MAX_CONNECTIONS]{};
 };
 
 

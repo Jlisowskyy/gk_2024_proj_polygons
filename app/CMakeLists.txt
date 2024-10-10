@@ -27,6 +27,7 @@ set(PROJECT_SOURCES
         src/Edge.h
         src/ObjectMgr.cpp
         src/ObjectMgr.h
+        src/Constants.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

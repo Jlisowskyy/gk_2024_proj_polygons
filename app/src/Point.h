@@ -6,20 +6,21 @@
 #define APP_POINT_H
 
 /* internal includes */
+#include "Constants.h"
 
 /* external includes */
 #include <QGraphicsEllipseItem>
 
-class Point : public QGraphicsEllipseItem {
-    // ------------------------------
-    // Class constants
-    // ------------------------------
-public:
-    static constexpr int POINT_RADIUS = 7;
+/* Forward declaration */
+class ObjectMgr;
 
+class Edge;
+
+class Point : public QGraphicsEllipseItem {
     // ------------------------------
     // Class creation
     // ------------------------------
+public:
 
     explicit Point(int x, int y);
 
@@ -29,14 +30,35 @@ public:
 
     [[nodiscard]] QPointF getPositionOnPainter() const;
 
+    [[nodiscard]] ConnectionType getEdgeType(Edge *edge);
+
+    [[nodiscard]] Edge *getConnectedEdge(ConnectionType type) const;
+
+    void setConnectedEdge(ConnectionType type, Edge *edge);
+
     // ------------------------------
     // Private methods
     // ------------------------------
+private:
 
+    QVariant onSelectionChange(const QVariant &value);
+
+    QVariant onPositionChange(const QVariant &value);
+
+    QVariant onPositionChanged(const QVariant &value);
+
+    // ------------------------------
+    // Protected Methods
+    // ------------------------------
 protected:
+
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+
     // ------------------------------
     // Class fields
     // ------------------------------
+
+    Edge *m_edges[MAX_CONNECTIONS]{};
 };
 
 

@@ -36,6 +36,7 @@ Painter::Painter(QWidget *parent) : QGraphicsView(parent),
 }
 
 Painter::~Painter() {
+    clearContent();
 }
 
 Point *Painter::addPoint(const int x, const int y) const {
@@ -45,7 +46,17 @@ Point *Painter::addPoint(const int x, const int y) const {
 }
 
 void Painter::clearContent() const {
+    std::vector<QGraphicsItem *> items{};
+
+    for (auto *ptr: m_scene->items()) {
+        items.push_back(ptr);
+    }
+
     m_scene->clear();
+
+    for (auto *ptr: items) {
+        delete ptr;
+    }
 }
 
 void Painter::setMovingSpace(const bool moving) {

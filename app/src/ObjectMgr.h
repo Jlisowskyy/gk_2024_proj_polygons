@@ -13,6 +13,7 @@
 /* external includes */
 #include <vector>
 #include <QObject>
+#include <tuple>
 
 class ObjectMgr : public QObject {
 Q_OBJECT
