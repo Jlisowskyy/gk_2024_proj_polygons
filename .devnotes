@@ -13,8 +13,8 @@ TOTAL TODOS:
 - skrot na usuwanie wierzcholkow i krawedzi
 
 DEV PATH:
-proste przesuwanie wiezrchołków -> proste przesuwanie krawiędzi ->
-zmiana algorytmu rysowania -> kod do ograniczeń -> ograniczenie poziome -> ograniczenie pionowe -> ograniczenie dlugosc
+usuwanie wierzcholkow/krawedzi -> zmiana algorytmu rysowania -> kod do ograniczeń -> ograniczenie poziome
+-> ograniczenie pionowe -> ograniczenie dlugosc
 
 
 

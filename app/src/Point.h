@@ -36,7 +36,7 @@ public:
 
     void setConnectedEdge(ConnectionType type, Edge *edge);
 
-    double getRadius() const;
+    [[nodiscard]] double getRadius() const;
 
     // ------------------------------
     // Private methods
