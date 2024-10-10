@@ -15,18 +15,13 @@ void ObjectMgr::setupMgr(Painter *painter) {
 
     setIsAddingVertices(true);
     addPoint(3 * 50, 3 * 50);
-//    addPoint(3 * 100, 3 * 50);
-//    addPoint(3 * 100, 3 * 100);
+    addPoint(3 * 100, 3 * 50);
+    addPoint(3 * 100, 3 * 100);
     setIsAddingVertices(false);
 }
 
 void ObjectMgr::clearItems() {
     m_painter->clearContent();
-
-    if (m_startingPoint != nullptr) {
-        m_startingPoint->fullConnectionDelete();
-        delete m_startingPoint;
-    }
 
     m_startingPoint = m_endingPoint = nullptr;
 }

@@ -49,45 +49,6 @@ public:
         m_connectedElements[index] = element;
     }
 
-    void fullConnectionDelete() {
-        qDebug() << "delete1";
-
-        /* Start removal from RIGHT direction, when we found a cycle another direction is blocked */
-        if (m_connectedElements[LEFT] != nullptr) {
-            qDebug() << "WTF";
-        }
-
-        if (m_connectedElements[RIGHT] != nullptr) {
-            m_connectedElements[RIGHT]->fullConnectionDelete(this, RIGHT);
-
-            delete m_connectedElements[RIGHT];
-            m_connectedElements[RIGHT] = nullptr;
-        }
-
-        if (m_connectedElements[LEFT] != nullptr) {
-            m_connectedElements[LEFT]->fullConnectionDelete(this, LEFT);
-
-            delete m_connectedElements[LEFT];
-            m_connectedElements[LEFT] = nullptr;
-        }
-    }
-
-    void fullConnectionDelete(void *startingElement, size_t direction) {
-        qDebug() << "delete2";
-
-        if (reinterpret_cast<void *>(this) == startingElement) {
-
-            /* we found a cycle prevent removal from another direction */
-            m_connectedElements[direction ^ 1] = nullptr;
-            return;
-        }
-
-        if (m_connectedElements[direction] != nullptr) {
-            m_connectedElements[direction]->fullConnectionDelete(startingElement, direction);
-            delete m_connectedElements[direction];
-        }
-    }
-
     // ------------------------------
     // Class fields
     // ------------------------------
