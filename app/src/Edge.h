@@ -26,8 +26,16 @@ public:
     // Class interaction
     // ------------------------------
 
+    [[nodiscard]] bool isRightConnected(Point *point) const {
+        return point != nullptr && m_connections[RIGHT] == point;
+    }
+
+    [[nodiscard]] bool isLeftConnected(Point *point) const {
+        return point != nullptr && m_connections[LEFT] == point;
+    }
+
     [[nodiscard]] bool isConnected(Point *point) const {
-        return m_connections[LEFT] == point || m_connections[RIGHT] == point;
+        return isLeftConnected(point) || isRightConnected(point);
     }
 
     void repositionByPoints();
@@ -55,6 +63,7 @@ protected:
     // Class fields
     // ------------------------------
 
+    bool m_isUpdating{};
     Point *m_connections[MAX_CONNECTIONS]{};
 };
 

@@ -48,16 +48,26 @@ QVariant Edge::onSelectionChange(const QVariant &value) {
 }
 
 QVariant Edge::onPositionChange(const QVariant &value) {
-    qDebug() << value.toPointF();
     return value;
 }
 
 QVariant Edge::onPositionChanged(const QVariant &value) {
+    const double leftRadius = m_connections[LEFT]->getRadius();
+    const double rightRadius = m_connections[RIGHT]->getRadius();
+
+    m_isUpdating = true;
+    m_connections[LEFT]->setPos(line().p1() + value.toPointF() - QPointF(leftRadius, leftRadius));
+    m_connections[RIGHT]->setPos(line().p2() + value.toPointF() - QPointF(rightRadius, rightRadius));
+    m_isUpdating = false;
+
     return value;
 }
 
 void Edge::repositionByPoints() {
-    setLine(QLineF(m_connections[LEFT]->getPositionOnPainter(),
-                   m_connections[RIGHT]->getPositionOnPainter()));
+    if (!m_isUpdating) {
+        setLine(QLineF(m_connections[LEFT]->getPositionOnPainter(),
+                       m_connections[RIGHT]->getPositionOnPainter()));
+        setPos({0, 0});
+    }
 }
 

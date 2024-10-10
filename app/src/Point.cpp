@@ -49,7 +49,7 @@ QVariant Point::onSelectionChange(const QVariant &value) {
     setBrush(QBrush(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR));
 
     const auto prevRadius = rect().width() / 2;
-    const auto radius = static_cast<double>(isSelected() ? SELECTED_POINT_RADIUS : DEFAULT_POINT_RADIUS);
+    const auto radius = getRadius();
     setRect(QRectF(
             0,
             0,
@@ -86,16 +86,20 @@ void Point::setConnectedEdge(ConnectionType type, Edge *edge) {
 }
 
 QPointF Point::getPositionOnPainter() const {
-    const auto radius = static_cast<double>(isSelected() ? SELECTED_POINT_RADIUS : DEFAULT_POINT_RADIUS);
+    const auto radius = getRadius();
     return scenePos() + QPointF(radius, radius);
 }
 
 QVariant Point::onPositionChanged(const QVariant &value) {
-    for (auto & m_edge : m_edges) {
+    for (auto &m_edge: m_edges) {
         if (m_edge) {
             m_edge->repositionByPoints();
         }
     }
 
     return value;
+}
+
+double Point::getRadius() const {
+    return static_cast<double>(isSelected() ? SELECTED_POINT_RADIUS : DEFAULT_POINT_RADIUS);
 }

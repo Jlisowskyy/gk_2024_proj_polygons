@@ -37,7 +37,7 @@ void ObjectMgr::setIsAddingVertices(const bool value) {
 
 bool ObjectMgr::isFullPolygon() const {
     return m_points.size() >= 2 &&
-           m_points[0]->getPositionOnPainter() == m_points[m_points.size() - 1]->getPositionOnPainter();
+           m_edges[m_edges.size() - 1]->isRightConnected(m_points[0]);
 }
 
 Point *ObjectMgr::findPointSpot(const int x, const int y) const {
@@ -48,10 +48,8 @@ Point *ObjectMgr::findPointSpot(const int x, const int y) const {
     const int xDist = x - m_points[0]->getPositionOnPainter().toPoint().x();
     const int yDist = y - m_points[0]->getPositionOnPainter().toPoint().y();
     const bool isInsideHitBox = xDist * xDist + yDist * yDist <= FINAL_POINT_HIT_BOX_SIZE * FINAL_POINT_HIT_BOX_SIZE;
-    const int xAdjusted = isInsideHitBox ? m_points[0]->getPositionOnPainter().toPoint().x() : x;
-    const int yAdjusted = isInsideHitBox ? m_points[0]->getPositionOnPainter().toPoint().y() : y;
 
-    return m_painter->addPoint(xAdjusted, yAdjusted);
+    return isInsideHitBox ? nullptr : m_painter->addPoint(x, y);
 }
 
 void ObjectMgr::addPoint(const int x, const int y) {
@@ -60,22 +58,26 @@ void ObjectMgr::addPoint(const int x, const int y) {
     }
 
     auto *point = findPointSpot(x, y);
-    m_points.push_back(point);
 
-    if (m_points.size() > 1) {
-        auto *prevPoint = m_points[m_points.size() - 2];
-        auto *edge = m_painter->addEdge(prevPoint, point);
+    if (point == nullptr) {
+        Point *firstPoint = m_points[0];
+        Point *lastPoint = m_points[m_points.size() - 1];
+
+        auto *edge = m_painter->addEdge(lastPoint, firstPoint);
         m_edges.push_back(edge);
 
-        prevPoint->setConnectedEdge(RIGHT, edge);
-        point->setConnectedEdge(LEFT, edge);
+        lastPoint->setConnectedEdge(RIGHT, edge);
+        firstPoint->setConnectedEdge(LEFT, edge);
+    } else {
+        m_points.push_back(point);
 
-        if (isFullPolygon()) {
-            Point *firstPoint = m_points[0];
-            Point *lastPoint = m_points[m_points.size() - 1];
+        if (m_points.size() > 1) {
+            auto *prevPoint = m_points[m_points.size() - 2];
+            auto *edge = m_painter->addEdge(prevPoint, point);
+            m_edges.push_back(edge);
 
-            lastPoint->setConnectedEdge(RIGHT, edge);
-            firstPoint->setConnectedEdge(LEFT, edge);
+            prevPoint->setConnectedEdge(RIGHT, edge);
+            point->setConnectedEdge(LEFT, edge);
         }
     }
 }
