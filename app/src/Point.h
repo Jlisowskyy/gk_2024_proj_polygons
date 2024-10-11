@@ -11,11 +11,12 @@
 
 /* external includes */
 #include <QGraphicsEllipseItem>
+#include <tuple>
 
 /* Forward declaration */
 class ObjectMgr;
-
 class Edge;
+class Painter;
 
 class Point : public QGraphicsEllipseItem, public IConnectableElement<Edge> {
     // ------------------------------
@@ -33,7 +34,7 @@ public:
 
     [[nodiscard]] double getRadius() const;
 
-    void remove();
+    std::tuple<Point*, Point*> remove(bool isFullPolygon, Painter *painter);
 
     // ------------------------------
     // Private methods

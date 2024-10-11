@@ -7,6 +7,7 @@
 #include "Constants.h"
 #include "ObjectMgr.h"
 #include "Edge.h"
+#include "Painter.h"
 
 /* external includes */
 #include <QPen>
@@ -83,19 +84,29 @@ double Point::getRadius() const {
     return static_cast<double>(isSelected() ? SELECTED_POINT_RADIUS : DEFAULT_POINT_RADIUS);
 }
 
-void Point::remove() {
-    scene()->removeItem(this);
+std::tuple<Point *, Point *> Point::remove(bool isFullPolygon, Painter *painter) {
+    Point *connections[MAX_CONNECTIONS];
 
-//    Point *connections[MAX_CONNECTIONS];
-//
-//    for (size_t idx = 0; idx < MAX_CONNECTIONS; ++idx) {
-//        Edge *itemToRemove = getConnectedElement(idx);
-//
-//        if (itemToRemove != nullptr) {
-//            connections[idx] = itemToRemove->getConnectedElement(idx);
-//
-//            scene()->removeItem(itemToRemove);
-//            delete itemToRemove;
-//        }
-//    }
+    for (size_t idx = 0; idx < MAX_CONNECTIONS; ++idx) {
+        Edge *itemToRemove = getConnectedElement(idx);
+
+        if (itemToRemove != nullptr) {
+            connections[idx] = itemToRemove->getConnectedElement(idx);
+
+            scene()->removeItem(itemToRemove);
+        }
+    }
+
+    if (connections[0] != nullptr && connections[1] != nullptr) {
+        Edge *edge = painter->addEdge(connections[0], connections[1]);
+        connections[0]->setConnectedElement(RIGHT, edge);
+        connections[1]->setConnectedElement(LEFT, edge);
+    }
+
+    if (isFullPolygon) {
+        /* triangle */
+        if ()
+    }
+
+    scene()->removeItem(this);
 }

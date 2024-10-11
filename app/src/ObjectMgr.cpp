@@ -89,13 +89,17 @@ void ObjectMgr::removeSelection() {
         return;
     }
 
+    const bool bIsFoolPolygon = isFullPolygon();
     m_painter->clearSelection();
-//    if (auto *pEdge = dynamic_cast<Edge *>(selectedItem); pEdge != nullptr) {
-//        pEdge->remove();
-//    } else if (auto *pPoint = dynamic_cast<Point *>(selectedItem); pPoint != nullptr) {
-//        pPoint->remove();
-//    } else {
-//        qDebug() << "Unexpected graphic element occurred!";
-//    }
-
+    if (auto *pEdge = dynamic_cast<Edge *>(selectedItem); pEdge != nullptr) {
+        const auto [p1, p2] = pEdge->remove(bIsFoolPolygon, m_painter);
+        m_startingPoint = p1;
+        m_endingPoint = p2;
+    } else if (auto *pPoint = dynamic_cast<Point *>(selectedItem); pPoint != nullptr) {
+        const auto [p1, p2] = pPoint->remove(bIsFoolPolygon, m_painter);
+        m_endingPoint = p1;
+        m_startingPoint = p2;
+    } else {
+        qDebug() << "Unexpected graphic element occurred!";
+    }
 }

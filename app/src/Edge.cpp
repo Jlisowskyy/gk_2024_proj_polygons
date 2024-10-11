@@ -5,7 +5,7 @@
 /* internal includes */
 #include "Edge.h"
 #include "Constants.h"
-#include "ObjectMgr.h"
+#include "Painter.h"
 
 /* external includes */
 #include <QPen>
@@ -14,7 +14,6 @@
 
 Edge::Edge(Point *start, Point *end) : QGraphicsLineItem(QLineF(start->getPositionOnPainter(),
                                                                 end->getPositionOnPainter())),
-                                       IConnectableElement<Point>(),
                                        m_connections{start, end} {
     QPen pen(DEFAULT_COLOR);
     pen.setWidth(DEFAULT_EDGE_WIDTH);
@@ -31,7 +30,7 @@ QVariant Edge::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
     switch (change) {
         case GraphicsItemChange::ItemPositionChange:
             return _onPositionChange(value);
-        case GraphicsItemChange::ItemSelectedHasChanged :
+        case GraphicsItemChange::ItemSelectedHasChanged:
             return _onSelectionChange(value);
         case GraphicsItemChange::ItemPositionHasChanged:
             return _onPositionChanged(value);
@@ -72,7 +71,6 @@ void Edge::repositionByPoints() {
     }
 }
 
-void Edge::remove() {
+std::tuple<Point *, Point *> Edge::remove(bool isFullPolygon, Painter *painter) {
 
 }
-

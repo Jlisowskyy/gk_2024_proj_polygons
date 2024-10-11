@@ -10,6 +10,7 @@
 
 /* external includes */
 #include <QGraphicsLineItem>
+#include <tuple>
 
 /* Forward declaration */
 class ObjectMgr;
@@ -40,7 +41,7 @@ public:
 
     void repositionByPoints();
 
-    void remove();
+    std::tuple<Point*, Point*> remove(bool isFullPolygon, Painter *painter);
 
     // ------------------------------
     // Private methods
