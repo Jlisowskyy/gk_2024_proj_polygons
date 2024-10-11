@@ -50,6 +50,8 @@ public slots:
 
     void setIsAddingVertices(bool value);
 
+    void removeSelection();
+
     // ------------------------------
     // Private methods
     // ------------------------------

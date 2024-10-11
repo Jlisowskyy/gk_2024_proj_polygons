@@ -143,18 +143,10 @@ void Painter::setSelectedItem(QGraphicsItem *item) {
     emit selectedItemChanged(item);
 }
 
+void Painter::clearSelection() {
+    scene()->clearSelection();
+}
+
 void Painter::removeSelected() {
-    QGraphicsItem *selectedItem = getSelectedItem();
-
-    if (selectedItem == nullptr) {
-        return;
-    }
-
-    if (auto *pEdge = dynamic_cast<Edge *>(selectedItem); pEdge != nullptr) {
-        pEdge->remove();
-    } else if (auto *pPoint = dynamic_cast<Point *>(selectedItem); pPoint != nullptr) {
-        pPoint->remove();
-    } else {
-        qDebug() << "Unexpected graphic element occurred!";
-    }
+    m_objectMgr->removeSelection();
 }

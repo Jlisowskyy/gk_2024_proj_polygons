@@ -2,7 +2,10 @@
 // Created by Jlisowskyy on 09/10/24.
 //
 
+/* internal includes */
 #include "ObjectMgr.h"
+
+/* external includes */
 
 ObjectMgr::ObjectMgr(QObject *parent) : QObject(parent) {
     Q_ASSERT(parent != nullptr);
@@ -77,4 +80,22 @@ void ObjectMgr::addPoint(const int x, const int y) {
             m_endingPoint = point;
         }
     }
+}
+
+void ObjectMgr::removeSelection() {
+    QGraphicsItem *selectedItem = m_painter->getSelectedItem();
+
+    if (selectedItem == nullptr) {
+        return;
+    }
+
+    m_painter->clearSelection();
+//    if (auto *pEdge = dynamic_cast<Edge *>(selectedItem); pEdge != nullptr) {
+//        pEdge->remove();
+//    } else if (auto *pPoint = dynamic_cast<Point *>(selectedItem); pPoint != nullptr) {
+//        pPoint->remove();
+//    } else {
+//        qDebug() << "Unexpected graphic element occurred!";
+//    }
+
 }

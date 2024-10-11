@@ -53,6 +53,8 @@ public:
 
     [[nodiscard]] QGraphicsItem *getSelectedItem() const { return m_selectedItem; }
 
+    void clearSelection();
+
     // ------------------------------
     // Class slots
     // ------------------------------
