@@ -33,7 +33,7 @@ QVariant Point::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
     switch (change) {
         case GraphicsItemChange::ItemPositionChange:
             return _onPositionChange(value);
-        case GraphicsItemChange::ItemSelectedHasChanged :
+        case GraphicsItemChange::ItemSelectedHasChanged:
             return _onSelectionChange(value);
         case GraphicsItemChange::ItemPositionHasChanged:
             return _onPositionChanged(value);
@@ -53,10 +53,10 @@ QVariant Point::_onSelectionChange(const QVariant &value) {
     const auto prevRadius = rect().width() / 2;
     const auto radius = getRadius();
     setRect(QRectF(
-            0,
-            0,
-            radius * 2,
-            radius * 2
+        0,
+        0,
+        radius * 2,
+        radius * 2
     ));
 
     const double offset = prevRadius - radius;
@@ -84,29 +84,46 @@ double Point::getRadius() const {
     return static_cast<double>(isSelected() ? SELECTED_POINT_RADIUS : DEFAULT_POINT_RADIUS);
 }
 
-std::tuple<Point *, Point *> Point::remove(bool isFullPolygon, Painter *painter) {
-    Point *connections[MAX_CONNECTIONS];
+std::tuple<Point *, Point *> Point::remove(const bool isFullPolygon, Painter *const painter) {
+    Point *connections[MAX_CONNECTIONS]{};
+    Point *start{};
+    Point *end{};
 
     for (size_t idx = 0; idx < MAX_CONNECTIONS; ++idx) {
-        Edge *itemToRemove = getConnectedElement(idx);
-
-        if (itemToRemove != nullptr) {
+        if (Edge *itemToRemove = getConnectedElement(idx); itemToRemove != nullptr) {
             connections[idx] = itemToRemove->getConnectedElement(idx);
 
             scene()->removeItem(itemToRemove);
         }
     }
 
-    if (connections[0] != nullptr && connections[1] != nullptr) {
+    if (connections[0] != nullptr &&
+        connections[1] != nullptr &&
+        !(isFullPolygon &&
+          static_cast<void *>(connections[1]->getConnectedElement(RIGHT)) != static_cast<void *>(connections[0]))) {
         Edge *edge = painter->addEdge(connections[0], connections[1]);
         connections[0]->setConnectedElement(RIGHT, edge);
         connections[1]->setConnectedElement(LEFT, edge);
     }
 
     if (isFullPolygon) {
-        /* triangle */
-        if ()
+        Q_ASSERT(connections[0] != nullptr && connections[1] != nullptr);
+
+        start = connections[1];
+        end = connections[0];
+    } else {
+        if (connections[0] == nullptr && connections[1] != nullptr) {
+            start = connections[1];
+            end = static_cast<Point *>(start->getLastConnectedElement(RIGHT));
+        } else if (connections[0] != nullptr && connections[1] == nullptr) {
+            end = connections[0];
+            start = static_cast<Point *>(connections[0]->getLastConnectedElement(LEFT));
+        } else {
+            end = start = nullptr;
+        }
     }
 
     scene()->removeItem(this);
+
+    return {start, end};
 }

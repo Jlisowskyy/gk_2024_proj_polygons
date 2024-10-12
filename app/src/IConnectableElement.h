@@ -18,8 +18,8 @@ class IConnectableElement {
     // Class creation
     // ------------------------------
 public:
-
-    IConnectableElement() : m_connectedElements{nullptr, nullptr} {}
+    IConnectableElement() : m_connectedElements{nullptr, nullptr} {
+    }
 
     virtual ~IConnectableElement() = default;
 
@@ -27,7 +27,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    [[nodiscard]] size_t getConnectionIndex(T *element) const {
+    [[nodiscard]] size_t getConnectionIndex(T *const element) const {
         if (element == nullptr) {
             return MAX_CONNECTIONS;
         }
@@ -41,19 +41,26 @@ public:
         return MAX_CONNECTIONS;
     }
 
-    [[nodiscard]] T *getConnectedElement(size_t index) const {
-        return m_connectedElements[index];
+    [[nodiscard]] T *getConnectedElement(const size_t direction) const {
+        return m_connectedElements[direction];
     }
 
-    void setConnectedElement(size_t index, T *element) {
-        m_connectedElements[index] = element;
+    void setConnectedElement(const size_t direction, T *element) {
+        m_connectedElements[direction] = element;
+    }
+
+    [[nodiscard]] void *getLastConnectedElement(const size_t direction) {
+        if (getConnectedElement(direction) == nullptr) {
+            return reinterpret_cast<void *>(this);
+        }
+
+        return m_connectedElements[direction]->getLastConnectedElement(direction);
     }
 
     // ------------------------------
     // Class fields
     // ------------------------------
 protected:
-
     std::array<T *, MAX_CONNECTIONS> m_connectedElements;
 };
 
