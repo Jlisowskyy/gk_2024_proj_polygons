@@ -14,6 +14,7 @@
 
 Edge::Edge(Point *start, Point *end) : QGraphicsLineItem(QLineF(start->getPositionOnPainter(),
                                                                 end->getPositionOnPainter())),
+                                       IConnectableElement<Point>(reinterpret_cast<void *>(this)),
                                        IEdgePolygonObject(this) {
     Q_ASSERT(start != nullptr && end != nullptr);
 

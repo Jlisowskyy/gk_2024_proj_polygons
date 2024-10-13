@@ -31,32 +31,28 @@ std::tuple<Point *, Point *> IPointPolygonObject::remove(const bool isFullPolygo
     }
 
     /* Add edge except triangle case */
-    if (connections[0] != nullptr &&
-        connections[1] != nullptr &&
+    if (connections[LEFT] != nullptr &&
+        connections[RIGHT] != nullptr &&
         !(isFullPolygon &&
           static_cast<void *>(connections[1]->getConnectedElement(RIGHT)) != static_cast<void *>(connections[0]))) {
 
-        Edge *edge = painter->addEdge(connections[0], connections[1]);
-        connections[0]->setConnectedElement(RIGHT, edge);
-        connections[1]->setConnectedElement(LEFT, edge);
+        Edge *edge = painter->addEdge(connections[LEFT], connections[RIGHT]);
+        connections[LEFT]->setConnectedElement(RIGHT, edge);
+        connections[RIGHT]->setConnectedElement(LEFT, edge);
     }
 
     /* Prepare new start and end */
     if (isFullPolygon) {
-        Q_ASSERT(connections[0] != nullptr && connections[1] != nullptr);
+        Q_ASSERT(connections[LEFT] != nullptr && connections[RIGHT] != nullptr);
 
-        start = connections[1];
-        end = connections[0];
+        start = connections[RIGHT];
+        end = connections[LEFT];
     } else {
-        if (connections[0] == nullptr && connections[1] != nullptr) {
-            start = connections[1];
-            end = static_cast<Point *>(start->getLastConnectedElement(RIGHT));
-        } else if (connections[0] != nullptr && connections[1] == nullptr) {
-            end = connections[0];
-            start = static_cast<Point *>(connections[0]->getLastConnectedElement(LEFT));
-        } else {
-            end = start = nullptr;
-        }
+        start = connections[LEFT] == nullptr ? connections[RIGHT]
+                                             : reinterpret_cast<Point *>(connections[LEFT]->getLastConnectedElement(LEFT));
+
+        end = connections[RIGHT] == nullptr ? connections[LEFT]
+                                            : reinterpret_cast<Point *>(connections[RIGHT]->getLastConnectedElement(RIGHT));
     }
 
     m_point->scene()->removeItem(m_point);

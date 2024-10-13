@@ -18,7 +18,7 @@ class IConnectableElement {
     // Class creation
     // ------------------------------
 public:
-    IConnectableElement() : m_connectedElements{nullptr, nullptr} {
+    IConnectableElement(void *parent) : m_parent(parent), m_connectedElements{nullptr, nullptr} {
     }
 
     virtual ~IConnectableElement() = default;
@@ -51,7 +51,7 @@ public:
 
     [[nodiscard]] void *getLastConnectedElement(const size_t direction) {
         if (getConnectedElement(direction) == nullptr) {
-            return reinterpret_cast<void *>(this);
+            return m_parent;
         }
 
         return m_connectedElements[direction]->getLastConnectedElement(direction);
@@ -61,7 +61,8 @@ public:
     // Class fields
     // ------------------------------
 protected:
-    std::array<T *, MAX_CONNECTIONS> m_connectedElements;
+    void *m_parent{};
+    std::array<T *, MAX_CONNECTIONS> m_connectedElements{};
 };
 
 #endif //CONNECTABLEELEMENT_H

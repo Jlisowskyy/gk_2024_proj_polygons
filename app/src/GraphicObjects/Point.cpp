@@ -20,7 +20,7 @@ Point::Point(const int x, const int y) : QGraphicsEllipseItem(0,
                                                               0,
                                                               DEFAULT_POINT_RADIUS * 2,
                                                               DEFAULT_POINT_RADIUS * 2),
-                                         IConnectableElement<Edge>(),
+                                         IConnectableElement<Edge>(reinterpret_cast<void *>(this)),
                                          IPointPolygonObject(this){
     setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
              QGraphicsItem::ItemSendsScenePositionChanges);
