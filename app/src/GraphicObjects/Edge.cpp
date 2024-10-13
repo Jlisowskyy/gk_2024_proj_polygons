@@ -4,7 +4,7 @@
 
 /* internal includes */
 #include "Edge.h"
-#include "Constants.h"
+#include "../Constants.h"
 #include "Painter.h"
 
 /* external includes */
@@ -13,9 +13,10 @@
 
 
 Edge::Edge(Point *start, Point *end) : QGraphicsLineItem(QLineF(start->getPositionOnPainter(),
-                                                                end->getPositionOnPainter())) {
+                                                                end->getPositionOnPainter())),
+                                       IEdgePolygonObject(this) {
     Q_ASSERT(start != nullptr && end != nullptr);
-    
+
     QPen pen(DEFAULT_COLOR);
     pen.setWidth(DEFAULT_EDGE_WIDTH);
     setPen(pen);
@@ -73,7 +74,4 @@ void Edge::repositionByPoints() {
                        getConnectedElement(RIGHT)->getPositionOnPainter()));
         setPos({0, 0});
     }
-}
-
-std::tuple<Point *, Point *> Edge::remove(bool isFullPolygon, Painter *painter) {
 }

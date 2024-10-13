@@ -6,9 +6,9 @@
 #define APP_POLYGON_H
 
 /* internal includes */
-#include "Edge.h"
-#include "Point.h"
-#include "Painter.h"
+#include "../GraphicObjects/Edge.h"
+#include "../GraphicObjects/Point.h"
+#include "../GraphicObjects/Painter.h"
 
 /* external includes */
 #include <vector>

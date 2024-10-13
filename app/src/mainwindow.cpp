@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     /* m_painter -> ??? connects */
     connect(m_painter, &Painter::selectedItemChanged, m_toolBar, &ToolBar::selectionChanged);
 
-    /* m_objectMgr -> ??? connects */
+    /* m_polygon -> ??? connects */
 
 }
 

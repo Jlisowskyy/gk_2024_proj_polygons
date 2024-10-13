@@ -4,21 +4,24 @@
 
 /* internal includes */
 #include "Point.h"
-#include "Constants.h"
-#include "Polygon.h"
+#include "../Constants.h"
+#include "../ManagingObjects/Polygon.h"
 #include "Edge.h"
 #include "Painter.h"
+#include "../Interfaces/IPointPolygonObject.h"
 
 /* external includes */
 #include <QPen>
 #include <QBrush>
 #include <QDebug>
+#include <QVariant>
 
 Point::Point(const int x, const int y) : QGraphicsEllipseItem(0,
                                                               0,
                                                               DEFAULT_POINT_RADIUS * 2,
                                                               DEFAULT_POINT_RADIUS * 2),
-                                         IConnectableElement<Edge>() {
+                                         IConnectableElement<Edge>(),
+                                         IPointPolygonObject(this){
     setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
              QGraphicsItem::ItemSendsScenePositionChanges);
     setPen(QPen(DEFAULT_COLOR));
@@ -27,6 +30,7 @@ Point::Point(const int x, const int y) : QGraphicsEllipseItem(0,
 
     /* Points should be displayed above edges */
     setZValue(1);
+
 }
 
 QVariant Point::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
@@ -84,55 +88,4 @@ QVariant Point::_onPositionChanged(const QVariant &value) {
 
 double Point::getRadius() const {
     return static_cast<double>(isSelected() ? SELECTED_POINT_RADIUS : DEFAULT_POINT_RADIUS);
-}
-
-std::tuple<Point *, Point *> Point::remove(const bool isFullPolygon, Painter *const painter) {
-    Point *connections[MAX_CONNECTIONS]{};
-    Point *start{};
-    Point *end{};
-
-    /* Gather connections */
-    for (size_t direction = 0; direction < MAX_CONNECTIONS; ++direction) {
-        if (Edge *itemToRemove = getConnectedElement(direction); itemToRemove != nullptr) {
-            connections[direction] = itemToRemove->getConnectedElement(direction);
-            Q_ASSERT(connections[direction] != nullptr);
-
-            connections[direction]->setConnectedElement(SwapDirection(direction), nullptr);
-
-            scene()->removeItem(itemToRemove);
-        }
-    }
-
-    /* Add edge except triangle case */
-    if (connections[0] != nullptr &&
-        connections[1] != nullptr &&
-        !(isFullPolygon &&
-          static_cast<void *>(connections[1]->getConnectedElement(RIGHT)) != static_cast<void *>(connections[0]))) {
-
-        Edge *edge = painter->addEdge(connections[0], connections[1]);
-        connections[0]->setConnectedElement(RIGHT, edge);
-        connections[1]->setConnectedElement(LEFT, edge);
-    }
-
-    /* Prepare new start and end */
-    if (isFullPolygon) {
-        Q_ASSERT(connections[0] != nullptr && connections[1] != nullptr);
-
-        start = connections[1];
-        end = connections[0];
-    } else {
-        if (connections[0] == nullptr && connections[1] != nullptr) {
-            start = connections[1];
-            end = static_cast<Point *>(start->getLastConnectedElement(RIGHT));
-        } else if (connections[0] != nullptr && connections[1] == nullptr) {
-            end = connections[0];
-            start = static_cast<Point *>(connections[0]->getLastConnectedElement(LEFT));
-        } else {
-            end = start = nullptr;
-        }
-    }
-
-    scene()->removeItem(this);
-
-    return {start, end};
 }

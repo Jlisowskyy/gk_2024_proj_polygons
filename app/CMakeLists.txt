@@ -17,18 +17,23 @@ set(PROJECT_SOURCES
         src/mainwindow.cpp
         src/mainwindow.h
         src/mainwindow.ui
-        src/ToolBar.cpp
-        src/ToolBar.h
-        src/Painter.cpp
-        src/Painter.h
-        src/Point.cpp
-        src/Point.h
-        src/Edge.cpp
-        src/Edge.h
-        src/Polygon.cpp
-        src/Polygon.h
+        src/ManagingObjects/ToolBar.cpp
+        src/ManagingObjects/ToolBar.h
+        src/GraphicObjects/Painter.cpp
+        src/GraphicObjects/Painter.h
+        src/GraphicObjects/Point.cpp
+        src/GraphicObjects/Point.h
+        src/GraphicObjects/Edge.cpp
+        src/GraphicObjects/Edge.h
+        src/ManagingObjects/Polygon.cpp
+        src/ManagingObjects/Polygon.h
         src/Constants.h
-        src/IConnectableElement.h
+        src/Interfaces/IConnectableElement.h
+        src/Interfaces/IPolygonObject.h
+        src/Interfaces/IEdgePolygonObject.cpp
+        src/Interfaces/IEdgePolygonObject.h
+        src/Interfaces/IPointPolygonObject.cpp
+        src/Interfaces/IPointPolygonObject.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

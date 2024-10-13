@@ -2,39 +2,45 @@
 // Created by Jlisowskyy on 08/10/24.
 //
 
-#ifndef APP_POINT_H
-#define APP_POINT_H
+#ifndef APP_EDGE_H
+#define APP_EDGE_H
 
 /* internal includes */
-#include "Constants.h"
-#include "IConnectableElement.h"
+#include "Point.h"
+#include "../Interfaces/IEdgePolygonObject.h"
 
 /* external includes */
-#include <QGraphicsEllipseItem>
+#include <QGraphicsLineItem>
 #include <tuple>
 
 /* Forward declaration */
 class Polygon;
-class Edge;
-class Painter;
 
-class Point : public QGraphicsEllipseItem, public IConnectableElement<Edge> {
+class Edge : public QGraphicsLineItem, public IConnectableElement<Point>, public IEdgePolygonObject {
     // ------------------------------
     // Class creation
     // ------------------------------
 public:
 
-    explicit Point(int x, int y);
+    explicit Edge(Point *start, Point *end);
 
     // ------------------------------
     // Class interaction
     // ------------------------------
 
-    [[nodiscard]] QPointF getPositionOnPainter() const;
+    [[nodiscard]] bool isRightConnected(const Point *const point) const {
+        return point != nullptr && m_connectedElements[RIGHT] == point;
+    }
 
-    [[nodiscard]] double getRadius() const;
+    [[nodiscard]] bool isLeftConnected(const Point *const point) const {
+        return point != nullptr && m_connectedElements[LEFT] == point;
+    }
 
-    std::tuple<Point*, Point*> remove(bool isFullPolygon, Painter *painter);
+    [[nodiscard]] bool isConnected(const Point *const point) const {
+        return isLeftConnected(point) || isRightConnected(point);
+    }
+
+    void repositionByPoints();
 
     // ------------------------------
     // Private methods
@@ -47,6 +53,7 @@ private:
 
     QVariant _onPositionChanged(const QVariant &value);
 
+
     // ------------------------------
     // Protected Methods
     // ------------------------------
@@ -57,7 +64,9 @@ protected:
     // ------------------------------
     // Class fields
     // ------------------------------
+
+    bool m_isUpdating{};
 };
 
 
-#endif //APP_POINT_H
+#endif //APP_EDGE_H

@@ -7,9 +7,9 @@
 #include <QLabel>
 
 /* Internal includes */
-#include "Polygon.h"
-#include "ToolBar.h"
-#include "Painter.h"
+#include "ManagingObjects/Polygon.h"
+#include "ManagingObjects/ToolBar.h"
+#include "GraphicObjects/Painter.h"
 
 QT_BEGIN_NAMESPACE
 

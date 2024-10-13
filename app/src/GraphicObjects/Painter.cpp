@@ -5,7 +5,7 @@
 /* internal includes */
 #include "Painter.h"
 #include "Point.h"
-#include "Polygon.h"
+#include "../ManagingObjects/Polygon.h"
 
 /* external includes */
 #include <QGraphicsEllipseItem>
@@ -63,7 +63,7 @@ bool Painter::isMovingSpace() const {
 
 void Painter::updateInteractivity() {
     m_scene->clearSelection();
-    setInteractive(!m_isMovingSpace && !m_objectMgr->getIsAddingVertices());
+    setInteractive(!m_isMovingSpace && !m_polygon->getIsAddingVertices());
 }
 
 void Painter::mousePressEvent(QMouseEvent *event) {
@@ -89,7 +89,7 @@ void Painter::mousePressEvent(QMouseEvent *event) {
     QPoint scenePos = mapToScene(event->pos()).toPoint();
 
     if (scenePos.x() > 0 && scenePos.y() > 0) {
-        m_objectMgr->addPoint(scenePos.x(), scenePos.y());
+        m_polygon->addPoint(scenePos.x(), scenePos.y());
         qDebug() << "Adding point on coordinates: " << scenePos;
     } else {
         qDebug() << "Point on wrong coordinates: " << scenePos;
@@ -118,8 +118,8 @@ void Painter::_updateSpacePosition() const {
 
 void Painter::setupPainter(Polygon *objectMgr, QLabel *label) {
     Q_ASSERT(objectMgr != nullptr);
-    Q_ASSERT(m_objectMgr == nullptr);
-    m_objectMgr = objectMgr;
+    Q_ASSERT(m_polygon == nullptr);
+    m_polygon = objectMgr;
 
     Q_ASSERT(label != nullptr);
     Q_ASSERT(m_label == nullptr);
@@ -148,5 +148,5 @@ void Painter::clearSelection() {
 }
 
 void Painter::removeSelected() {
-    m_objectMgr->removeSelection();
+    m_polygon->removeSelection();
 }

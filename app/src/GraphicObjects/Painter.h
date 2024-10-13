@@ -99,7 +99,7 @@ private:
     QGraphicsItem *m_selectedItem;
     bool m_isMovingSpace{};
 
-    Polygon *m_objectMgr{};
+    Polygon *m_polygon{};
     QGraphicsScene *m_scene{};
     QLabel *m_label{};
 };

@@ -6,7 +6,7 @@
 #define CONNECTABLEELEMENT_H
 
 /* internal includes */
-#include "Constants.h"
+#include "../Constants.h"
 
 /* external includes */
 #include <array>

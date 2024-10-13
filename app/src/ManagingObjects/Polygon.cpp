@@ -4,6 +4,7 @@
 
 /* internal includes */
 #include "Polygon.h"
+#include "../Interfaces/IPolygonObject.h"
 
 /* external includes */
 
@@ -91,15 +92,11 @@ void Polygon::removeSelection() {
 
     const bool bIsFoolPolygon = isFullPolygon();
     m_painter->clearSelection();
-    if (auto *pEdge = dynamic_cast<Edge *>(selectedItem); pEdge != nullptr) {
-        const auto [p1, p2] = pEdge->remove(bIsFoolPolygon, m_painter);
-        m_startingPoint = p1;
-        m_endingPoint = p2;
-    } else if (auto *pPoint = dynamic_cast<Point *>(selectedItem); pPoint != nullptr) {
-        const auto [p1, p2] = pPoint->remove(bIsFoolPolygon, m_painter);
-        m_startingPoint = p1;
-        m_endingPoint = p2;
-    } else {
-        qDebug() << "Unexpected graphic element occurred!";
-    }
+
+    auto *pObject = dynamic_cast<IPolygonObject *>(selectedItem);
+    Q_ASSERT(pObject != nullptr);
+
+    const auto [p1, p2] = pObject->remove(bIsFoolPolygon, m_painter);
+    m_startingPoint = p1;
+    m_endingPoint = p2;
 }

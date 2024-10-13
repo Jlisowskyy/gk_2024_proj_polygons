@@ -7,8 +7,8 @@
 
 /* internal includes */
 #include "ToolBar.h"
-#include "Point.h"
-#include "Edge.h"
+#include "../GraphicObjects/Point.h"
+#include "../GraphicObjects/Edge.h"
 
 #define EDGE_TOOLTIP_STR(str) str" for selected edge"
 #define EDGE_CONSTRAINT_TOOLTIP_STR(str) "Set " EDGE_TOOLTIP_STR(str " constraint")

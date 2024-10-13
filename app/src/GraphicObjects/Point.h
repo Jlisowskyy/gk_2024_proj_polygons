@@ -2,46 +2,38 @@
 // Created by Jlisowskyy on 08/10/24.
 //
 
-#ifndef APP_EDGE_H
-#define APP_EDGE_H
+#ifndef APP_POINT_H
+#define APP_POINT_H
 
 /* internal includes */
-#include "Point.h"
+#include "../Constants.h"
+#include "../Interfaces/IConnectableElement.h"
+#include "../Interfaces/IPointPolygonObject.h"
 
 /* external includes */
-#include <QGraphicsLineItem>
+#include <QGraphicsEllipseItem>
 #include <tuple>
 
 /* Forward declaration */
 class Polygon;
+class Edge;
+class Painter;
 
-class Edge : public QGraphicsLineItem, public IConnectableElement<Point> {
+class Point : public QGraphicsEllipseItem, public IConnectableElement<Edge>, public IPointPolygonObject{
     // ------------------------------
     // Class creation
     // ------------------------------
 public:
 
-    explicit Edge(Point *start, Point *end);
+    explicit Point(int x, int y);
 
     // ------------------------------
     // Class interaction
     // ------------------------------
 
-    [[nodiscard]] bool isRightConnected(const Point * const point) const {
-        return point != nullptr && m_connectedElements[RIGHT] == point;
-    }
+    [[nodiscard]] QPointF getPositionOnPainter() const;
 
-    [[nodiscard]] bool isLeftConnected(const Point * const point) const {
-        return point != nullptr && m_connectedElements[LEFT] == point;
-    }
-
-    [[nodiscard]] bool isConnected(const Point * const point) const {
-        return isLeftConnected(point) || isRightConnected(point);
-    }
-
-    void repositionByPoints();
-
-    std::tuple<Point*, Point*> remove(bool isFullPolygon, Painter *painter);
+    [[nodiscard]] double getRadius() const;
 
     // ------------------------------
     // Private methods
@@ -54,7 +46,6 @@ private:
 
     QVariant _onPositionChanged(const QVariant &value);
 
-
     // ------------------------------
     // Protected Methods
     // ------------------------------
@@ -65,9 +56,7 @@ protected:
     // ------------------------------
     // Class fields
     // ------------------------------
-
-    bool m_isUpdating{};
 };
 
 
-#endif //APP_EDGE_H
+#endif //APP_POINT_H
