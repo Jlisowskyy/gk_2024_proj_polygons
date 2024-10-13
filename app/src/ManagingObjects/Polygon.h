@@ -52,6 +52,8 @@ public slots:
 
     void removeSelection();
 
+    void cutEdge();
+
     // ------------------------------
     // Private methods
     // ------------------------------
@@ -64,7 +66,7 @@ private:
 
 protected:
     bool m_isAddingVertices{};
-    DrawingWidget *m_painter{};
+    DrawingWidget *m_drawingWidget{};
 
     Point *m_startingPoint{};
     Point *m_endingPoint{};

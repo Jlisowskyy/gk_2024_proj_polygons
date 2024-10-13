@@ -43,7 +43,7 @@ private:
     Ui::MainWindow *m_ui;
     ToolBar *m_toolBar;
     DrawingWidget *m_drawingWidget;
-    Polygon *m_objectMgr;
+    Polygon *m_polygon;
     QLabel *m_label;
 };
 #endif // MAINWINDOW_H

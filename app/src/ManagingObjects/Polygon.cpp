@@ -14,21 +14,21 @@ Polygon::Polygon(QObject *parent) : QObject(parent) {
 
 void Polygon::setupMgr(DrawingWidget *painter) {
     Q_ASSERT(painter != nullptr);
-    Q_ASSERT(m_painter == nullptr);
-    m_painter = painter;
+    Q_ASSERT(m_drawingWidget == nullptr);
+    m_drawingWidget = painter;
 
     setIsAddingVertices(true);
-    const auto p1 = m_painter->mapToScene(150, 150);
+    const auto p1 = m_drawingWidget->mapToScene(150, 150);
     addPoint(p1.x(), p1.y());
-    const auto p2 = m_painter->mapToScene(300, 150);
+    const auto p2 = m_drawingWidget->mapToScene(300, 150);
     addPoint(p2.x(), p2.y());
-    const auto p3 = m_painter->mapToScene(300, 300);
+    const auto p3 = m_drawingWidget->mapToScene(300, 300);
     addPoint(p3.x(), p3.y());
     setIsAddingVertices(false);
 }
 
 void Polygon::clearItems() {
-    m_painter->clearContent();
+    m_drawingWidget->clearContent();
 
     m_startingPoint = m_endingPoint = nullptr;
 }
@@ -39,7 +39,7 @@ bool Polygon::getIsAddingVertices() const {
 
 void Polygon::setIsAddingVertices(const bool value) {
     m_isAddingVertices = value;
-    m_painter->updateInteractivity();
+    m_drawingWidget->updateInteractivity();
 }
 
 bool Polygon::isFullPolygon() const {
@@ -50,14 +50,14 @@ bool Polygon::isFullPolygon() const {
 Point *Polygon::_findPointSpot(const int x, const int y) const {
     if (m_endingPoint == nullptr || m_startingPoint->getConnectedElement(RIGHT) == nullptr
         || m_endingPoint->getConnectedElement(LEFT)->getConnectedElement(LEFT) == m_startingPoint) {
-        return m_painter->addPoint(x, y);
+        return m_drawingWidget->addPoint(x, y);
     }
 
     const int xDist = x - m_startingPoint->getPositionOnPainter().toPoint().x();
     const int yDist = y - m_startingPoint->getPositionOnPainter().toPoint().y();
     const bool isInsideHitBox = xDist * xDist + yDist * yDist <= FINAL_POINT_HIT_BOX_SIZE * FINAL_POINT_HIT_BOX_SIZE;
 
-    return isInsideHitBox ? nullptr : m_painter->addPoint(x, y);
+    return isInsideHitBox ? nullptr : m_drawingWidget->addPoint(x, y);
 }
 
 void Polygon::addPoint(const int x, const int y) {
@@ -68,7 +68,7 @@ void Polygon::addPoint(const int x, const int y) {
     auto *point = _findPointSpot(x, y);
 
     if (point == nullptr) {
-        auto *edge = m_painter->addEdge(m_endingPoint, m_startingPoint);
+        auto *edge = m_drawingWidget->addEdge(m_endingPoint, m_startingPoint);
 
         m_endingPoint->setConnectedElement(RIGHT, edge);
         m_startingPoint->setConnectedElement(LEFT, edge);
@@ -76,7 +76,7 @@ void Polygon::addPoint(const int x, const int y) {
         if (m_startingPoint == nullptr) {
             m_startingPoint = m_endingPoint = point;
         } else {
-            auto *edge = m_painter->addEdge(m_endingPoint, point);
+            auto *edge = m_drawingWidget->addEdge(m_endingPoint, point);
 
             m_endingPoint->setConnectedElement(RIGHT, edge);
             point->setConnectedElement(LEFT, edge);
@@ -87,19 +87,28 @@ void Polygon::addPoint(const int x, const int y) {
 }
 
 void Polygon::removeSelection() {
-    QGraphicsItem *selectedItem = m_painter->getSelectedItem();
+    QGraphicsItem *selectedItem = m_drawingWidget->getSelectedItem();
 
     if (selectedItem == nullptr) {
         return;
     }
 
     const bool bIsFoolPolygon = isFullPolygon();
-    m_painter->clearSelection();
+    m_drawingWidget->clearSelection();
 
     auto *pObject = dynamic_cast<IPolygonObject *>(selectedItem);
     Q_ASSERT(pObject != nullptr);
 
-    const auto [p1, p2] = pObject->remove(bIsFoolPolygon, m_painter);
+    const auto [p1, p2] = pObject->remove(bIsFoolPolygon, m_drawingWidget);
     m_startingPoint = p1;
     m_endingPoint = p2;
+}
+
+void Polygon::cutEdge() {
+    QGraphicsItem *selectedItem = m_drawingWidget->getSelectedItem();
+    Edge *edge = dynamic_cast<Edge *>(selectedItem);
+
+    Q_ASSERT(edge != nullptr);
+
+    edge->cutEdge(m_drawingWidget);
 }

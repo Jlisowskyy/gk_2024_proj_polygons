@@ -43,6 +43,8 @@ public:
 
     void repositionByPoints();
 
+    void cutEdge(DrawingWidget *drawingWidget);
+
     // ------------------------------
     // Private methods
     // ------------------------------

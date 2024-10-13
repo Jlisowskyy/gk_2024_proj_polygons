@@ -127,3 +127,27 @@ void Edge::_bresenhamLine(QPainter *painter) {
         }
     }
 }
+
+void Edge::cutEdge(DrawingWidget *drawingWidget) {
+    Point *pLeft = getConnectedElement(LEFT);
+    Point *pRight = getConnectedElement(RIGHT);
+    const auto pLeftPos = pLeft->getPositionOnPainter();
+    const auto pRightPos = pRight->getPositionOnPainter();
+
+    const int x = static_cast<int>((pLeftPos.x() + pRightPos.x()) / 2);
+    const int y = static_cast<int>((pLeftPos.y() + pRightPos.y()) / 2);
+
+    Point *pMid = drawingWidget->addPoint(x, y);
+    Edge *leftEdge = drawingWidget->addEdge(pLeft, pMid);
+    Edge *rightEdge = drawingWidget->addEdge(pMid, pRight);
+
+    pLeft->setConnectedElement(RIGHT, leftEdge);
+    pMid->setConnectedElement(LEFT, leftEdge);
+    pMid->setConnectedElement(RIGHT, rightEdge);
+    pRight->setConnectedElement(LEFT, rightEdge);
+
+    setConnectedElement(LEFT, nullptr);
+    setConnectedElement(RIGHT, nullptr);
+
+    m_drawingWidget->scene()->removeItem(this);
+}
