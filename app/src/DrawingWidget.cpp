@@ -3,9 +3,9 @@
 //
 
 /* internal includes */
-#include "DrawingWidget.h"
-#include "Point.h"
-#include "../ManagingObjects/Polygon.h"
+#include "../include/GraphicObjects/DrawingWidget.h"
+#include "../include/GraphicObjects/Point.h"
+#include "../include/ManagingObjects/Polygon.h"
 
 /* external includes */
 #include <QGraphicsEllipseItem>

@@ -3,9 +3,9 @@
 //
 
 /* internal includes */
-#include "Restrictions.h"
-#include "EdgeConstLengthRestriction.h"
-#include "../GraphicObjects/Edge.h"
+#include "../include/Restrictions/Restrictions.h"
+#include "../include/Restrictions/EdgeConstLengthRestriction.h"
+#include "../include/GraphicObjects/Edge.h"
 
 bool EdgeConstLengthRestriction::applyRestriction() {
     return false;

@@ -3,9 +3,9 @@
 //
 
 /* internal includes */
-#include "ObjectRestriction.h"
-#include "RestrictionIcon.h"
-#include "../GraphicObjects/DrawingWidget.h"
+#include "../include/Restrictions/ObjectRestriction.h"
+#include "../include/Restrictions/RestrictionIcon.h"
+#include "../include/GraphicObjects/DrawingWidget.h"
 
 /* external includes */
 

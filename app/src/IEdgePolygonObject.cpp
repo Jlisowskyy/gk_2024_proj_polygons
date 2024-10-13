@@ -3,11 +3,11 @@
 //
 
 /* internal includes */
-#include "IEdgePolygonObject.h"
-#include "../Constants.h"
-#include "../GraphicObjects/Edge.h"
-#include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/DrawingWidget.h"
+#include "../include/Interfaces/IEdgePolygonObject.h"
+#include "../include/Constants.h"
+#include "../include/GraphicObjects/Edge.h"
+#include "../include/GraphicObjects/Point.h"
+#include "../include/GraphicObjects/DrawingWidget.h"
 
 /* external includes */
 #include <QGraphicsScene>

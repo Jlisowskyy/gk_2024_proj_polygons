@@ -3,10 +3,10 @@
 //
 
 /* internal includes */
-#include "EdgeVerticalRestriction.h"
-#include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/Edge.h"
-#include "Restrictions.h"
+#include "../include/Restrictions/EdgeVerticalRestriction.h"
+#include "../include/GraphicObjects/Point.h"
+#include "../include/GraphicObjects/Edge.h"
+#include "../include/Restrictions/Restrictions.h"
 
 /* external includes */
 #include <array>

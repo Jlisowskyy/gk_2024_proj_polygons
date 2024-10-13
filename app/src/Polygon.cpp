@@ -3,11 +3,11 @@
 //
 
 /* internal includes */
-#include "Polygon.h"
-#include "../Interfaces/IPolygonObject.h"
-#include "../Restrictions/Restrictions.h"
-#include "../Restrictions/EdgeRestriction.h"
-#include "../Restrictions/PointRestriction.h"
+#include "../include/ManagingObjects/Polygon.h"
+#include "../include/Interfaces/IPolygonObject.h"
+#include "../include/Restrictions/Restrictions.h"
+#include "../include/Restrictions/EdgeRestriction.h"
+#include "../include/Restrictions/PointRestriction.h"
 
 /* external includes */
 

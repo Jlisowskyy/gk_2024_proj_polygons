@@ -3,13 +3,13 @@
 //
 
 /* internal includes */
-#include "Point.h"
-#include "../Constants.h"
-#include "../ManagingObjects/Polygon.h"
-#include "Edge.h"
-#include "DrawingWidget.h"
-#include "../Interfaces/IPointPolygonObject.h"
-#include "../Restrictions/ObjectRestriction.h"
+#include "../include/GraphicObjects/Point.h"
+#include "../include/Constants.h"
+#include "../include/ManagingObjects/Polygon.h"
+#include "../include/GraphicObjects/Edge.h"
+#include "../include/GraphicObjects/DrawingWidget.h"
+#include "../include/Interfaces/IPointPolygonObject.h"
+#include "../include/Restrictions/ObjectRestriction.h"
 
 /* external includes */
 #include <QPen>

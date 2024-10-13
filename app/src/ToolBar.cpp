@@ -6,11 +6,11 @@
 #include <QDebug>
 
 /* internal includes */
-#include "ToolBar.h"
-#include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/Edge.h"
-#include "../ManagingObjects/Polygon.h"
-#include "../Restrictions/Restrictions.h"
+#include "../include/ManagingObjects/ToolBar.h"
+#include "../include/GraphicObjects/Point.h"
+#include "../include/GraphicObjects/Edge.h"
+#include "../include/ManagingObjects/Polygon.h"
+#include "../include/Restrictions/Restrictions.h"
 
 #include <string>
 

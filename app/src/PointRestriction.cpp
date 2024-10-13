@@ -3,8 +3,8 @@
 //
 
 /* internal includes */
-#include "PointRestriction.h"
-#include "../GraphicObjects/Point.h"
+#include "../include/Restrictions/PointRestriction.h"
+#include "../include/GraphicObjects/Point.h"
 
 void PointRestriction::onRestrictionDelete() {
     m_point->cleanRestriction();

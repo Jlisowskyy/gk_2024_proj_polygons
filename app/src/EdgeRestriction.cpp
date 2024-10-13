@@ -3,9 +3,9 @@
 //
 
 /* internal includes */
-#include "EdgeRestriction.h"
-#include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/Edge.h"
+#include "../include/Restrictions/EdgeRestriction.h"
+#include "../include/GraphicObjects/Point.h"
+#include "../include/GraphicObjects/Edge.h"
 
 void EdgeRestriction::_gatherNeighborEdges(std::array<Edge *, MAX_CONNECTIONS> &array) {
     for (size_t direction = 0; direction < MAX_CONNECTIONS; ++direction) {

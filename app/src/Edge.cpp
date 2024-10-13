@@ -3,10 +3,10 @@
 //
 
 /* internal includes */
-#include "Edge.h"
-#include "../Constants.h"
-#include "DrawingWidget.h"
-#include "../Restrictions/ObjectRestriction.h"
+#include "../include/GraphicObjects/Edge.h"
+#include "../include/Constants.h"
+#include "../include/GraphicObjects/DrawingWidget.h"
+#include "../include/Restrictions/ObjectRestriction.h"
 
 /* external includes */
 #include <QPen>

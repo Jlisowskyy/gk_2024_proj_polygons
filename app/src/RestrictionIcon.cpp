@@ -3,8 +3,8 @@
 //
 
 /* internal includes */
-#include "RestrictionIcon.h"
-#include "ObjectRestriction.h"
+#include "../include/Restrictions/RestrictionIcon.h"
+#include "../include/Restrictions/ObjectRestriction.h"
 
 /* external includes */
 #include <QPixmap>
