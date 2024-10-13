@@ -27,4 +27,8 @@ enum ConnectionType : size_t {
 };
 static constexpr size_t MAX_CONNECTIONS = NOT_CONNECTED;
 
+constexpr size_t SwapDirection(const size_t direction) {
+    return direction ^ 1;
+}
+
 #endif //APP_CONSTANTS_H

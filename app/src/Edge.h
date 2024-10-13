@@ -27,15 +27,15 @@ public:
     // Class interaction
     // ------------------------------
 
-    [[nodiscard]] bool isRightConnected(Point *point) const {
-        return point != nullptr && m_connections[RIGHT] == point;
+    [[nodiscard]] bool isRightConnected(const Point * const point) const {
+        return point != nullptr && m_connectedElements[RIGHT] == point;
     }
 
-    [[nodiscard]] bool isLeftConnected(Point *point) const {
-        return point != nullptr && m_connections[LEFT] == point;
+    [[nodiscard]] bool isLeftConnected(const Point * const point) const {
+        return point != nullptr && m_connectedElements[LEFT] == point;
     }
 
-    [[nodiscard]] bool isConnected(Point *point) const {
+    [[nodiscard]] bool isConnected(const Point * const point) const {
         return isLeftConnected(point) || isRightConnected(point);
     }
 
@@ -67,7 +67,6 @@ protected:
     // ------------------------------
 
     bool m_isUpdating{};
-    Point *m_connections[MAX_CONNECTIONS]{};
 };
 
 

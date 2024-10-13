@@ -13,8 +13,7 @@
 
 
 Edge::Edge(Point *start, Point *end) : QGraphicsLineItem(QLineF(start->getPositionOnPainter(),
-                                                                end->getPositionOnPainter())),
-                                       m_connections{start, end} {
+                                                                end->getPositionOnPainter())) {
     QPen pen(DEFAULT_COLOR);
     pen.setWidth(DEFAULT_EDGE_WIDTH);
     setPen(pen);
@@ -23,7 +22,10 @@ Edge::Edge(Point *start, Point *end) : QGraphicsLineItem(QLineF(start->getPositi
     setZValue(0);
 
     setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
-             QGraphicsItem::ItemSendsScenePositionChanges); // Removed ItemIsMovable
+             QGraphicsItem::ItemSendsScenePositionChanges);
+
+    setConnectedElement(LEFT, start);
+    setConnectedElement(RIGHT, end);
 }
 
 QVariant Edge::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
@@ -52,12 +54,12 @@ QVariant Edge::_onPositionChange(const QVariant &value) {
 }
 
 QVariant Edge::_onPositionChanged(const QVariant &value) {
-    const double leftRadius = m_connections[LEFT]->getRadius();
-    const double rightRadius = m_connections[RIGHT]->getRadius();
+    const double leftRadius = getConnectedElement(LEFT)->getRadius();
+    const double rightRadius = getConnectedElement(RIGHT)->getRadius();
 
     m_isUpdating = true;
-    m_connections[LEFT]->setPos(line().p1() + value.toPointF() - QPointF(leftRadius, leftRadius));
-    m_connections[RIGHT]->setPos(line().p2() + value.toPointF() - QPointF(rightRadius, rightRadius));
+    getConnectedElement(LEFT)->setPos(line().p1() + value.toPointF() - QPointF(leftRadius, leftRadius));
+    getConnectedElement(RIGHT)->setPos(line().p2() + value.toPointF() - QPointF(rightRadius, rightRadius));
     m_isUpdating = false;
 
     return value;
@@ -65,12 +67,11 @@ QVariant Edge::_onPositionChanged(const QVariant &value) {
 
 void Edge::repositionByPoints() {
     if (!m_isUpdating) {
-        setLine(QLineF(m_connections[LEFT]->getPositionOnPainter(),
-                       m_connections[RIGHT]->getPositionOnPainter()));
+        setLine(QLineF(getConnectedElement(LEFT)->getPositionOnPainter(),
+                       getConnectedElement(RIGHT)->getPositionOnPainter()));
         setPos({0, 0});
     }
 }
 
 std::tuple<Point *, Point *> Edge::remove(bool isFullPolygon, Painter *painter) {
-
 }

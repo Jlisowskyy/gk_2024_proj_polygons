@@ -89,21 +89,27 @@ std::tuple<Point *, Point *> Point::remove(const bool isFullPolygon, Painter *co
     Point *start{};
     Point *end{};
 
-    for (size_t idx = 0; idx < MAX_CONNECTIONS; ++idx) {
-        if (Edge *itemToRemove = getConnectedElement(idx); itemToRemove != nullptr) {
-            connections[idx] = itemToRemove->getConnectedElement(idx);
+    for (size_t direction = 0; direction < MAX_CONNECTIONS; ++direction) {
+        if (Edge *itemToRemove = getConnectedElement(direction); itemToRemove != nullptr) {
+            connections[direction] = itemToRemove->getConnectedElement(direction);
 
             scene()->removeItem(itemToRemove);
         }
     }
 
     if (connections[0] != nullptr &&
-        connections[1] != nullptr &&
-        !(isFullPolygon &&
+        connections[1] != nullptr) {
+
+        if (!(isFullPolygon &&
           static_cast<void *>(connections[1]->getConnectedElement(RIGHT)) != static_cast<void *>(connections[0]))) {
-        Edge *edge = painter->addEdge(connections[0], connections[1]);
-        connections[0]->setConnectedElement(RIGHT, edge);
-        connections[1]->setConnectedElement(LEFT, edge);
+            Edge *edge = painter->addEdge(connections[0], connections[1]);
+            connections[0]->setConnectedElement(RIGHT, edge);
+            connections[1]->setConnectedElement(LEFT, edge);
+        } else {
+            connections[0]->setConnectedElement(RIGHT, nullptr);
+            connections[1]->setConnectedElement(LEFT, nullptr);
+        }
+
     }
 
     if (isFullPolygon) {
