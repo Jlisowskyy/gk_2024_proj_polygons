@@ -30,7 +30,11 @@ public:
     // Class interaction
     // ------------------------------
 
-    bool ApplyRestriction(ObjectRestriction *restriction);
+    bool applyRestriction(ObjectRestriction *restriction, DrawingWidget *drawingWidget);
+
+    [[nodiscard]] ObjectRestriction *getRestriction() const;
+
+    void cleanRestriction();
 
     // ------------------------------
     // Abstract methods

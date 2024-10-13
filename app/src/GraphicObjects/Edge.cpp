@@ -131,13 +131,10 @@ void Edge::_bresenhamLine(QPainter *painter) {
 void Edge::cutEdge(DrawingWidget *drawingWidget) {
     Point *pLeft = getConnectedElement(LEFT);
     Point *pRight = getConnectedElement(RIGHT);
-    const auto pLeftPos = pLeft->getPositionOnPainter();
-    const auto pRightPos = pRight->getPositionOnPainter();
 
-    const int x = static_cast<int>((pLeftPos.x() + pRightPos.x()) / 2);
-    const int y = static_cast<int>((pLeftPos.y() + pRightPos.y()) / 2);
+    QPoint midPos = getMidPoint();
 
-    Point *pMid = drawingWidget->addPoint(x, y);
+    Point *pMid = drawingWidget->addPoint(midPos.x(), midPos.y());
     Edge *leftEdge = drawingWidget->addEdge(pLeft, pMid);
     Edge *rightEdge = drawingWidget->addEdge(pMid, pRight);
 
@@ -150,4 +147,16 @@ void Edge::cutEdge(DrawingWidget *drawingWidget) {
     setConnectedElement(RIGHT, nullptr);
 
     m_drawingWidget->scene()->removeItem(this);
+}
+
+QPoint Edge::getMidPoint() const {
+    Point *pLeft = getConnectedElement(LEFT);
+    Point *pRight = getConnectedElement(RIGHT);
+    const auto pLeftPos = pLeft->getPositionOnPainter();
+    const auto pRightPos = pRight->getPositionOnPainter();
+
+    const int x = static_cast<int>((pLeftPos.x() + pRightPos.x()) / 2);
+    const int y = static_cast<int>((pLeftPos.y() + pRightPos.y()) / 2);
+
+    return {x, y};
 }

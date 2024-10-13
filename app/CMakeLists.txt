@@ -44,6 +44,9 @@ set(PROJECT_SOURCES
         src/Restrictions/PointRestriction.h
         src/Restrictions/Restrictions.h
         src/Restrictions/Restrictions.cpp
+        src/Restrictions/RestrictionIcon.cpp
+        src/Restrictions/RestrictionIcon.h
+        src/Restrictions/ObjectRestriction.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

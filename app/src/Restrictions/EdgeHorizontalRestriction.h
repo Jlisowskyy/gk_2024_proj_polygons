@@ -8,6 +8,8 @@
 /* internal includes */
 #include "EdgeRestriction.h"
 
+/* external includes */
+
 class EdgeHorizontalRestriction : public EdgeRestriction {
     // ------------------------------
     // Class creation
@@ -19,10 +21,19 @@ public:
     ~EdgeHorizontalRestriction() override = default;
 
     // ------------------------------
-    // Abstract methods
+    // Abstract methods override
     // ------------------------------
 
     bool applyRestriction() final;
+
+    std::string getIconName() override;
+
+    // ------------------------------
+    // protected methods
+    // ------------------------------
+protected:
+
+    bool validateNoDoubleHorizontalRestriction();
 
 };
 

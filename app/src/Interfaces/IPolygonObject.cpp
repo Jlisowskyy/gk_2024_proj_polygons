@@ -46,7 +46,7 @@ std::tuple<Point *, Point *> IPolygonObject::_prepareNewAttachmentPoints(Point *
 /**
  * @return false - success / true - failed
  */
-bool IPolygonObject::ApplyRestriction(ObjectRestriction *restriction) {
+bool IPolygonObject::applyRestriction(ObjectRestriction *restriction, DrawingWidget *drawingWidget) {
     if (m_restriction != nullptr) {
         return true;
     }
@@ -55,5 +55,18 @@ bool IPolygonObject::ApplyRestriction(ObjectRestriction *restriction) {
         return true;
     }
 
+    restriction->addRestrictionIcon(drawingWidget);
+
+    m_restriction = restriction;
     return false;
+}
+
+ObjectRestriction *IPolygonObject::getRestriction() const {
+    return m_restriction;
+}
+
+void IPolygonObject::cleanRestriction() {
+    Q_ASSERT(m_restriction != nullptr);
+
+    m_restriction = nullptr;
 }

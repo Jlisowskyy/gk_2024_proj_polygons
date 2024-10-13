@@ -27,6 +27,15 @@ public:
     ~PointRestriction() override = default;
 
     // ------------------------------
+    // protected methods
+    // ------------------------------
+protected:
+
+    void onRestrictionDelete() override;
+
+    QPoint getIconPosition() override;
+
+    // ------------------------------
     // Class fields
     // ------------------------------
 protected:

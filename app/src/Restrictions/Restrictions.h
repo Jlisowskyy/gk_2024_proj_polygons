@@ -24,4 +24,12 @@ extern std::unordered_map<std::string, EdgeRestriction *(*)(Edge *)> EdgeRestric
 /* Point restrictions */
 extern std::unordered_map<std::string, PointRestriction *(*)(Point *)> PointRestrictions;
 
+inline std::string EdgeRestrictionIconPath(const char *str) {
+    return ":/icons/" + std::string(str) + "_edge_restriction_icon.png";
+}
+
+inline std::string PointIconRestrictionPath(const char *str) {
+    return ":/icons/" + std::string(str) + "_point_restriction_icon.png";
+}
+
 #endif //APP_RESTRICTIONS_H

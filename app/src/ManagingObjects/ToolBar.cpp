@@ -10,6 +10,7 @@
 #include "../GraphicObjects/Point.h"
 #include "../GraphicObjects/Edge.h"
 #include "../ManagingObjects/Polygon.h"
+#include "../Restrictions/Restrictions.h"
 
 #include <string>
 
@@ -17,10 +18,6 @@
 
 inline std::string EdgeRestrictionName(const char *str) {
     return std::string(str) + " edge restriction";
-}
-
-inline std::string EdgeRestrictionIconPath(const char *str) {
-    return ":/icons/" + std::string(str) + "_edge_restriction_icon.png";
 }
 
 inline std::string EdgeTooltipStr(const char *str) {
@@ -33,10 +30,6 @@ inline std::string EdgeRestrictionTooltipStr(const char *str) {
 
 inline std::string PointRestrictionName(const char *str) {
     return std::string(str) + " point restriction";
-}
-
-inline std::string PointIconRestrictionPath(const char *str) {
-    return ":/icons/" + std::string(str) + "_point_restriction_icon.png";
 }
 
 inline std::string PointTooltipStr(const char *str) {
@@ -176,7 +169,6 @@ QAction *ToolBar::_addEdgeRestrictionButton(Polygon *polygon, const char *restri
 
     connect(ptr, &QAction::triggered, [polygon, restrictionName]() {
         polygon->setEdgeRestriction(restrictionName);
-        qDebug() << "ELO";
     });
 
     return ptr;
@@ -191,7 +183,6 @@ QAction *ToolBar::_addPointRestrictionButton(Polygon *polygon, const char *restr
 
     connect(ptr, &QAction::triggered, [polygon, restrictionName]() {
         polygon->setPointRestriction(restrictionName);
-        qDebug() << "ELO";
     });
 
     return ptr;

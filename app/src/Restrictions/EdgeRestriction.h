@@ -7,9 +7,12 @@
 
 /* internal includes */
 #include "ObjectRestriction.h"
+#include "../Constants.h"
 
 /* external includes */
 #include <Qt>
+#include <array>
+#include <QPoint>
 
 /* Forward declaration */
 class Edge;
@@ -27,9 +30,19 @@ public:
     ~EdgeRestriction() override = default;
 
     // ------------------------------
-    // Class fields
+    // protected methods
     // ------------------------------
 protected:
+
+    void _gatherNeighborEdges(std::array<Edge *, MAX_CONNECTIONS> &array);
+
+    void onRestrictionDelete() override;
+
+    QPoint getIconPosition() override;
+
+    // ------------------------------
+    // Class fields
+    // ------------------------------
 
     Edge *m_edge{};
 };

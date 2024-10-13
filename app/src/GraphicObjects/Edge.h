@@ -12,9 +12,11 @@
 /* external includes */
 #include <QGraphicsLineItem>
 #include <tuple>
+#include <QPoint>
 
 /* Forward declaration */
 class Polygon;
+
 class DrawingWidget;
 
 class Edge : public QGraphicsLineItem, public IConnectableElement<Point>, public IEdgePolygonObject {
@@ -45,6 +47,8 @@ public:
 
     void cutEdge(DrawingWidget *drawingWidget);
 
+    QPoint getMidPoint() const;
+
     // ------------------------------
     // Private methods
     // ------------------------------
@@ -58,7 +62,6 @@ private:
 
     void _bresenhamLine(QPainter *painter);
 
-
     // ------------------------------
     // Protected Methods
     // ------------------------------
@@ -67,6 +70,7 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+
     // ------------------------------
     // Class fields
     // ------------------------------

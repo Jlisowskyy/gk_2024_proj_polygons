@@ -114,18 +114,18 @@ void Polygon::cutEdge() {
     edge->cutEdge(m_drawingWidget);
 }
 
-void Polygon::setEdgeRestriction(const std::string& restrictionName) {
+void Polygon::setEdgeRestriction(const std::string &restrictionName) {
     Edge *edge = m_drawingWidget->getSelectedEdge();
     Q_ASSERT(edge != nullptr);
     Q_ASSERT(EdgeRestrictions.find(restrictionName) != EdgeRestrictions.end());
 
-    edge->ApplyRestriction(EdgeRestrictions[restrictionName](edge));
+    edge->applyRestriction(EdgeRestrictions[restrictionName](edge), m_drawingWidget);
 }
 
-void Polygon::setPointRestriction(const std::string& restrictionName) {
+void Polygon::setPointRestriction(const std::string &restrictionName) {
     Point *point = m_drawingWidget->getSelectedPoint();
     Q_ASSERT(point != nullptr);
     Q_ASSERT(PointRestrictions.find(restrictionName) != PointRestrictions.end());
 
-    point->ApplyRestriction(PointRestrictions[restrictionName](point));
+    point->applyRestriction(PointRestrictions[restrictionName](point), m_drawingWidget);
 }
