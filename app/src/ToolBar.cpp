@@ -131,6 +131,8 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
     /* Vertex actions */
     _addToolbarLiteral("Vertex:");
 
+    m_setContinuousAction = _addPointRestrictionButton(polygon, "continuous");
+
     _setEdgeButtonsIsDisabledState(true);
     _setVertexButtonsIsDisabledState(true);
 }
@@ -144,7 +146,7 @@ void ToolBar::_setEdgeButtonsIsDisabledState(bool isDisabled) {
 }
 
 void ToolBar::_setVertexButtonsIsDisabledState(bool isDisabled) {
-//    m_setContinuousAction->setDisabled(isDisabled);
+    m_setContinuousAction->setDisabled(isDisabled);
 }
 
 void ToolBar::selectionChanged(QGraphicsItem *item) {

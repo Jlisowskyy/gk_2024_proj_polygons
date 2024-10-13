@@ -51,6 +51,8 @@ set(PROJECT_SOURCES
         include/Restrictions/EdgeVerticalRestriction.h
         src/EdgeConstLengthRestriction.cpp
         include/Restrictions/EdgeConstLengthRestriction.h
+        include/PointContinuousRestriction.cpp
+        include/Restrictions/PointContinuousRestriction.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
