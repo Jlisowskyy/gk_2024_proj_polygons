@@ -16,7 +16,7 @@ void EdgeRestriction::_gatherNeighborEdges(std::array<Edge *, MAX_CONNECTIONS> &
 }
 
 QPoint EdgeRestriction::getIconPosition() {
-    return m_edge->getMidPoint() + QPoint(20, -10);
+    return m_edge->getMidPoint() + QPoint(20, -20);
 }
 
 void EdgeRestriction::onRestrictionDelete() {

@@ -3,7 +3,7 @@
 //
 
 /* internal includes */
-#include "EdgeHorizontalRestriction.h"
+#include "EdgeVerticalRestriction.h"
 #include "../GraphicObjects/Point.h"
 #include "../GraphicObjects/Edge.h"
 #include "Restrictions.h"
@@ -12,11 +12,9 @@
 #include <array>
 #include <string>
 
-/**
- * @return false - success / true - failed
- */
-bool EdgeHorizontalRestriction::applyRestriction() {
-    if (validateNoDoubleHorizontalRestriction()) {
+
+bool EdgeVerticalRestriction::applyRestriction() {
+    if (validateNoDoubleVerticalRestriction()) {
         return true;
     }
 
@@ -24,27 +22,27 @@ bool EdgeHorizontalRestriction::applyRestriction() {
     Point *pointRight = m_edge->getConnectedElement(RIGHT);
 
     auto posRight = pointRight->getPositionOnPainter();
-    posRight.setY(pointLeft->getPositionOnPainter().y());
+    posRight.setX(pointLeft->getPositionOnPainter().x());
 
     pointRight->setPos(posRight);
 
     return false;
 }
 
-bool EdgeHorizontalRestriction::validateNoDoubleHorizontalRestriction() {
+std::string EdgeVerticalRestriction::getIconName() {
+    return EdgeRestrictionIconPath("vertical");
+}
+
+bool EdgeVerticalRestriction::validateNoDoubleVerticalRestriction() {
     std::array<Edge *, MAX_CONNECTIONS> arr{};
 
     _gatherNeighborEdges(arr);
 
     for (Edge *edge: arr) {
-        if (edge != nullptr && dynamic_cast<EdgeHorizontalRestriction *>(edge->getRestriction()) != nullptr) {
+        if (edge != nullptr && dynamic_cast<EdgeVerticalRestriction *>(edge->getRestriction()) != nullptr) {
             return true;
         }
     }
 
     return false;
-}
-
-std::string EdgeHorizontalRestriction::getIconName() {
-    return EdgeRestrictionIconPath("horizontal");
 }

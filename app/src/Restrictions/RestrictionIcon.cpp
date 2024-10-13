@@ -28,7 +28,7 @@ RestrictionIcon::RestrictionIcon(const std::string &str, ObjectRestriction *rest
     QBrush grayBrush(grayColor);
 
     painter.setBrush(grayBrush);
-    painter.setPen(Qt::NoPen);
+    painter.setPen(Qt::red);
     painter.drawEllipse(center, diameter / 2, diameter / 2);
 
     painter.end();

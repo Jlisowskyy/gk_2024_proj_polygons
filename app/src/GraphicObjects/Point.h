@@ -16,16 +16,20 @@
 
 /* Forward declaration */
 class Polygon;
+
 class Edge;
+
 class DrawingWidget;
 
-class Point : public QGraphicsEllipseItem, public IConnectableElement<Edge>, public IPointPolygonObject{
+class Point : public QGraphicsEllipseItem, public IConnectableElement<Edge>, public IPointPolygonObject {
     // ------------------------------
     // Class creation
     // ------------------------------
 public:
 
     explicit Point(int x, int y);
+
+    ~Point() override = default;
 
     // ------------------------------
     // Class interaction

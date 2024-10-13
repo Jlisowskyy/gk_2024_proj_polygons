@@ -9,6 +9,7 @@
 #include "Edge.h"
 #include "DrawingWidget.h"
 #include "../Interfaces/IPointPolygonObject.h"
+#include "../Restrictions/ObjectRestriction.h"
 
 /* external includes */
 #include <QPen>
@@ -21,7 +22,7 @@ Point::Point(const int x, const int y) : QGraphicsEllipseItem(0,
                                                               DEFAULT_POINT_RADIUS * 2,
                                                               DEFAULT_POINT_RADIUS * 2),
                                          IConnectableElement<Edge>(reinterpret_cast<void *>(this)),
-                                         IPointPolygonObject(this){
+                                         IPointPolygonObject(this) {
     setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
              QGraphicsItem::ItemSendsScenePositionChanges);
     setPen(QPen(DEFAULT_COLOR));
@@ -41,6 +42,11 @@ QVariant Point::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
             return _onSelectionChange(value);
         case GraphicsItemChange::ItemPositionHasChanged:
             return _onPositionChanged(value);
+        case GraphicsItemChange::ItemSceneHasChanged:
+            if (scene() == nullptr) {
+                onRemoved();
+            }
+            return value;
         default:
             return QGraphicsEllipseItem::itemChange(change, value);
     }
@@ -81,6 +87,10 @@ QVariant Point::_onPositionChanged(const QVariant &value) {
         if (m_edge) {
             m_edge->repositionByPoints();
         }
+    }
+
+    if (m_restriction) {
+        m_restriction->onReposition();
     }
 
     return value;

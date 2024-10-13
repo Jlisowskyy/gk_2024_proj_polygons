@@ -24,3 +24,8 @@ void ObjectRestriction::addRestrictionIcon(DrawingWidget *drawingWidget) {
 
     m_restrictionIcon->setPos(point);
 }
+
+void ObjectRestriction::onReposition() {
+    QPoint point = getIconPosition();
+    m_restrictionIcon->setPos(point);
+}

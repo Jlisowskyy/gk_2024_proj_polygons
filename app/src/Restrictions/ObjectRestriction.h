@@ -35,6 +35,8 @@ public:
 
     void removeRestriction();
 
+    void onReposition();
+
     // ------------------------------
     // Abstract methods
     // ------------------------------

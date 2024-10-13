@@ -70,3 +70,9 @@ void IPolygonObject::cleanRestriction() {
 
     m_restriction = nullptr;
 }
+
+void IPolygonObject::onRemoved() {
+    if (m_restriction != nullptr) {
+        m_restriction->removeRestriction();
+    }
+}

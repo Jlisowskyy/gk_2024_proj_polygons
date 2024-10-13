@@ -6,12 +6,13 @@
 #include "Edge.h"
 #include "../Constants.h"
 #include "DrawingWidget.h"
+#include "../Restrictions/ObjectRestriction.h"
 
 /* external includes */
 #include <QPen>
 #include <QDebug>
 #include <QPainter>
-
+#include <cmath>
 
 Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget) : QGraphicsLineItem(
         QLineF(start->getPositionOnPainter(),
@@ -44,6 +45,11 @@ QVariant Edge::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
             return _onSelectionChange(value);
         case GraphicsItemChange::ItemPositionHasChanged:
             return _onPositionChanged(value);
+        case GraphicsItemChange::ItemSceneHasChanged:
+            if (scene() == nullptr) {
+                onRemoved();
+            }
+            return value;
         default:
             return QGraphicsLineItem::itemChange(change, value);
     }
@@ -70,6 +76,10 @@ QVariant Edge::_onPositionChanged(const QVariant &value) {
     getConnectedElement(RIGHT)->setPos(line().p2() + value.toPointF() - QPointF(rightRadius, rightRadius));
     m_isUpdating = false;
 
+    if (m_restriction) {
+        m_restriction->onReposition();
+    }
+
     return value;
 }
 
@@ -78,6 +88,10 @@ void Edge::repositionByPoints() {
         setLine(QLineF(getConnectedElement(LEFT)->getPositionOnPainter(),
                        getConnectedElement(RIGHT)->getPositionOnPainter()));
         setPos({0, 0});
+
+        if (m_restriction) {
+            m_restriction->onReposition();
+        }
     }
 }
 
@@ -159,4 +173,16 @@ QPoint Edge::getMidPoint() const {
     const int y = static_cast<int>((pLeftPos.y() + pRightPos.y()) / 2);
 
     return {x, y};
+}
+
+double Edge::getLength() const {
+    Point *pLeft = getConnectedElement(LEFT);
+    Point *pRight = getConnectedElement(RIGHT);
+    const auto pLeftPos = pLeft->getPositionOnPainter();
+    const auto pRightPos = pRight->getPositionOnPainter();
+
+    const double xDiff = pRightPos.x() - pLeftPos.x();
+    const double yDiff = pRightPos.y() - pLeftPos.y();
+
+    return std::sqrt(xDiff * xDiff + yDiff * yDiff);
 }

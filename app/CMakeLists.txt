@@ -47,6 +47,10 @@ set(PROJECT_SOURCES
         src/Restrictions/RestrictionIcon.cpp
         src/Restrictions/RestrictionIcon.h
         src/Restrictions/ObjectRestriction.cpp
+        src/Restrictions/EdgeVerticalRestriction.cpp
+        src/Restrictions/EdgeVerticalRestriction.h
+        src/Restrictions/EdgeConstLengthRestriction.cpp
+        src/Restrictions/EdgeConstLengthRestriction.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -27,6 +27,8 @@ public:
 
     explicit Edge(Point *start, Point *end, DrawingWidget *drawingWidget);
 
+    ~Edge() override = default;
+
     // ------------------------------
     // Class interaction
     // ------------------------------
@@ -47,7 +49,9 @@ public:
 
     void cutEdge(DrawingWidget *drawingWidget);
 
-    QPoint getMidPoint() const;
+    [[nodiscard]] QPoint getMidPoint() const;
+
+    [[nodiscard]] double getLength() const;
 
     // ------------------------------
     // Private methods
