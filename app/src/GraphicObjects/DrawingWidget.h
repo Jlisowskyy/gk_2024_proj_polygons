@@ -2,8 +2,8 @@
 // Created by Jlisowskyy on 08/10/24.
 //
 
-#ifndef APP_PAINTER_H
-#define APP_PAINTER_H
+#ifndef APP_DRAWINGWIDGET_H
+#define APP_DRAWINGWIDGET_H
 
 /* external includes */
 #include <QObject>
@@ -19,7 +19,7 @@
 /* Forward declaration */
 class Polygon;
 
-class Painter : public QGraphicsView {
+class DrawingWidget : public QGraphicsView {
 Q_OBJECT
 
     // ------------------------------
@@ -33,9 +33,9 @@ public:
     // Class creation
     // ------------------------------
 
-    explicit Painter(QWidget *parent);
+    explicit DrawingWidget(QWidget *parent);
 
-    ~Painter() override;
+    ~DrawingWidget() override;
 
     // ------------------------------
     // Class interaction
@@ -45,7 +45,7 @@ public:
 
     [[maybe_unused]] Point *addPoint(int x, int y) const;
 
-    [[maybe_unused]] Edge *addEdge(Point *start, Point *end) const;
+    [[maybe_unused]] Edge *addEdge(Point *start, Point *end);
 
     void updateInteractivity();
 
@@ -55,12 +55,18 @@ public:
 
     void clearSelection();
 
+    [[nodiscard]] LineDrawingAlgorithmType getLineDrawingAlgorithm() const { return m_lineAlgorithmType; }
+
     // ------------------------------
     // Class slots
     // ------------------------------
 public slots:
 
     void setMovingSpace(bool moving);
+
+    void setUseBresenham(bool useBresenham);
+
+    void setLineDrawingAlgorithm(LineDrawingAlgorithmType type);
 
     void clearContent() const;
 
@@ -96,13 +102,15 @@ private:
     // Class fields
     // ------------------------------
 
-    QGraphicsItem *m_selectedItem;
+    QGraphicsItem *m_selectedItem{};
     bool m_isMovingSpace{};
 
     Polygon *m_polygon{};
     QGraphicsScene *m_scene{};
     QLabel *m_label{};
+
+    LineDrawingAlgorithmType m_lineAlgorithmType = DEFAULT;
 };
 
 
-#endif //APP_PAINTER_H
+#endif //APP_DRAWINGWIDGET_H

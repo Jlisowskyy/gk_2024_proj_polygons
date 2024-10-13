@@ -11,15 +11,15 @@ MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent),
           m_ui(new Ui::MainWindow),
           m_toolBar(new ToolBar(this)),
-          m_painter(new Painter(this)),
+          m_drawingWidget(new DrawingWidget(this)),
           m_objectMgr(new Polygon(this)),
           m_label(new QLabel("Space coordinates: (0, 0)", this)) {
     m_ui->setupUi(this);
     m_toolBar->setupToolBar(m_ui->toolBar);
-    m_painter->setupPainter(m_objectMgr, m_label);
-    m_objectMgr->setupMgr(m_painter);
+    m_drawingWidget->setupPainter(m_objectMgr, m_label);
+    m_objectMgr->setupMgr(m_drawingWidget);
 
-    m_ui->verticalLayout->addWidget(m_painter);
+    m_ui->verticalLayout->addWidget(m_drawingWidget);
 
     QFrame *frame = new QFrame(this);
     frame->setFrameShape(QFrame::HLine);
@@ -40,10 +40,11 @@ MainWindow::MainWindow(QWidget *parent)
     /* m_toolbar -> ??? connects */
     connect(m_toolBar->m_cleanSpaceAction, &QAction::triggered, m_objectMgr, &Polygon::clearItems);
     connect(m_toolBar->m_addVertexAction, &QAction::triggered, m_objectMgr, &Polygon::setIsAddingVertices);
-    connect(m_toolBar->m_moveAction, &QAction::triggered, m_painter, &Painter::setMovingSpace);
+    connect(m_toolBar->m_moveAction, &QAction::triggered, m_drawingWidget, &DrawingWidget::setMovingSpace);
+    connect(m_toolBar->m_drawAlgorithmAction, &QAction::triggered, m_drawingWidget, &DrawingWidget::setUseBresenham);
 
-    /* m_painter -> ??? connects */
-    connect(m_painter, &Painter::selectedItemChanged, m_toolBar, &ToolBar::selectionChanged);
+    /* m_drawingWidget -> ??? connects */
+    connect(m_drawingWidget, &DrawingWidget::selectedItemChanged, m_toolBar, &ToolBar::selectionChanged);
 
     /* m_polygon -> ??? connects */
 

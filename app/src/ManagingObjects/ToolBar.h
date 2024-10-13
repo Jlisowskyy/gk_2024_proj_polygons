@@ -6,7 +6,7 @@
 #define APP_TOOLBAR_H
 
 /* internal includes */
-#include "../GraphicObjects/Painter.h"
+#include "../GraphicObjects/DrawingWidget.h"
 #include "Polygon.h"
 
 /* external includes */

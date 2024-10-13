@@ -7,7 +7,7 @@
 #include "../Constants.h"
 #include "../ManagingObjects/Polygon.h"
 #include "Edge.h"
-#include "Painter.h"
+#include "DrawingWidget.h"
 #include "../Interfaces/IPointPolygonObject.h"
 
 /* external includes */

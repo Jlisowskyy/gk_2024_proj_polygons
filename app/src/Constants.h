@@ -31,4 +31,10 @@ constexpr size_t SwapDirection(const size_t direction) {
     return direction ^ 1;
 }
 
+/* Draw algorithm options */
+enum LineDrawingAlgorithmType : size_t {
+    DEFAULT = 0,
+    BRESENHAM = 1,
+};
+
 #endif //APP_CONSTANTS_H

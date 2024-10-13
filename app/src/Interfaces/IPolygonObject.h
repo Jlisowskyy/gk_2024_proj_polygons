@@ -12,7 +12,7 @@
 /* Forward declaration */
 class Point;
 
-class Painter;
+class DrawingWidget;
 
 class IPolygonObject {
     // ------------------------------
@@ -28,7 +28,7 @@ public:
     // Abstract methods
     // ------------------------------
 
-    virtual std::tuple<Point *, Point *> remove(bool isFullPolygon, Painter *painter) = 0;
+    virtual std::tuple<Point *, Point *> remove(bool isFullPolygon, DrawingWidget *painter) = 0;
 
     // ------------------------------
     // Protected methods
@@ -39,7 +39,7 @@ protected:
     // Static methods
     // ------------------------------
 
-    static void _addEdgeIfNotTriangle(Point **connections, bool isFullPolygon, Painter *painter);
+    static void _addEdgeIfNotTriangle(Point **connections, bool isFullPolygon, DrawingWidget *painter);
 
     [[nodiscard]] static std::tuple<Point *, Point *>
     _prepareNewAttachmentPoints(Point **connections, bool isFullPolygon);

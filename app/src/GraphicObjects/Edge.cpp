@@ -5,17 +5,21 @@
 /* internal includes */
 #include "Edge.h"
 #include "../Constants.h"
-#include "Painter.h"
+#include "DrawingWidget.h"
 
 /* external includes */
 #include <QPen>
 #include <QDebug>
+#include <QPainter>
 
 
-Edge::Edge(Point *start, Point *end) : QGraphicsLineItem(QLineF(start->getPositionOnPainter(),
-                                                                end->getPositionOnPainter())),
-                                       IConnectableElement<Point>(reinterpret_cast<void *>(this)),
-                                       IEdgePolygonObject(this) {
+Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget) : QGraphicsLineItem(
+        QLineF(start->getPositionOnPainter(),
+               end->getPositionOnPainter())),
+                                                                     IConnectableElement<Point>(
+                                                                             reinterpret_cast<void *>(this)),
+                                                                     IEdgePolygonObject(this),
+                                                                     m_drawingWidget(drawingWidget) {
     Q_ASSERT(start != nullptr && end != nullptr);
 
     QPen pen(DEFAULT_COLOR);
@@ -74,5 +78,52 @@ void Edge::repositionByPoints() {
         setLine(QLineF(getConnectedElement(LEFT)->getPositionOnPainter(),
                        getConnectedElement(RIGHT)->getPositionOnPainter()));
         setPos({0, 0});
+    }
+}
+
+void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
+    switch (m_drawingWidget->getLineDrawingAlgorithm()) {
+        case DEFAULT:
+            QGraphicsLineItem::paint(painter, option, widget);
+            return;
+        case BRESENHAM:
+            _bresenhamLine(painter);
+            return;
+        default:
+            Q_ASSERT(false);
+    }
+}
+
+void Edge::_bresenhamLine(QPainter *painter) {
+    QPen pen = this->pen();
+    painter->setPen(pen);
+
+    QLineF line = this->line();
+    QPointF p1 = line.p1();
+    QPointF p2 = line.p2();
+
+    int x1 = static_cast<int>(p1.x());
+    int y1 = static_cast<int>(p1.y());
+    int x2 = static_cast<int>(p2.x());
+    int y2 = static_cast<int>(p2.y());
+
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+    int sx = (x1 < x2) ? 1 : -1;
+    int sy = (y1 < y2) ? 1 : -1;
+    int err = dx - dy;
+
+    while (true) {
+        painter->drawPoint(x1, y1);
+        if (x1 == x2 && y1 == y2) break;
+        int e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x1 += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y1 += sy;
+        }
     }
 }

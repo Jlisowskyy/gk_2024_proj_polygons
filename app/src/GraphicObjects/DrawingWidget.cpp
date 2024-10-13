@@ -3,7 +3,7 @@
 //
 
 /* internal includes */
-#include "Painter.h"
+#include "DrawingWidget.h"
 #include "Point.h"
 #include "../ManagingObjects/Polygon.h"
 
@@ -13,8 +13,8 @@
 #include <format>
 #include <QShortcut>
 
-Painter::Painter(QWidget *parent) : QGraphicsView(parent),
-                                    m_scene(new QGraphicsScene(this)) {
+DrawingWidget::DrawingWidget(QWidget *parent) : QGraphicsView(parent),
+                                                m_scene(new QGraphicsScene(this)) {
     Q_ASSERT(parent != nullptr);
     setScene(m_scene);
     m_scene->setBackgroundBrush(Qt::white);
@@ -25,6 +25,7 @@ Painter::Painter(QWidget *parent) : QGraphicsView(parent),
                           SPACE_WIDTH,
                           SPACE_HEIGHT);
 
+
     /* disable scrolls visibility */
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -34,39 +35,41 @@ Painter::Painter(QWidget *parent) : QGraphicsView(parent),
     setRenderHint(QPainter::Antialiasing, true);
 
     new QShortcut(QKeySequence(Qt::Key_Delete), this, SLOT(removeSelected()));
+
+    centerOn(SPACE_WIDTH / 2, SPACE_HEIGHT / 2);
 }
 
-Painter::~Painter() {
+DrawingWidget::~DrawingWidget() {
     clearContent();
 }
 
-Point *Painter::addPoint(const int x, const int y) const {
+Point *DrawingWidget::addPoint(const int x, const int y) const {
     auto *point = new Point(x, y);
     m_scene->addItem(point);
     return point;
 }
 
-void Painter::clearContent() const {
+void DrawingWidget::clearContent() const {
     m_scene->clear();
 }
 
-void Painter::setMovingSpace(const bool moving) {
+void DrawingWidget::setMovingSpace(const bool moving) {
     m_isMovingSpace = moving;
 
     setDragMode(moving ? ScrollHandDrag : NoDrag);
     updateInteractivity();
 }
 
-bool Painter::isMovingSpace() const {
+bool DrawingWidget::isMovingSpace() const {
     return m_isMovingSpace;
 }
 
-void Painter::updateInteractivity() {
+void DrawingWidget::updateInteractivity() {
     m_scene->clearSelection();
     setInteractive(!m_isMovingSpace && !m_polygon->getIsAddingVertices());
 }
 
-void Painter::mousePressEvent(QMouseEvent *event) {
+void DrawingWidget::mousePressEvent(QMouseEvent *event) {
     if (m_scene) {
 
         /* Ensure only single item can be selected */
@@ -85,7 +88,6 @@ void Painter::mousePressEvent(QMouseEvent *event) {
         return;
     }
 
-    // Convert the mouse position from view coordinates to scene coordinates
     QPoint scenePos = mapToScene(event->pos()).toPoint();
 
     if (scenePos.x() > 0 && scenePos.y() > 0) {
@@ -96,17 +98,17 @@ void Painter::mousePressEvent(QMouseEvent *event) {
     }
 }
 
-void Painter::mouseMoveEvent(QMouseEvent *event) {
+void DrawingWidget::mouseMoveEvent(QMouseEvent *event) {
     QGraphicsView::mouseMoveEvent(event);
     _updateSpacePosition();
 }
 
-void Painter::resizeEvent(QResizeEvent *event) {
+void DrawingWidget::resizeEvent(QResizeEvent *event) {
     QGraphicsView::resizeEvent(event);
     _updateSpacePosition();
 }
 
-void Painter::_updateSpacePosition() const {
+void DrawingWidget::_updateSpacePosition() const {
     const QPointF topLeft = mapToScene(viewport()->rect().topLeft());
     const QPointF bottomRight = mapToScene(viewport()->rect().bottomRight());
 
@@ -116,7 +118,7 @@ void Painter::_updateSpacePosition() const {
     m_label->setText(QString::fromStdString(text));
 }
 
-void Painter::setupPainter(Polygon *objectMgr, QLabel *label) {
+void DrawingWidget::setupPainter(Polygon *objectMgr, QLabel *label) {
     Q_ASSERT(objectMgr != nullptr);
     Q_ASSERT(m_polygon == nullptr);
     m_polygon = objectMgr;
@@ -128,13 +130,13 @@ void Painter::setupPainter(Polygon *objectMgr, QLabel *label) {
     _updateSpacePosition();
 }
 
-Edge *Painter::addEdge(Point *start, Point *end) const {
-    auto *edge = new Edge(start, end);
+Edge *DrawingWidget::addEdge(Point *start, Point *end) {
+    auto *edge = new Edge(start, end, this);
     m_scene->addItem(edge);
     return edge;
 }
 
-void Painter::setSelectedItem(QGraphicsItem *item) {
+void DrawingWidget::setSelectedItem(QGraphicsItem *item) {
     if (m_selectedItem == item) {
         return;
     }
@@ -143,10 +145,20 @@ void Painter::setSelectedItem(QGraphicsItem *item) {
     emit selectedItemChanged(item);
 }
 
-void Painter::clearSelection() {
+void DrawingWidget::clearSelection() {
     scene()->clearSelection();
 }
 
-void Painter::removeSelected() {
+void DrawingWidget::removeSelected() {
     m_polygon->removeSelection();
+}
+
+void DrawingWidget::setLineDrawingAlgorithm(LineDrawingAlgorithmType type) {
+    m_lineAlgorithmType = type;
+
+    m_scene->update();
+}
+
+void DrawingWidget::setUseBresenham(bool useBresenham) {
+    setLineDrawingAlgorithm(useBresenham ? BRESENHAM : DEFAULT);
 }

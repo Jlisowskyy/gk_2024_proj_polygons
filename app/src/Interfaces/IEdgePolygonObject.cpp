@@ -7,12 +7,12 @@
 #include "../Constants.h"
 #include "../GraphicObjects/Edge.h"
 #include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/Painter.h"
+#include "../GraphicObjects/DrawingWidget.h"
 
 /* external includes */
 #include <QGraphicsScene>
 
-std::tuple<Point *, Point *> IEdgePolygonObject::remove(bool isFullPolygon, Painter *painter) {
+std::tuple<Point *, Point *> IEdgePolygonObject::remove(bool isFullPolygon, DrawingWidget *painter) {
     Point *connections[MAX_CONNECTIONS]{};
 
     /* Gather connections */

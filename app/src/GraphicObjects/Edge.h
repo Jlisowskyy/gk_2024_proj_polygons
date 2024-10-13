@@ -15,6 +15,7 @@
 
 /* Forward declaration */
 class Polygon;
+class DrawingWidget;
 
 class Edge : public QGraphicsLineItem, public IConnectableElement<Point>, public IEdgePolygonObject {
     // ------------------------------
@@ -22,7 +23,7 @@ class Edge : public QGraphicsLineItem, public IConnectableElement<Point>, public
     // ------------------------------
 public:
 
-    explicit Edge(Point *start, Point *end);
+    explicit Edge(Point *start, Point *end, DrawingWidget *drawingWidget);
 
     // ------------------------------
     // Class interaction
@@ -53,6 +54,8 @@ private:
 
     QVariant _onPositionChanged(const QVariant &value);
 
+    void _bresenhamLine(QPainter *painter);
+
 
     // ------------------------------
     // Protected Methods
@@ -61,10 +64,12 @@ protected:
 
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     // ------------------------------
     // Class fields
     // ------------------------------
 
+    DrawingWidget *m_drawingWidget{};
     bool m_isUpdating{};
 };
 

@@ -7,13 +7,13 @@
 #include "../Constants.h"
 #include "../GraphicObjects/Edge.h"
 #include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/Painter.h"
+#include "../GraphicObjects/DrawingWidget.h"
 
 /* external includes */
 #include <QGraphicsScene>
 
 
-std::tuple<Point *, Point *> IPointPolygonObject::remove(const bool isFullPolygon, Painter *const painter) {
+std::tuple<Point *, Point *> IPointPolygonObject::remove(const bool isFullPolygon, DrawingWidget *const painter) {
     Point *connections[MAX_CONNECTIONS]{};
 
     /* Gather connections */

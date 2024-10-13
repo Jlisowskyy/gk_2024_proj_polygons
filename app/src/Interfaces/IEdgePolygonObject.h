@@ -11,7 +11,7 @@
 /* Forward declaration */
 class Edge;
 
-class Painter;
+class DrawingWidget;
 
 class Point;
 
@@ -29,7 +29,7 @@ public:
     // Abstract methods overrides
     // ------------------------------
 
-    std::tuple<Point *, Point *> remove(bool isFullPolygon, Painter *painter) final;
+    std::tuple<Point *, Point *> remove(bool isFullPolygon, DrawingWidget *painter) final;
 
     // ------------------------------
     // Class fields

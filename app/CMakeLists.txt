@@ -19,8 +19,8 @@ set(PROJECT_SOURCES
         src/mainwindow.ui
         src/ManagingObjects/ToolBar.cpp
         src/ManagingObjects/ToolBar.h
-        src/GraphicObjects/Painter.cpp
-        src/GraphicObjects/Painter.h
+        src/GraphicObjects/DrawingWidget.cpp
+        src/GraphicObjects/DrawingWidget.h
         src/GraphicObjects/Point.cpp
         src/GraphicObjects/Point.h
         src/GraphicObjects/Edge.cpp

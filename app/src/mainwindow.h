@@ -9,7 +9,7 @@
 /* Internal includes */
 #include "ManagingObjects/Polygon.h"
 #include "ManagingObjects/ToolBar.h"
-#include "GraphicObjects/Painter.h"
+#include "GraphicObjects/DrawingWidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -42,7 +42,7 @@ public:
 private:
     Ui::MainWindow *m_ui;
     ToolBar *m_toolBar;
-    Painter *m_painter;
+    DrawingWidget *m_drawingWidget;
     Polygon *m_objectMgr;
     QLabel *m_label;
 };

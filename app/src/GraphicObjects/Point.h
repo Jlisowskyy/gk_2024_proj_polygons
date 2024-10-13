@@ -17,7 +17,7 @@
 /* Forward declaration */
 class Polygon;
 class Edge;
-class Painter;
+class DrawingWidget;
 
 class Point : public QGraphicsEllipseItem, public IConnectableElement<Edge>, public IPointPolygonObject{
     // ------------------------------

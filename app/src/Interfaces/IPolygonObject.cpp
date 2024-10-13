@@ -5,9 +5,9 @@
 /* internal includes */
 #include "IPolygonObject.h"
 #include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/Painter.h"
+#include "../GraphicObjects/DrawingWidget.h"
 
-void IPolygonObject::_addEdgeIfNotTriangle(Point **connections, const bool isFullPolygon, Painter *const painter) {
+void IPolygonObject::_addEdgeIfNotTriangle(Point **connections, const bool isFullPolygon, DrawingWidget *const painter) {
     if (connections[0] != nullptr &&
         connections[1] != nullptr &&
         !(isFullPolygon &&

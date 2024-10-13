@@ -8,7 +8,7 @@
 /* internal includes */
 #include "../GraphicObjects/Edge.h"
 #include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/Painter.h"
+#include "../GraphicObjects/DrawingWidget.h"
 
 /* external includes */
 #include <vector>
@@ -33,7 +33,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    void setupMgr(Painter *painter);
+    void setupMgr(DrawingWidget *painter);
 
     void addPoint(int x, int y);
 
@@ -64,7 +64,7 @@ private:
 
 protected:
     bool m_isAddingVertices{};
-    Painter *m_painter{};
+    DrawingWidget *m_painter{};
 
     Point *m_startingPoint{};
     Point *m_endingPoint{};

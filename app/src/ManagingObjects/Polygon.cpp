@@ -12,15 +12,18 @@ Polygon::Polygon(QObject *parent) : QObject(parent) {
     Q_ASSERT(parent != nullptr);
 }
 
-void Polygon::setupMgr(Painter *painter) {
+void Polygon::setupMgr(DrawingWidget *painter) {
     Q_ASSERT(painter != nullptr);
     Q_ASSERT(m_painter == nullptr);
     m_painter = painter;
 
     setIsAddingVertices(true);
-    addPoint(3 * 50, 3 * 50);
-    addPoint(3 * 100, 3 * 50);
-    addPoint(3 * 100, 3 * 100);
+    const auto p1 = m_painter->mapToScene(150, 150);
+    addPoint(p1.x(), p1.y());
+    const auto p2 = m_painter->mapToScene(300, 150);
+    addPoint(p2.x(), p2.y());
+    const auto p3 = m_painter->mapToScene(300, 300);
+    addPoint(p3.x(), p3.y());
     setIsAddingVertices(false);
 }
 
