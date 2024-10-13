@@ -6,8 +6,10 @@
 #include "IPolygonObject.h"
 #include "../GraphicObjects/Point.h"
 #include "../GraphicObjects/DrawingWidget.h"
+#include "../Restrictions/ObjectRestriction.h"
 
-void IPolygonObject::_addEdgeIfNotTriangle(Point **connections, const bool isFullPolygon, DrawingWidget *const painter) {
+void
+IPolygonObject::_addEdgeIfNotTriangle(Point **connections, const bool isFullPolygon, DrawingWidget *const painter) {
     if (connections[0] != nullptr &&
         connections[1] != nullptr &&
         !(isFullPolygon &&
@@ -39,4 +41,19 @@ std::tuple<Point *, Point *> IPolygonObject::_prepareNewAttachmentPoints(Point *
     }
 
     return {start, end};
+}
+
+/**
+ * @return false - success / true - failed
+ */
+bool IPolygonObject::ApplyRestriction(ObjectRestriction *restriction) {
+    if (m_restriction != nullptr) {
+        return true;
+    }
+
+    if (restriction->applyRestriction()) {
+        return true;
+    }
+
+    return false;
 }

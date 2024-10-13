@@ -54,6 +54,10 @@ public slots:
 
     void cutEdge();
 
+    void setEdgeRestriction(const std::string &restrictionName);
+
+    void setPointRestriction(const std::string &restrictionName);
+
     // ------------------------------
     // Private methods
     // ------------------------------

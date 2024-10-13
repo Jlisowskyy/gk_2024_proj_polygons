@@ -162,3 +162,11 @@ void DrawingWidget::setLineDrawingAlgorithm(LineDrawingAlgorithmType type) {
 void DrawingWidget::setUseBresenham(bool useBresenham) {
     setLineDrawingAlgorithm(useBresenham ? BRESENHAM : DEFAULT);
 }
+
+Point *DrawingWidget::getSelectedPoint() const {
+    return dynamic_cast<Point *>(getSelectedItem());
+}
+
+Edge *DrawingWidget::getSelectedEdge() const {
+    return dynamic_cast<Edge *>(getSelectedItem());
+}

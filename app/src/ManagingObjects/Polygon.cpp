@@ -5,6 +5,9 @@
 /* internal includes */
 #include "Polygon.h"
 #include "../Interfaces/IPolygonObject.h"
+#include "../Restrictions/Restrictions.h"
+#include "../Restrictions/EdgeRestriction.h"
+#include "../Restrictions/PointRestriction.h"
 
 /* external includes */
 
@@ -20,7 +23,7 @@ void Polygon::setupMgr(DrawingWidget *painter) {
     setIsAddingVertices(true);
     const auto p1 = m_drawingWidget->mapToScene(150, 150);
     addPoint(p1.x(), p1.y());
-    const auto p2 = m_drawingWidget->mapToScene(300, 150);
+    const auto p2 = m_drawingWidget->mapToScene(330, 120);
     addPoint(p2.x(), p2.y());
     const auto p3 = m_drawingWidget->mapToScene(300, 300);
     addPoint(p3.x(), p3.y());
@@ -105,10 +108,24 @@ void Polygon::removeSelection() {
 }
 
 void Polygon::cutEdge() {
-    QGraphicsItem *selectedItem = m_drawingWidget->getSelectedItem();
-    Edge *edge = dynamic_cast<Edge *>(selectedItem);
-
+    Edge *edge = m_drawingWidget->getSelectedEdge();
     Q_ASSERT(edge != nullptr);
 
     edge->cutEdge(m_drawingWidget);
+}
+
+void Polygon::setEdgeRestriction(const std::string& restrictionName) {
+    Edge *edge = m_drawingWidget->getSelectedEdge();
+    Q_ASSERT(edge != nullptr);
+    Q_ASSERT(EdgeRestrictions.find(restrictionName) != EdgeRestrictions.end());
+
+    edge->ApplyRestriction(EdgeRestrictions[restrictionName](edge));
+}
+
+void Polygon::setPointRestriction(const std::string& restrictionName) {
+    Point *point = m_drawingWidget->getSelectedPoint();
+    Q_ASSERT(point != nullptr);
+    Q_ASSERT(PointRestrictions.find(restrictionName) != PointRestrictions.end());
+
+    point->ApplyRestriction(PointRestrictions[restrictionName](point));
 }

@@ -14,8 +14,11 @@
 #include <QToolBar>
 #include <QGraphicsItem>
 
+/* Forward declaration */
+class Polygon;
+
 class ToolBar : public QObject {
-    Q_OBJECT
+Q_OBJECT
 
     // ------------------------------
     // Class creation
@@ -30,7 +33,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    void setupToolBar(QToolBar *toolBar);
+    void setupToolBar(QToolBar *toolBar, Polygon *polygon);
 
     // ------------------------------
     // Class slots
@@ -50,7 +53,12 @@ private:
     QAction *_addButtonToToolbar(const char *name, const char *imgPath, const char *toolTip);
 
     void _setEdgeButtonsIsDisabledState(bool isDisabled);
+
     void _setVertexButtonsIsDisabledState(bool isDisabled);
+
+    QAction*  _addEdgeRestrictionButton(Polygon *polygon, const char *restrictionName);
+
+    QAction*  _addPointRestrictionButton(Polygon *polygon, const char *restrictionName);
 
 // ------------------------------
 // Public fields

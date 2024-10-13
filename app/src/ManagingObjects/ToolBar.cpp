@@ -9,12 +9,44 @@
 #include "ToolBar.h"
 #include "../GraphicObjects/Point.h"
 #include "../GraphicObjects/Edge.h"
+#include "../ManagingObjects/Polygon.h"
 
-#define EDGE_TOOLTIP_STR(str) str" for selected edge"
-#define EDGE_CONSTRAINT_TOOLTIP_STR(str) "Set " EDGE_TOOLTIP_STR(str " constraint")
+#include <string>
 
-#define VERTEX_TOOLTIP_STR(str) str" for selected vertex"
-#define VERTEX_CONSTRAINT_TOOLTIP_STR(str) "Set " VERTEX_TOOLTIP_STR(str " constraint")
+#include <string>
+
+inline std::string EdgeRestrictionName(const char *str) {
+    return std::string(str) + " edge restriction";
+}
+
+inline std::string EdgeRestrictionIconPath(const char *str) {
+    return ":/icons/" + std::string(str) + "_edge_restriction_icon.png";
+}
+
+inline std::string EdgeTooltipStr(const char *str) {
+    return std::string(str) + " for selected edge";
+}
+
+inline std::string EdgeRestrictionTooltipStr(const char *str) {
+    return "Set " + EdgeTooltipStr(str) + " restriction";
+}
+
+inline std::string PointRestrictionName(const char *str) {
+    return std::string(str) + " point restriction";
+}
+
+inline std::string PointIconRestrictionPath(const char *str) {
+    return ":/icons/" + std::string(str) + "_point_restriction_icon.png";
+}
+
+inline std::string PointTooltipStr(const char *str) {
+    return std::string(str) + " for selected point";
+}
+
+inline std::string PointRestrictionTooltipStr(const char *str) {
+    return "Set " + PointTooltipStr(str) + " restriction";
+}
+
 
 ToolBar::ToolBar(QObject *parent) : QObject(parent) {
 }
@@ -44,7 +76,7 @@ void ToolBar::_addSeparator() {
     m_toolBar->addAction(literal);
 }
 
-void ToolBar::setupToolBar(QToolBar *toolBar) {
+void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
     Q_ASSERT(toolBar != nullptr);
     Q_ASSERT(m_toolBar == nullptr);
     m_toolBar = toolBar;
@@ -77,23 +109,6 @@ void ToolBar::setupToolBar(QToolBar *toolBar) {
 
     /* Edge actions */
     _addToolbarLiteral("Edge:");
-    m_setVerticalAction = _addButtonToToolbar(
-            "Vertical constraint",
-            ":/icons/vertical.png",
-            EDGE_CONSTRAINT_TOOLTIP_STR("vertical constraint")
-    );
-
-    m_setHorizontalAction = _addButtonToToolbar(
-            "Horizontal constraint",
-            ":/icons/horizontal.png",
-            EDGE_CONSTRAINT_TOOLTIP_STR("horizontal constraint")
-    );
-
-    m_setConstLengthAction = _addButtonToToolbar(
-            "Const length constraint",
-            ":/icons/const_length.png",
-            EDGE_CONSTRAINT_TOOLTIP_STR("const length")
-    );
 
     m_setBezierAction = _addButtonToToolbar(
             "Bezier edge",
@@ -114,31 +129,29 @@ void ToolBar::setupToolBar(QToolBar *toolBar) {
             "Cut the selected edge"
     );
 
+    m_setHorizontalAction = _addEdgeRestrictionButton(polygon, "horizontal");
+
     _addSeparator();
 
     /* Vertex actions */
     _addToolbarLiteral("Vertex:");
-
-    m_setContinuousAction = _addButtonToToolbar(
-            "Continuous curve constraint",
-            ":/icons/cont.png",
-            VERTEX_CONSTRAINT_TOOLTIP_STR("Continuous curve")
-    );
 
     _setEdgeButtonsIsDisabledState(true);
     _setVertexButtonsIsDisabledState(true);
 }
 
 void ToolBar::_setEdgeButtonsIsDisabledState(bool isDisabled) {
-    m_setVerticalAction->setDisabled(isDisabled);
     m_setHorizontalAction->setDisabled(isDisabled);
-    m_setConstLengthAction->setDisabled(isDisabled);
     m_setBezierAction->setDisabled(isDisabled);
     m_cutEdgeAction->setDisabled(isDisabled);
+
+
+//    m_setVerticalAction->setDisabled(isDisabled);
+//    m_setConstLengthAction->setDisabled(isDisabled);
 }
 
 void ToolBar::_setVertexButtonsIsDisabledState(bool isDisabled) {
-    m_setContinuousAction->setDisabled(isDisabled);
+//    m_setContinuousAction->setDisabled(isDisabled);
 }
 
 void ToolBar::selectionChanged(QGraphicsItem *item) {
@@ -152,4 +165,34 @@ void ToolBar::selectionChanged(QGraphicsItem *item) {
         _setVertexButtonsIsDisabledState(true);
         _setEdgeButtonsIsDisabledState(true);
     }
+}
+
+QAction *ToolBar::_addEdgeRestrictionButton(Polygon *polygon, const char *restrictionName) {
+    QAction *ptr = _addButtonToToolbar(
+            EdgeRestrictionName(restrictionName).c_str(),
+            EdgeRestrictionIconPath(restrictionName).c_str(),
+            EdgeRestrictionTooltipStr(restrictionName).c_str()
+    );
+
+    connect(ptr, &QAction::triggered, [polygon, restrictionName]() {
+        polygon->setEdgeRestriction(restrictionName);
+        qDebug() << "ELO";
+    });
+
+    return ptr;
+}
+
+QAction *ToolBar::_addPointRestrictionButton(Polygon *polygon, const char *restrictionName) {
+    QAction *ptr = _addButtonToToolbar(
+            PointRestrictionName(restrictionName).c_str(),
+            PointIconRestrictionPath(restrictionName).c_str(),
+            PointRestrictionTooltipStr(restrictionName).c_str()
+    );
+
+    connect(ptr, &QAction::triggered, [polygon, restrictionName]() {
+        polygon->setPointRestriction(restrictionName);
+        qDebug() << "ELO";
+    });
+
+    return ptr;
 }

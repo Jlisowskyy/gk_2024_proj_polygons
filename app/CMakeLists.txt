@@ -35,6 +35,15 @@ set(PROJECT_SOURCES
         src/Interfaces/IPointPolygonObject.cpp
         src/Interfaces/IPointPolygonObject.h
         src/Interfaces/IPolygonObject.cpp
+        src/Restrictions/ObjectRestriction.h
+        src/Restrictions/EdgeHorizontalRestriction.cpp
+        src/Restrictions/EdgeHorizontalRestriction.h
+        src/Restrictions/EdgeRestriction.cpp
+        src/Restrictions/EdgeRestriction.h
+        src/Restrictions/PointRestriction.cpp
+        src/Restrictions/PointRestriction.h
+        src/Restrictions/Restrictions.h
+        src/Restrictions/Restrictions.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -1,10 +1,11 @@
-<!DOCTYPE RCC><RCC version="1.0">
+<!DOCTYPE RCC>
+<RCC version="1.0">
     <qresource>
         <file>icons/trash.png</file>
-        <file>icons/vertical.png</file>
-        <file>icons/horizontal.png</file>
-        <file>icons/cont.png</file>
-        <file>icons/const_length.png</file>
+        <file>icons/vertical_edge_restriction_icon.png</file>
+        <file>icons/horizontal_edge_restriction_icon.png</file>
+        <file>icons/continuous_point_restriction_icon.png</file>
+        <file>icons/const_length_edge_restriction_icon.png</file>
         <file>icons/add_vertex.png</file>
         <file>icons/bezier.png</file>
         <file>icons/cut_edge.png</file>

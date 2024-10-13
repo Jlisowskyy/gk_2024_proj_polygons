@@ -14,6 +14,8 @@ class Point;
 
 class DrawingWidget;
 
+class ObjectRestriction;
+
 class IPolygonObject {
     // ------------------------------
     // Class creation
@@ -23,6 +25,12 @@ public:
     IPolygonObject() = default;
 
     virtual ~IPolygonObject() = default;
+
+    // ------------------------------
+    // Class interaction
+    // ------------------------------
+
+    bool ApplyRestriction(ObjectRestriction *restriction);
 
     // ------------------------------
     // Abstract methods
@@ -43,6 +51,12 @@ protected:
 
     [[nodiscard]] static std::tuple<Point *, Point *>
     _prepareNewAttachmentPoints(Point **connections, bool isFullPolygon);
+
+    // ------------------------------
+    // Class fields
+    // ------------------------------
+
+    ObjectRestriction *m_restriction{};
 };
 
 #endif //APP_IPOLYGONOBJECT_H

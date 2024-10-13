@@ -57,6 +57,10 @@ public:
 
     [[nodiscard]] LineDrawingAlgorithmType getLineDrawingAlgorithm() const { return m_lineAlgorithmType; }
 
+    [[nodiscard]] Point *getSelectedPoint() const;
+
+    [[nodiscard]] Edge *getSelectedEdge() const;
+
     // ------------------------------
     // Class slots
     // ------------------------------

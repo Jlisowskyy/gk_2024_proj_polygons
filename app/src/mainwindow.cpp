@@ -15,9 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
           m_polygon(new Polygon(this)),
           m_label(new QLabel("Space coordinates: (0, 0)", this)) {
     m_ui->setupUi(this);
-    m_toolBar->setupToolBar(m_ui->toolBar);
     m_drawingWidget->setupPainter(m_polygon, m_label);
     m_polygon->setupMgr(m_drawingWidget);
+    m_toolBar->setupToolBar(m_ui->toolBar, m_polygon);
 
     m_ui->verticalLayout->addWidget(m_drawingWidget);
 
