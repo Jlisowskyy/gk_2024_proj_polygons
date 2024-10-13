@@ -5,7 +5,7 @@
 /* internal includes */
 #include "Painter.h"
 #include "Point.h"
-#include "ObjectMgr.h"
+#include "Polygon.h"
 
 /* external includes */
 #include <QGraphicsEllipseItem>
@@ -116,7 +116,7 @@ void Painter::_updateSpacePosition() const {
     m_label->setText(QString::fromStdString(text));
 }
 
-void Painter::setupPainter(ObjectMgr *objectMgr, QLabel *label) {
+void Painter::setupPainter(Polygon *objectMgr, QLabel *label) {
     Q_ASSERT(objectMgr != nullptr);
     Q_ASSERT(m_objectMgr == nullptr);
     m_objectMgr = objectMgr;

@@ -5,7 +5,7 @@
 /* internal includes */
 #include "Point.h"
 #include "Constants.h"
-#include "ObjectMgr.h"
+#include "Polygon.h"
 #include "Edge.h"
 #include "Painter.h"
 
@@ -53,10 +53,10 @@ QVariant Point::_onSelectionChange(const QVariant &value) {
     const auto prevRadius = rect().width() / 2;
     const auto radius = getRadius();
     setRect(QRectF(
-        0,
-        0,
-        radius * 2,
-        radius * 2
+            0,
+            0,
+            radius * 2,
+            radius * 2
     ));
 
     const double offset = prevRadius - radius;
@@ -67,7 +67,9 @@ QVariant Point::_onSelectionChange(const QVariant &value) {
 
 QPointF Point::getPositionOnPainter() const {
     const auto radius = getRadius();
-    return scenePos() + QPointF(radius, radius);
+    const auto pos = scenePos() + QPointF(radius, radius);
+
+    return pos;
 }
 
 QVariant Point::_onPositionChanged(const QVariant &value) {
@@ -89,29 +91,30 @@ std::tuple<Point *, Point *> Point::remove(const bool isFullPolygon, Painter *co
     Point *start{};
     Point *end{};
 
+    /* Gather connections */
     for (size_t direction = 0; direction < MAX_CONNECTIONS; ++direction) {
         if (Edge *itemToRemove = getConnectedElement(direction); itemToRemove != nullptr) {
             connections[direction] = itemToRemove->getConnectedElement(direction);
+            Q_ASSERT(connections[direction] != nullptr);
+
+            connections[direction]->setConnectedElement(SwapDirection(direction), nullptr);
 
             scene()->removeItem(itemToRemove);
         }
     }
 
+    /* Add edge except triangle case */
     if (connections[0] != nullptr &&
-        connections[1] != nullptr) {
-
-        if (!(isFullPolygon &&
+        connections[1] != nullptr &&
+        !(isFullPolygon &&
           static_cast<void *>(connections[1]->getConnectedElement(RIGHT)) != static_cast<void *>(connections[0]))) {
-            Edge *edge = painter->addEdge(connections[0], connections[1]);
-            connections[0]->setConnectedElement(RIGHT, edge);
-            connections[1]->setConnectedElement(LEFT, edge);
-        } else {
-            connections[0]->setConnectedElement(RIGHT, nullptr);
-            connections[1]->setConnectedElement(LEFT, nullptr);
-        }
 
+        Edge *edge = painter->addEdge(connections[0], connections[1]);
+        connections[0]->setConnectedElement(RIGHT, edge);
+        connections[1]->setConnectedElement(LEFT, edge);
     }
 
+    /* Prepare new start and end */
     if (isFullPolygon) {
         Q_ASSERT(connections[0] != nullptr && connections[1] != nullptr);
 

@@ -2,8 +2,8 @@
 // Created by Jlisowskyy on 09/10/24.
 //
 
-#ifndef APP_OBJECTMGR_H
-#define APP_OBJECTMGR_H
+#ifndef APP_POLYGON_H
+#define APP_POLYGON_H
 
 /* internal includes */
 #include "Edge.h"
@@ -15,7 +15,7 @@
 #include <QObject>
 #include <tuple>
 
-class ObjectMgr : public QObject {
+class Polygon : public QObject {
 Q_OBJECT
     // ------------------------------
     // Class constants
@@ -27,7 +27,7 @@ public:
     // Class creation
     // ------------------------------
 
-    explicit ObjectMgr(QObject *parent);
+    explicit Polygon(QObject *parent);
 
     // ------------------------------
     // Class interaction
@@ -71,4 +71,4 @@ protected:
 };
 
 
-#endif //APP_OBJECTMGR_H
+#endif //APP_POLYGON_H

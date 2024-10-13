@@ -7,7 +7,7 @@
 
 /* internal includes */
 #include "Painter.h"
-#include "ObjectMgr.h"
+#include "Polygon.h"
 
 /* external includes */
 #include <QObject>

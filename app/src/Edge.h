@@ -13,7 +13,7 @@
 #include <tuple>
 
 /* Forward declaration */
-class ObjectMgr;
+class Polygon;
 
 class Edge : public QGraphicsLineItem, public IConnectableElement<Point> {
     // ------------------------------

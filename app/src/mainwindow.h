@@ -7,7 +7,7 @@
 #include <QLabel>
 
 /* Internal includes */
-#include "ObjectMgr.h"
+#include "Polygon.h"
 #include "ToolBar.h"
 #include "Painter.h"
 
@@ -43,7 +43,7 @@ private:
     Ui::MainWindow *m_ui;
     ToolBar *m_toolBar;
     Painter *m_painter;
-    ObjectMgr *m_objectMgr;
+    Polygon *m_objectMgr;
     QLabel *m_label;
 };
 #endif // MAINWINDOW_H

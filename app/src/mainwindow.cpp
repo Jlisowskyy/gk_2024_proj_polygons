@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
           m_ui(new Ui::MainWindow),
           m_toolBar(new ToolBar(this)),
           m_painter(new Painter(this)),
-          m_objectMgr(new ObjectMgr(this)),
+          m_objectMgr(new Polygon(this)),
           m_label(new QLabel("Space coordinates: (0, 0)", this)) {
     m_ui->setupUi(this);
     m_toolBar->setupToolBar(m_ui->toolBar);
@@ -38,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 
     /* m_toolbar -> ??? connects */
-    connect(m_toolBar->m_cleanSpaceAction, &QAction::triggered, m_objectMgr, &ObjectMgr::clearItems);
-    connect(m_toolBar->m_addVertexAction, &QAction::triggered, m_objectMgr, &ObjectMgr::setIsAddingVertices);
+    connect(m_toolBar->m_cleanSpaceAction, &QAction::triggered, m_objectMgr, &Polygon::clearItems);
+    connect(m_toolBar->m_addVertexAction, &QAction::triggered, m_objectMgr, &Polygon::setIsAddingVertices);
     connect(m_toolBar->m_moveAction, &QAction::triggered, m_painter, &Painter::setMovingSpace);
 
     /* m_painter -> ??? connects */

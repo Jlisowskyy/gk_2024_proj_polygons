@@ -25,8 +25,8 @@ set(PROJECT_SOURCES
         src/Point.h
         src/Edge.cpp
         src/Edge.h
-        src/ObjectMgr.cpp
-        src/ObjectMgr.h
+        src/Polygon.cpp
+        src/Polygon.h
         src/Constants.h
         src/IConnectableElement.h
 )

@@ -14,6 +14,8 @@
 
 Edge::Edge(Point *start, Point *end) : QGraphicsLineItem(QLineF(start->getPositionOnPainter(),
                                                                 end->getPositionOnPainter())) {
+    Q_ASSERT(start != nullptr && end != nullptr);
+    
     QPen pen(DEFAULT_COLOR);
     pen.setWidth(DEFAULT_EDGE_WIDTH);
     setPen(pen);

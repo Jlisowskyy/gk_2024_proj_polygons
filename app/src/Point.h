@@ -14,7 +14,7 @@
 #include <tuple>
 
 /* Forward declaration */
-class ObjectMgr;
+class Polygon;
 class Edge;
 class Painter;
 

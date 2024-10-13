@@ -17,7 +17,7 @@
 #include "Edge.h"
 
 /* Forward declaration */
-class ObjectMgr;
+class Polygon;
 
 class Painter : public QGraphicsView {
 Q_OBJECT
@@ -41,7 +41,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    void setupPainter(ObjectMgr *objectMgr, QLabel *label);
+    void setupPainter(Polygon *objectMgr, QLabel *label);
 
     [[maybe_unused]] Point *addPoint(int x, int y) const;
 
@@ -99,7 +99,7 @@ private:
     QGraphicsItem *m_selectedItem;
     bool m_isMovingSpace{};
 
-    ObjectMgr *m_objectMgr{};
+    Polygon *m_objectMgr{};
     QGraphicsScene *m_scene{};
     QLabel *m_label{};
 };
