@@ -14,8 +14,6 @@
 
 std::tuple<Point *, Point *> IEdgePolygonObject::remove(bool isFullPolygon, Painter *painter) {
     Point *connections[MAX_CONNECTIONS]{};
-    Point *start{};
-    Point *end{};
 
     /* Gather connections */
     for (size_t direction = 0; direction < MAX_CONNECTIONS; ++direction) {
@@ -33,15 +31,12 @@ std::tuple<Point *, Point *> IEdgePolygonObject::remove(bool isFullPolygon, Pain
     }
 
     /* Add edge except triangle case */
-    if (connections[0] != nullptr &&
-        connections[1] != nullptr &&
-        !(isFullPolygon &&
-          static_cast<void *>(connections[1]->getConnectedElement(RIGHT)) != static_cast<void *>(connections[0]))) {
+    IPolygonObject::_addEdgeIfNotTriangle(connections, isFullPolygon, painter);
 
-        Edge *edge = painter->addEdge(connections[0], connections[1]);
-        connections[0]->setConnectedElement(RIGHT, edge);
-        connections[1]->setConnectedElement(LEFT, edge);
-    }
+    /* Prepare new start and end */
+    auto rv = IPolygonObject::_prepareNewAttachmentPoints(connections, isFullPolygon);
 
-    return {nullptr, nullptr};
+    m_edge->scene()->removeItem(m_edge);
+
+    return rv;
 }

@@ -33,8 +33,16 @@ public:
     // ------------------------------
     // Protected methods
     // ------------------------------
+protected:
 
+    // ------------------------------
+    // Static methods
+    // ------------------------------
 
+    static void _addEdgeIfNotTriangle(Point **connections, bool isFullPolygon, Painter *painter);
+
+    [[nodiscard]] static std::tuple<Point *, Point *>
+    _prepareNewAttachmentPoints(Point **connections, bool isFullPolygon);
 };
 
 #endif //APP_IPOLYGONOBJECT_H

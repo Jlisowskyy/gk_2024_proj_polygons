@@ -34,6 +34,7 @@ set(PROJECT_SOURCES
         src/Interfaces/IEdgePolygonObject.h
         src/Interfaces/IPointPolygonObject.cpp
         src/Interfaces/IPointPolygonObject.h
+        src/Interfaces/IPolygonObject.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

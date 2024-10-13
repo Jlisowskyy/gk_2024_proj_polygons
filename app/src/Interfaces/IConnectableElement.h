@@ -18,7 +18,7 @@ class IConnectableElement {
     // Class creation
     // ------------------------------
 public:
-    IConnectableElement(void *parent) : m_parent(parent), m_connectedElements{nullptr, nullptr} {
+    explicit IConnectableElement(void *parent) : m_parent(parent), m_connectedElements{nullptr, nullptr} {
     }
 
     virtual ~IConnectableElement() = default;
