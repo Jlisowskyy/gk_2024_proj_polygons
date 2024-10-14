@@ -10,7 +10,10 @@
 /* external includes */
 
 void ObjectRestriction::removeRestriction() {
-    m_restrictionIcon->scene()->removeItem(m_restrictionIcon);
+    /* Add Restriction Icon may be overloaded */
+    if (m_restrictionIcon != nullptr) {
+        m_restrictionIcon->scene()->removeItem(m_restrictionIcon);
+    }
 
     onRestrictionDelete();
 }
@@ -26,6 +29,11 @@ void ObjectRestriction::addRestrictionIcon(DrawingWidget *drawingWidget) {
 }
 
 void ObjectRestriction::onReposition() {
+    /* Add Restriction Icon may be overloaded */
+    if (m_restrictionIcon == nullptr) {
+        return;
+    }
+
     QPoint point = getIconPosition();
     m_restrictionIcon->setPos(point);
 }

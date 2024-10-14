@@ -19,6 +19,12 @@ static constexpr Qt::GlobalColor SELECTED_COLOR = Qt::darkRed;
 static constexpr int DEFAULT_EDGE_WIDTH = 5;
 static constexpr int SELECTED_EDGE_WIDTH = 7;
 
+/* Bezier specific */
+static constexpr int BEZIER_CONTROL_POINT_RADIUS = 5;
+static constexpr int BEZIER_HELP_LINE_WIDTH = 3;
+static constexpr int BEZIER_LINE_LENGTH = 8;
+static constexpr Qt::GlobalColor BEZIER_HELP_LINE_COLOR = Qt::darkBlue;
+
 /* Connection specific */
 enum ConnectionType : size_t {
     LEFT = 0,

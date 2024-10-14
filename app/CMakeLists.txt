@@ -55,6 +55,8 @@ set(PROJECT_SOURCES
         include/Restrictions/PointContinuousRestriction.h
         src/EdgeBezierRestriction.cpp
         include/Restrictions/EdgeBezierRestriction.h
+        include/GraphicObjects/BezierPoint.h
+        src/BezierPoint.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

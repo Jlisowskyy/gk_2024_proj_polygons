@@ -31,11 +31,11 @@ public:
     // class interaction
     // ------------------------------
 
-    void addRestrictionIcon(DrawingWidget *drawingWidget);
+    virtual void addRestrictionIcon(DrawingWidget *drawingWidget);
 
     void removeRestriction();
 
-    void onReposition();
+    virtual void onReposition();
 
     // ------------------------------
     // Abstract methods
@@ -46,11 +46,11 @@ public:
 
 protected:
 
-    virtual void onRestrictionDelete() = 0;
+    virtual void onRestrictionDelete() {}
 
-    virtual QPoint getIconPosition() = 0;
+    virtual QPoint getIconPosition() { return {0, 0}; }
 
-    virtual std::string getIconName() = 0;
+    virtual std::string getIconName() { return ""; }
 
     // ------------------------------
     // Class fields

@@ -49,6 +49,11 @@ public:
         m_connectedElements[direction] = element;
     }
 
+    void disconnectElements() {
+        setConnectedElement(LEFT, nullptr);
+        setConnectedElement(RIGHT, nullptr);
+    }
+
     [[nodiscard]] void *getLastConnectedElement(const size_t direction) {
         if (getConnectedElement(direction) == nullptr) {
             return m_parent;

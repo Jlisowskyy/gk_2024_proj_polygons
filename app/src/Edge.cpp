@@ -55,8 +55,19 @@ QVariant Edge::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
     }
 }
 
+/**
+ *
+ * @note Preserves transparency!
+ */
 QVariant Edge::_onSelectionChange(const QVariant &value) {
-    QPen pen(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR);
+    QPen currentPen = pen();
+    QColor currentColor = currentPen.color();
+    int alpha = currentColor.alpha();
+
+    QColor newColor = isSelected() ? SELECTED_COLOR : DEFAULT_COLOR;
+    newColor.setAlpha(alpha);
+
+    QPen pen(newColor);
     pen.setWidth(isSelected() ? SELECTED_EDGE_WIDTH : DEFAULT_EDGE_WIDTH);
     setPen(pen);
 
