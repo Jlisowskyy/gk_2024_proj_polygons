@@ -33,18 +33,6 @@ public:
     // Class interaction
     // ------------------------------
 
-    [[nodiscard]] bool isRightConnected(const Point *const point) const {
-        return point != nullptr && m_connectedElements[RIGHT] == point;
-    }
-
-    [[nodiscard]] bool isLeftConnected(const Point *const point) const {
-        return point != nullptr && m_connectedElements[LEFT] == point;
-    }
-
-    [[nodiscard]] bool isConnected(const Point *const point) const {
-        return isLeftConnected(point) || isRightConnected(point);
-    }
-
     void repositionByPoints();
 
     void cutEdge(DrawingWidget *drawingWidget);
@@ -73,7 +61,7 @@ protected:
 
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     // ------------------------------
     // Class fields

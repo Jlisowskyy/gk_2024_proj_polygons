@@ -103,12 +103,6 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
     /* Edge actions */
     _addToolbarLiteral("Edge:");
 
-    m_setBezierAction = _addButtonToToolbar(
-            "Bezier edge",
-            ":/icons/bezier.png",
-            "Enable Bezier Curve for selected edge"
-    );
-
     m_drawAlgorithmAction = _addButtonToToolbar(
             "Draw algorithm",
             ":/icons/draw_algo.png",
@@ -125,6 +119,7 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
     m_setHorizontalAction = _addEdgeRestrictionButton(polygon, "horizontal");
     m_setVerticalAction = _addEdgeRestrictionButton(polygon, "vertical");
     m_setConstLengthAction = _addEdgeRestrictionButton(polygon, "const_length");
+    m_setBezierAction = _addEdgeRestrictionButton(polygon, "bezier");
 
     _addSeparator();
 

@@ -53,6 +53,8 @@ set(PROJECT_SOURCES
         include/Restrictions/EdgeConstLengthRestriction.h
         include/PointContinuousRestriction.cpp
         include/Restrictions/PointContinuousRestriction.h
+        src/EdgeBezierRestriction.cpp
+        include/Restrictions/EdgeBezierRestriction.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
