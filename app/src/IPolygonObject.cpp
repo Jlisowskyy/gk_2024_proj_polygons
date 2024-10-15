@@ -76,3 +76,7 @@ void IPolygonObject::onRemoved() {
         m_restriction->removeRestriction();
     }
 }
+
+IPolygonObject::IPolygonObject(Polygon *polygon) : m_polygon(polygon) {
+    Q_ASSERT(polygon != nullptr);
+}

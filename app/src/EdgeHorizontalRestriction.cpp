@@ -26,7 +26,7 @@ bool EdgeHorizontalRestriction::applyRestriction() {
     auto posRight = pointRight->getPositionOnPainter();
     posRight.setY(pointLeft->getPositionOnPainter().y());
 
-    pointRight->setPos(posRight);
+    pointRight->setPositionOnPainter(posRight);
 
     return false;
 }
@@ -47,4 +47,12 @@ bool EdgeHorizontalRestriction::validateNoDoubleHorizontalRestriction() {
 
 std::string EdgeHorizontalRestriction::getIconName() {
     return EdgeRestrictionIconPath("horizontal");
+}
+
+QPointF EdgeHorizontalRestriction::tryToPreserveRestriction(size_t direction, QPointF dxdy) {
+
+}
+
+bool EdgeHorizontalRestriction::isRestrictionPreserved() {
+    return false;
 }

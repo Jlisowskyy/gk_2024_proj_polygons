@@ -36,6 +36,10 @@ public:
 
     void onReposition() override;
 
+    bool isRestrictionPreserved() final;
+
+    QPointF tryToPreserveRestriction(size_t direction, QPointF dxdy) final;
+
     // ------------------------------
     // protected methods
     // ------------------------------

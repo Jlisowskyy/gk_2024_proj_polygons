@@ -46,7 +46,7 @@ void EdgeBezierRestriction::onRestrictionDelete() {
     pen.setColor(color);
     m_edge->setPen(pen);
     m_edge->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsSelectable, true);
-    m_edge->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsMovable, true);
+//    m_edge->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsMovable, true);
 
     _deallocateBezierHelpingPoints();
 }
@@ -97,10 +97,13 @@ void EdgeBezierRestriction::_allocateBezierHelpingPoints() {
 
     m_edge->scene()->addItem(m_line1 = new QGraphicsLineItem());
     m_line1->setPen(linePen);
+    m_line1->setZValue(0);
     m_edge->scene()->addItem(m_line2 = new QGraphicsLineItem());
     m_line2->setPen(linePen);
+    m_line2->setZValue(0);
     m_edge->scene()->addItem(m_line3 = new QGraphicsLineItem());
     m_line3->setPen(linePen);
+    m_line3->setZValue(0);
 
     Point *pLeft = m_edge->getConnectedElement(LEFT);
     Point *pRight = m_edge->getConnectedElement(RIGHT);
@@ -157,4 +160,12 @@ void EdgeBezierRestriction::_fillBezierPath(QPainterPath &path) {
 
     path.moveTo(startPos);
     path.cubicTo(controlPoint1, controlPoint2, endPos);
+}
+
+bool EdgeBezierRestriction::isRestrictionPreserved() {
+    return false;
+}
+
+QPointF EdgeBezierRestriction::tryToPreserveRestriction(size_t direction, QPointF dxdy) {
+
 }

@@ -8,6 +8,7 @@
 
 /* external includes */
 #include <tuple>
+#include <QPointF>
 
 /* Forward declaration */
 class Point;
@@ -16,13 +17,15 @@ class DrawingWidget;
 
 class ObjectRestriction;
 
+class Polygon;
+
 class IPolygonObject {
     // ------------------------------
     // Class creation
     // ------------------------------
 public:
 
-    IPolygonObject() = default;
+    explicit IPolygonObject(Polygon *polygon);
 
     virtual ~IPolygonObject() = default;
 
@@ -35,6 +38,8 @@ public:
     [[nodiscard]] ObjectRestriction *getRestriction() const;
 
     void cleanRestriction();
+
+    virtual bool tryToPreserveRestrictions(QPointF point, size_t direction, void *startPoint) = 0;
 
     // ------------------------------
     // Abstract methods
@@ -63,6 +68,7 @@ protected:
     // ------------------------------
 
     ObjectRestriction *m_restriction{};
+    Polygon *m_polygon{};
 };
 
 #endif //APP_IPOLYGONOBJECT_H

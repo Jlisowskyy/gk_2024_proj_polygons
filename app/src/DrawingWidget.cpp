@@ -44,7 +44,7 @@ DrawingWidget::~DrawingWidget() {
 }
 
 Point *DrawingWidget::addPoint(const int x, const int y) const {
-    auto *point = new Point(x, y);
+    auto *point = new Point(x, y, m_polygon);
     m_scene->addItem(point);
     return point;
 }
@@ -131,7 +131,7 @@ void DrawingWidget::setupPainter(Polygon *objectMgr, QLabel *label) {
 }
 
 Edge *DrawingWidget::addEdge(Point *start, Point *end) {
-    auto *edge = new Edge(start, end, this);
+    auto *edge = new Edge(start, end, this, m_polygon);
     m_scene->addItem(edge);
     return edge;
 }

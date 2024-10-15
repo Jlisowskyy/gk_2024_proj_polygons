@@ -27,7 +27,7 @@ class Point : public QGraphicsEllipseItem, public IConnectableElement<Edge>, pub
     // ------------------------------
 public:
 
-    explicit Point(int x, int y);
+    explicit Point(int x, int y, Polygon *polygon);
 
     ~Point() override = default;
 
@@ -37,7 +37,13 @@ public:
 
     [[nodiscard]] QPointF getPositionOnPainter() const;
 
+    void setPositionOnPainter(const QPointF &position);
+
     [[nodiscard]] double getRadius() const;
+
+    [[nodiscard]] Point *getConnectedPoint(size_t direction) const;
+
+    bool tryToPreserveRestrictions(QPointF point, size_t direction, void *startPoint) final;
 
     // ------------------------------
     // Private methods
@@ -49,6 +55,8 @@ private:
     QVariant _onPositionChange(const QVariant &value);
 
     QVariant _onPositionChanged(const QVariant &value);
+
+    void _propagatePositionChange();
 
     // ------------------------------
     // Protected Methods

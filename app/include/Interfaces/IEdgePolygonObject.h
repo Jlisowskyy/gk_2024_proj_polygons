@@ -21,7 +21,7 @@ class IEdgePolygonObject : public IPolygonObject {
     // ------------------------------
 public:
 
-    explicit IEdgePolygonObject(Edge *edge) : m_edge(edge) {}
+    explicit IEdgePolygonObject(Edge *edge, Polygon *polygon) : IPolygonObject(polygon), m_edge(edge) {}
 
     ~IEdgePolygonObject() override = default;
 

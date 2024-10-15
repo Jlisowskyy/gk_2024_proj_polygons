@@ -43,4 +43,6 @@ enum LineDrawingAlgorithmType : size_t {
     BRESENHAM = 1,
 };
 
+extern bool BlockPropagation;
+
 #endif //APP_CONSTANTS_H

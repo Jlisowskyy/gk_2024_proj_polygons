@@ -44,6 +44,10 @@ public:
 
     virtual bool applyRestriction() = 0;
 
+    virtual bool isRestrictionPreserved() = 0;
+
+    virtual QPointF tryToPreserveRestriction(size_t direction, QPointF dxdy) = 0;
+
 protected:
 
     virtual void onRestrictionDelete() {}

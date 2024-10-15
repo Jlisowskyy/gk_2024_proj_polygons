@@ -7,6 +7,9 @@
 #include "../include/Restrictions/EdgeConstLengthRestriction.h"
 #include "../include/GraphicObjects/Edge.h"
 
+/* external includes */
+#include <cmath>
+
 bool EdgeConstLengthRestriction::applyRestriction() {
     return false;
 }
@@ -18,4 +21,14 @@ std::string EdgeConstLengthRestriction::getIconName() {
 EdgeConstLengthRestriction::EdgeConstLengthRestriction(Edge *edge) : EdgeRestriction(edge),
                                                                      m_length(edge->getLength()) {
 
+}
+
+QPointF EdgeConstLengthRestriction::tryToPreserveRestriction(size_t direction, QPointF dxdy) {
+    return {0, 0};
+}
+
+bool EdgeConstLengthRestriction::isRestrictionPreserved() {
+    static constexpr double PRECISION_LIMIT = 0.5;
+
+    return std::abs(m_edge->getLength() - m_length) <= PRECISION_LIMIT;
 }

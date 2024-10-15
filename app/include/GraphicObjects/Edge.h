@@ -25,7 +25,7 @@ class Edge : public QGraphicsLineItem, public IConnectableElement<Point>, public
     // ------------------------------
 public:
 
-    explicit Edge(Point *start, Point *end, DrawingWidget *drawingWidget);
+    explicit Edge(Point *start, Point *end, DrawingWidget *drawingWidget, Polygon *polygon);
 
     ~Edge() override = default;
 
@@ -41,6 +41,8 @@ public:
 
     [[nodiscard]] double getLength() const;
 
+    bool tryToPreserveRestrictions(QPointF point, size_t direction, void *startPoint) final;
+
     // ------------------------------
     // Private methods
     // ------------------------------
@@ -53,6 +55,8 @@ private:
     QVariant _onPositionChanged(const QVariant &value);
 
     void _bresenhamLine(QPainter *painter);
+
+    void _propagatePositionChange(QPointF point);
 
     // ------------------------------
     // Protected Methods

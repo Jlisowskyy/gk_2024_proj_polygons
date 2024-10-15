@@ -24,7 +24,7 @@ bool EdgeVerticalRestriction::applyRestriction() {
     auto posRight = pointRight->getPositionOnPainter();
     posRight.setX(pointLeft->getPositionOnPainter().x());
 
-    pointRight->setPos(posRight);
+    pointRight->setPositionOnPainter(posRight);
 
     return false;
 }
@@ -45,4 +45,12 @@ bool EdgeVerticalRestriction::validateNoDoubleVerticalRestriction() {
     }
 
     return false;
+}
+
+bool EdgeVerticalRestriction::isRestrictionPreserved() {
+    return false;
+}
+
+QPointF EdgeVerticalRestriction::tryToPreserveRestriction(size_t direction, QPointF dxdy) {
+
 }

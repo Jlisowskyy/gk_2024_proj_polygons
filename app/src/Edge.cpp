@@ -14,12 +14,12 @@
 #include <QPainter>
 #include <cmath>
 
-Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget) : QGraphicsLineItem(
+Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget, Polygon* polygon) : QGraphicsLineItem(
         QLineF(start->getPositionOnPainter(),
                end->getPositionOnPainter())),
                                                                      IConnectableElement<Point>(
                                                                              reinterpret_cast<void *>(this)),
-                                                                     IEdgePolygonObject(this),
+                                                                     IEdgePolygonObject(this, polygon),
                                                                      m_drawingWidget(drawingWidget) {
     Q_ASSERT(start != nullptr && end != nullptr);
 
@@ -30,8 +30,9 @@ Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget) : QGraphicsLi
     /* Edges should be displayed under points */
     setZValue(0);
 
-    setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
-             QGraphicsItem::ItemSendsScenePositionChanges);
+    setFlag(QGraphicsItem::ItemIsSelectable, true);
+//    setFlag(QGraphicsItem::ItemIsMovable, true);
+//    setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
 
     setConnectedElement(LEFT, start);
     setConnectedElement(RIGHT, end);
@@ -79,18 +80,11 @@ QVariant Edge::_onPositionChange(const QVariant &value) {
 }
 
 QVariant Edge::_onPositionChanged(const QVariant &value) {
-    const double leftRadius = getConnectedElement(LEFT)->getRadius();
-    const double rightRadius = getConnectedElement(RIGHT)->getRadius();
-
-    m_isUpdating = true;
-    getConnectedElement(LEFT)->setPos(line().p1() + value.toPointF() - QPointF(leftRadius, leftRadius));
-    getConnectedElement(RIGHT)->setPos(line().p2() + value.toPointF() - QPointF(rightRadius, rightRadius));
-    m_isUpdating = false;
-
     if (m_restriction) {
         m_restriction->onReposition();
     }
 
+    _propagatePositionChange(value.toPointF());
     return value;
 }
 
@@ -193,4 +187,30 @@ double Edge::getLength() const {
     const double yDiff = pRightPos.y() - pLeftPos.y();
 
     return std::sqrt(xDiff * xDiff + yDiff * yDiff);
+}
+
+void Edge::_propagatePositionChange(QPointF point) {
+    if (BlockPropagation) {
+        return;
+    }
+
+    const double leftRadius = getConnectedElement(LEFT)->getRadius();
+    const double rightRadius = getConnectedElement(RIGHT)->getRadius();
+
+    m_isUpdating = true;
+    getConnectedElement(LEFT)->setPos(line().p1() + point - QPointF(leftRadius, leftRadius));
+    getConnectedElement(RIGHT)->setPos(line().p2() + point - QPointF(rightRadius, rightRadius));
+    m_isUpdating = false;
+}
+
+bool Edge::tryToPreserveRestrictions(QPointF point, size_t direction, void *startPoint) {
+    if (startPoint == reinterpret_cast<void*>(this)) {
+        return true;
+    }
+
+    if (m_restriction && !m_restriction->isRestrictionPreserved()) {
+          
+    }
+
+    return true;
 }

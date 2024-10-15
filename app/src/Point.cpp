@@ -17,12 +17,12 @@
 #include <QDebug>
 #include <QVariant>
 
-Point::Point(const int x, const int y) : QGraphicsEllipseItem(0,
-                                                              0,
-                                                              DEFAULT_POINT_RADIUS * 2,
-                                                              DEFAULT_POINT_RADIUS * 2),
-                                         IConnectableElement<Edge>(reinterpret_cast<void *>(this)),
-                                         IPointPolygonObject(this) {
+Point::Point(const int x, const int y, Polygon *polygon) : QGraphicsEllipseItem(0,
+                                                                                0,
+                                                                                DEFAULT_POINT_RADIUS * 2,
+                                                                                DEFAULT_POINT_RADIUS * 2),
+                                                           IConnectableElement<Edge>(reinterpret_cast<void *>(this)),
+                                                           IPointPolygonObject(this, polygon) {
     setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
              QGraphicsItem::ItemSendsScenePositionChanges);
     setPen(QPen(DEFAULT_COLOR));
@@ -53,6 +53,29 @@ QVariant Point::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
 }
 
 QVariant Point::_onPositionChange(const QVariant &value) {
+    QPointF dxdy = value.toPointF() - scenePos();
+
+    BlockPropagation = true;
+
+    if (!m_polygon->isFullPolygon()) {
+        if (Edge *edge = getConnectedElement(LEFT)) {
+            edge->tryToPreserveRestrictions(dxdy, LEFT, reinterpret_cast<void *>(this));
+        }
+
+        if (Edge *edge = getConnectedElement(RIGHT)) {
+            edge->tryToPreserveRestrictions(dxdy, RIGHT, reinterpret_cast<void *>(this));
+        }
+    } else {
+        Q_ASSERT(getConnectedPoint(LEFT) != nullptr && getConnectedPoint(RIGHT) != nullptr);
+
+        const bool result = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, RIGHT,
+                                                                               reinterpret_cast<void *>(this));
+
+        Q_ASSERT(result);
+    }
+
+    BlockPropagation = false;
+
     return value;
 }
 
@@ -83,19 +106,66 @@ QPointF Point::getPositionOnPainter() const {
 }
 
 QVariant Point::_onPositionChanged(const QVariant &value) {
-    for (auto &m_edge: m_connectedElements) {
-        if (m_edge) {
-            m_edge->repositionByPoints();
-        }
-    }
-
     if (m_restriction) {
         m_restriction->onReposition();
     }
 
+    _propagatePositionChange();
     return value;
 }
 
 double Point::getRadius() const {
     return static_cast<double>(isSelected() ? SELECTED_POINT_RADIUS : DEFAULT_POINT_RADIUS);
+}
+
+void Point::setPositionOnPainter(const QPointF &position) {
+    setPos(position - QPointF(getRadius(), getRadius()));
+}
+
+Point *Point::getConnectedPoint(const size_t direction) const {
+    Edge *edge = getConnectedElement(direction);
+    if (edge == nullptr) {
+        return nullptr;
+    }
+
+    Point *point = edge->getConnectedElement(direction);
+    Q_ASSERT(point != nullptr);
+    return point;
+}
+
+void Point::_propagatePositionChange() {
+    if (BlockPropagation) {
+        return;
+    }
+
+    for (auto &m_edge: m_connectedElements) {
+        if (m_edge) {
+            m_edge->repositionByPoints();
+        }
+    }
+}
+
+bool Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, void *startPoint) {
+    if (startPoint == reinterpret_cast<void *>(this)) {
+        return true;
+    }
+
+//    if (m_restriction && !m_restriction->isRestrictionPreserved()) {
+//        QPointF proposedDxdy = m_restriction->tryToPreserveRestriction(direction, dxdy);
+//        QPointF prevPos = scenePos();
+//        setPos(prevPos + proposedDxdy);
+//
+//        if (Edge *edge = getConnectedElement(direction); edge->tryToPreserveRestrictions(proposedDxdy, direction, startPoint)) {
+//            return true;
+//        }
+//
+//        setPos(prevPos);
+//        return false;
+//    }
+
+    if (Edge *edge = getConnectedElement(direction)) {
+        return edge->tryToPreserveRestrictions(dxdy, direction, startPoint);
+    }
+
+    return true;
 }

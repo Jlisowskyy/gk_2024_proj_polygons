@@ -17,7 +17,7 @@ class IPointPolygonObject : public IPolygonObject {
     // ------------------------------
 public:
 
-    explicit IPointPolygonObject(Point *point) : m_point(point) {}
+    explicit IPointPolygonObject(Point *point, Polygon *polygon) : IPolygonObject(polygon), m_point(point) {}
 
     ~IPointPolygonObject() override = default;
 

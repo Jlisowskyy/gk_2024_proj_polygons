@@ -28,6 +28,10 @@ public:
 
     std::string getIconName() override;
 
+    bool isRestrictionPreserved() final;
+
+    QPointF tryToPreserveRestriction(size_t direction, QPointF dxdy) final;
+
     // ------------------------------
     // protected methods
     // ------------------------------
