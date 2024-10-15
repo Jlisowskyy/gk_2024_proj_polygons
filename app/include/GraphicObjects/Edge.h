@@ -37,7 +37,7 @@ public:
 
     void cutEdge(DrawingWidget *drawingWidget);
 
-    [[nodiscard]] QPoint getMidPoint() const;
+    [[nodiscard]] QPointF getMidPoint() const;
 
     [[nodiscard]] double getLength() const;
 

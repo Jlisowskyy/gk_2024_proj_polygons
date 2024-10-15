@@ -19,7 +19,7 @@ void ObjectRestriction::removeRestriction() {
 }
 
 void ObjectRestriction::addRestrictionIcon(DrawingWidget *drawingWidget) {
-    QPoint point = getIconPosition();
+    QPointF point = getIconPosition();
     std::string name = getIconName();
 
     m_restrictionIcon = new RestrictionIcon(name, this);
@@ -34,6 +34,6 @@ void ObjectRestriction::onReposition() {
         return;
     }
 
-    QPoint point = getIconPosition();
+    QPointF point = getIconPosition();
     m_restrictionIcon->setPos(point);
 }

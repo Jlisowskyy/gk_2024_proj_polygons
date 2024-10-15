@@ -49,6 +49,8 @@ protected:
 
     void _drawBezierLine();
 
+    void _fillBezierPath(QPainterPath& path);
+
     // ------------------------------
     // Class fields
     // ------------------------------

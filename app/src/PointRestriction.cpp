@@ -10,6 +10,6 @@ void PointRestriction::onRestrictionDelete() {
     m_point->cleanRestriction();
 }
 
-QPoint PointRestriction::getIconPosition() {
-    return (m_point->getPositionOnPainter() + QPointF(-24, -60)).toPoint();
+QPointF PointRestriction::getIconPosition() {
+    return m_point->getPositionOnPainter() + QPointF(-24, -60);
 }

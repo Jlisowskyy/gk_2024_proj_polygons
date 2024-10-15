@@ -56,9 +56,9 @@ private:
 
     void _setVertexButtonsIsDisabledState(bool isDisabled);
 
-    QAction*  _addEdgeRestrictionButton(Polygon *polygon, const char *restrictionName);
+    QAction *_addEdgeRestrictionButton(Polygon *polygon, const char *restrictionName);
 
-    QAction*  _addPointRestrictionButton(Polygon *polygon, const char *restrictionName);
+    QAction *_addPointRestrictionButton(Polygon *polygon, const char *restrictionName);
 
 // ------------------------------
 // Public fields

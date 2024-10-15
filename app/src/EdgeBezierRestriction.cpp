@@ -13,6 +13,7 @@
 #include <QColor>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <cmath>
 
 bool EdgeBezierRestriction::applyRestriction() {
     QPen pen = m_edge->pen();
@@ -23,6 +24,7 @@ bool EdgeBezierRestriction::applyRestriction() {
 
     m_edge->setSelected(false);
     m_edge->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsSelectable, false);
+    m_edge->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsMovable, false);
 
     _allocateBezierHelpingPoints();
     _redrawBezierHelpingPoints();
@@ -44,6 +46,7 @@ void EdgeBezierRestriction::onRestrictionDelete() {
     pen.setColor(color);
     m_edge->setPen(pen);
     m_edge->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsSelectable, true);
+    m_edge->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsMovable, true);
 
     _deallocateBezierHelpingPoints();
 }
@@ -104,15 +107,22 @@ void EdgeBezierRestriction::_allocateBezierHelpingPoints() {
     QPointF posLeft = pLeft->getPositionOnPainter();
     QPointF posRight = pRight->getPositionOnPainter();
 
-    const int midX = static_cast<int>((posLeft.x() + posRight.x()) / 2.0);
-    const int midY = static_cast<int>((posLeft.y() + posRight.y()) / 2.0);
-    const int xLen = static_cast<int>(abs(posLeft.x() - posRight.x()) / 4.0);
-    const int yLen = static_cast<int>(abs(posLeft.y() - posRight.y()) / 4.0);
+    const double midX = (posLeft.x() + posRight.x()) / 2.0;
+    const double midY = (posLeft.y() + posRight.y()) / 2.0;
 
-    const int p1X = midX - xLen;
-    const int p1Y = midY + yLen;
-    const int p2X = midX + xLen;
-    const int p2Y = midY - yLen;
+    const double dx = posRight.x() - posLeft.x();
+    const double dy = posRight.y() - posLeft.y();
+
+    const double length = std::sqrt(dx * dx + dy * dy);
+    const double normX = -(dy / length);
+    const double normY = dx / length;
+
+    const double controlPointDistance = length / 4.0;
+
+    const int p1X = static_cast<int>(midX + normX * controlPointDistance);
+    const int p1Y = static_cast<int>(midY + normY * controlPointDistance);
+    const int p2X = static_cast<int>(midX - normX * controlPointDistance);
+    const int p2Y = static_cast<int>(midY - normY * controlPointDistance);
 
     m_edge->scene()->addItem(m_point1 = new BezierPoint(p1X, p1Y));
     m_edge->scene()->addItem(m_point2 = new BezierPoint(p2X, p2Y));
@@ -123,9 +133,19 @@ void EdgeBezierRestriction::_allocateBezierHelpingPoints() {
     m_edge->scene()->addItem(m_bezierLine = new QGraphicsPathItem());
 }
 
-void EdgeBezierRestriction::_drawBezierLine() {
-    QPainterPath path;
 
+void EdgeBezierRestriction::_drawBezierLine() {
+    QPen pen = QPen(BEZIER_HELP_LINE_COLOR);
+    pen.setWidth(BEZIER_LINE_LENGTH);
+
+    m_bezierLine->setPen(pen);
+
+    QPainterPath path;
+    _fillBezierPath(path);
+    m_bezierLine->setPath(path);
+}
+
+void EdgeBezierRestriction::_fillBezierPath(QPainterPath &path) {
     Point *pLeft = m_edge->getConnectedElement(LEFT);
     Point *pRight = m_edge->getConnectedElement(RIGHT);
 
@@ -136,12 +156,5 @@ void EdgeBezierRestriction::_drawBezierLine() {
     QPointF controlPoint2 = m_point2->getPositionOnPainter();
 
     path.moveTo(startPos);
-
     path.cubicTo(controlPoint1, controlPoint2, endPos);
-
-    QPen pen = QPen(BEZIER_HELP_LINE_COLOR);
-    pen.setWidth(BEZIER_LINE_LENGTH);
-
-    m_bezierLine->setPen(pen);
-    m_bezierLine->setPath(path);
 }

@@ -157,7 +157,7 @@ void Edge::cutEdge(DrawingWidget *drawingWidget) {
     Point *pLeft = getConnectedElement(LEFT);
     Point *pRight = getConnectedElement(RIGHT);
 
-    QPoint midPos = getMidPoint();
+    QPoint midPos = getMidPoint().toPoint();
 
     Point *pMid = drawingWidget->addPoint(midPos.x(), midPos.y());
     Edge *leftEdge = drawingWidget->addEdge(pLeft, pMid);
@@ -174,16 +174,13 @@ void Edge::cutEdge(DrawingWidget *drawingWidget) {
     m_drawingWidget->scene()->removeItem(this);
 }
 
-QPoint Edge::getMidPoint() const {
+QPointF Edge::getMidPoint() const {
     Point *pLeft = getConnectedElement(LEFT);
     Point *pRight = getConnectedElement(RIGHT);
     const auto pLeftPos = pLeft->getPositionOnPainter();
     const auto pRightPos = pRight->getPositionOnPainter();
 
-    const int x = static_cast<int>((pLeftPos.x() + pRightPos.x()) / 2);
-    const int y = static_cast<int>((pLeftPos.y() + pRightPos.y()) / 2);
-
-    return {x, y};
+    return (pLeftPos + pRightPos) / 2.0;
 }
 
 double Edge::getLength() const {

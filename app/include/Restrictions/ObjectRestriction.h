@@ -48,7 +48,7 @@ protected:
 
     virtual void onRestrictionDelete() {}
 
-    virtual QPoint getIconPosition() { return {0, 0}; }
+    virtual QPointF getIconPosition() { return {0, 0}; }
 
     virtual std::string getIconName() { return ""; }
 

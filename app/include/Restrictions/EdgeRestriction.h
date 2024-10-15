@@ -38,7 +38,7 @@ protected:
 
     void onRestrictionDelete() override;
 
-    QPoint getIconPosition() override;
+    QPointF getIconPosition() override;
 
     // ------------------------------
     // Class fields
