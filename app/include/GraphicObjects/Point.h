@@ -62,8 +62,6 @@ private:
 
     QVariant _onSelectionChange(const QVariant &value);
 
-    QVariant _onPositionChange(const QVariant &value);
-
     QVariant _onPositionChanged(const QVariant &value);
 
     void _propagatePositionChange();
@@ -88,6 +86,7 @@ protected:
     // ------------------------------
 
     const int m_pointId;
+    QPointF m_prevPos{};
 };
 
 

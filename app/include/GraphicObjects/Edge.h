@@ -33,7 +33,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    void repositionByPoints();
+    bool repositionByPoints();
 
     void cutEdge(DrawingWidget *drawingWidget);
 

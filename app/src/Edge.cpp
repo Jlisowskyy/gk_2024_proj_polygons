@@ -89,7 +89,12 @@ QVariant Edge::_onPositionChanged(const QVariant &value) {
     return value;
 }
 
-void Edge::repositionByPoints() {
+bool Edge::repositionByPoints() {
+    if (line().p1() == getConnectedElement(LEFT)->getPositionOnPainter() &&
+        line().p2() == getConnectedElement(RIGHT)->getPositionOnPainter()) {
+        return false;
+    }
+
     if (!m_isUpdating) {
         setLine(QLineF(getConnectedElement(LEFT)->getPositionOnPainter(),
                        getConnectedElement(RIGHT)->getPositionOnPainter()));
@@ -99,6 +104,8 @@ void Edge::repositionByPoints() {
             m_restriction->onReposition();
         }
     }
+
+    return true;
 }
 
 void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
