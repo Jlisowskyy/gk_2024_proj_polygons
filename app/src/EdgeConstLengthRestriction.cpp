@@ -6,11 +6,22 @@
 #include "../include/Restrictions/Restrictions.h"
 #include "../include/Restrictions/EdgeConstLengthRestriction.h"
 #include "../include/GraphicObjects/Edge.h"
+#include "../include/GraphicObjects/Point.h"
+#include "../include/GraphicObjects/LengthDialog.h"
 
 /* external includes */
 #include <cmath>
 
 bool EdgeConstLengthRestriction::applyRestriction() {
+    LengthDialog dialog(nullptr, m_edge->getLength());
+
+    if (dialog.exec() == QDialog::Accepted) {
+        m_length = dialog.getLength();
+        return false;
+    } else {
+        return true;
+    }
+
     return false;
 }
 
@@ -18,8 +29,7 @@ std::string EdgeConstLengthRestriction::getIconName() {
     return EdgeRestrictionIconPath("const_length");
 }
 
-EdgeConstLengthRestriction::EdgeConstLengthRestriction(Edge *edge) : EdgeRestriction(edge),
-                                                                     m_length(edge->getLength()) {
+EdgeConstLengthRestriction::EdgeConstLengthRestriction(Edge *edge) : EdgeRestriction(edge){
 
 }
 

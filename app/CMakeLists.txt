@@ -58,6 +58,8 @@ set(PROJECT_SOURCES
         include/GraphicObjects/BezierPoint.h
         src/BezierPoint.cpp
         src/Constants.cpp
+        src/LengthDialog.cpp
+        include/GraphicObjects/LengthDialog.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

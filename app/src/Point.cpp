@@ -288,9 +288,6 @@ void Point::_updateEdgePositions(Point *startPoint, const size_t direction) {
     Edge *edge = getConnectedElement(direction);
     Q_ASSERT(edge);
 
-    if (!edge->repositionByPoints()) {
-        return;
-    }
-
+    edge->repositionByPoints();
     nextPoint->_updateEdgePositions(startPoint, direction);
 }

@@ -36,7 +36,7 @@ public:
     // Class fields
     // ------------------------------
 
-    const double m_length;
+    double m_length{};
 };
 
 
