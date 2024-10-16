@@ -26,7 +26,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    qreal getLength() const { return m_length; }
+    [[nodiscard]] qreal getLength() const { return m_length; }
 
 protected slots:
 

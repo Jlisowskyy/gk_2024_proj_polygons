@@ -13,7 +13,7 @@
 #include <QDoubleValidator>
 #include <QMessageBox>
 
-LengthDialog::LengthDialog(QWidget *parent, qreal init) : QDialog(parent), m_length(init) {
+LengthDialog::LengthDialog(QWidget *parent, const qreal init) : QDialog(parent), m_length(init) {
     setWindowTitle("Set length");
     setFixedSize(200, 100);
 

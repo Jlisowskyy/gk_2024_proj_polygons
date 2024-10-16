@@ -152,7 +152,8 @@ Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Poi
 
     const QPointF restrictionDxdy = edge->getRestriction()->tryToPreserveRestriction(direction, dxdy);
     moveBy(restrictionDxdy.x(), restrictionDxdy.y());
-    const bool result = getConnectedPoint(direction)->tryToPreserveRestrictions(dxdy, direction, blockPoint, dryRun);
+    const bool result = (!getConnectedPoint(direction) ||
+                         getConnectedPoint(direction)->tryToPreserveRestrictions(dxdy, direction, blockPoint, dryRun));
 
     if (!result || dryRun) {
         moveBy(-restrictionDxdy.x(), -restrictionDxdy.y());

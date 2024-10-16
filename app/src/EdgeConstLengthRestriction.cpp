@@ -15,27 +15,38 @@
 bool EdgeConstLengthRestriction::applyRestriction() {
     LengthDialog dialog(nullptr, m_edge->getLength());
 
+    /* TODO: validate there is no all const length constraints */
+
     if (dialog.exec() == QDialog::Accepted) {
         m_length = dialog.getLength();
+
+        if (m_length != m_edge->getLength()) {
+            Point *point = m_edge->getConnectedElement(LEFT);
+            Q_ASSERT(point);
+
+
+
+            /* TODO : HANDLE THAT */
+        }
+
         return false;
-    } else {
-        return true;
     }
 
-    return false;
+    return true;
 }
 
 std::string EdgeConstLengthRestriction::getIconName() {
     return EdgeRestrictionIconPath("const_length");
 }
 
-EdgeConstLengthRestriction::EdgeConstLengthRestriction(Edge *edge) : EdgeRestriction(edge){
+EdgeConstLengthRestriction::EdgeConstLengthRestriction(Edge *edge) : EdgeRestriction(edge) {
 
 }
 
-QPointF EdgeConstLengthRestriction::tryToPreserveRestriction(size_t direction, QPointF dxdy) {
-    return {0, 0};
+QPointF EdgeConstLengthRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, const QPointF dxdy) {
+    return dxdy;
 }
+
 
 bool EdgeConstLengthRestriction::isRestrictionPreserved() {
     static constexpr double PRECISION_LIMIT = 0.5;
