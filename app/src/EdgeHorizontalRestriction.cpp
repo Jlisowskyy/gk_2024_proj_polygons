@@ -23,10 +23,9 @@ bool EdgeHorizontalRestriction::applyRestriction() {
     Point *pointLeft = m_edge->getConnectedElement(LEFT);
     Point *pointRight = m_edge->getConnectedElement(RIGHT);
 
-    auto posRight = pointRight->getPositionOnPainter();
-    posRight.setY(pointLeft->getPositionOnPainter().y());
-
-    pointRight->setPositionOnPainter(posRight);
+    auto posLeft = pointLeft->getPositionOnPainter();
+    posLeft.setY(pointRight->getPositionOnPainter().y());
+    pointLeft->setPositionOnPainter(posLeft);
 
     return false;
 }
@@ -49,10 +48,14 @@ std::string EdgeHorizontalRestriction::getIconName() {
     return EdgeRestrictionIconPath("horizontal");
 }
 
-QPointF EdgeHorizontalRestriction::tryToPreserveRestriction(size_t direction, QPointF dxdy) {
-
+QPointF EdgeHorizontalRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, const QPointF dxdy) {
+    return {0, dxdy.y()};
 }
 
 bool EdgeHorizontalRestriction::isRestrictionPreserved() {
-    return false;
+    Point *pointLeft = m_edge->getConnectedElement(LEFT);
+    Point *pointRight = m_edge->getConnectedElement(RIGHT);
+    Q_ASSERT(pointRight && pointLeft);
+
+    return pointRight->getPositionOnPainter().y() == pointLeft->getPositionOnPainter().y();
 }

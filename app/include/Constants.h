@@ -10,6 +10,7 @@
 /* Point specific */
 static constexpr int DEFAULT_POINT_RADIUS = 7;
 static constexpr int SELECTED_POINT_RADIUS = 10;
+static constexpr int POINT_ID_DIST = 20;
 
 /* Selection specific */
 static constexpr Qt::GlobalColor DEFAULT_COLOR = Qt::black;
@@ -33,7 +34,7 @@ enum ConnectionType : size_t {
 };
 static constexpr size_t MAX_CONNECTIONS = NOT_CONNECTED;
 
-constexpr size_t SwapDirection(const size_t direction) {
+constexpr size_t swapDirection(const size_t direction) {
     return direction ^ 1;
 }
 

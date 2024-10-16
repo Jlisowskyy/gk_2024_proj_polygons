@@ -22,7 +22,7 @@ std::tuple<Point *, Point *> IPointPolygonObject::remove(const bool isFullPolygo
             connections[direction] = itemToRemove->getConnectedElement(direction);
             Q_ASSERT(connections[direction] != nullptr);
 
-            connections[direction]->setConnectedElement(SwapDirection(direction), nullptr);
+            connections[direction]->setConnectedElement(swapDirection(direction), nullptr);
 
             m_point->scene()->removeItem(itemToRemove);
         }

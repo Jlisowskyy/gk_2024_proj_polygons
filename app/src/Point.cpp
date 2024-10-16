@@ -22,7 +22,8 @@ Point::Point(const int x, const int y, Polygon *polygon) : QGraphicsEllipseItem(
                                                                                 DEFAULT_POINT_RADIUS * 2,
                                                                                 DEFAULT_POINT_RADIUS * 2),
                                                            IConnectableElement<Edge>(reinterpret_cast<void *>(this)),
-                                                           IPointPolygonObject(this, polygon) {
+                                                           IPointPolygonObject(this, polygon),
+                                                           m_pointId(polygon->getAndIncrementPointCount()) {
     setFlags(flags() | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable |
              QGraphicsItem::ItemSendsScenePositionChanges);
     setPen(QPen(DEFAULT_COLOR));
@@ -32,6 +33,9 @@ Point::Point(const int x, const int y, Polygon *polygon) : QGraphicsEllipseItem(
     /* Points should be displayed above edges */
     setZValue(1);
 
+    /* display point Id above the point */
+    QGraphicsTextItem *text = new QGraphicsTextItem(QString::number(m_pointId), this);
+    text->setPos(-POINT_ID_DIST, -POINT_ID_DIST);
 }
 
 QVariant Point::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
@@ -53,25 +57,24 @@ QVariant Point::itemChange(QGraphicsItem::GraphicsItemChange change, const QVari
 }
 
 QVariant Point::_onPositionChange(const QVariant &value) {
+    if (BlockPropagation) {
+        return value;
+    }
+
     QPointF dxdy = value.toPointF() - scenePos();
 
     BlockPropagation = true;
 
     if (!m_polygon->isFullPolygon()) {
-        if (Edge *edge = getConnectedElement(LEFT)) {
-            edge->tryToPreserveRestrictions(dxdy, LEFT, reinterpret_cast<void *>(this));
+        if (Point *point = getConnectedPoint(LEFT)) {
+            point->tryToPreserveRestrictions(dxdy, LEFT, nullptr, false);
         }
 
-        if (Edge *edge = getConnectedElement(RIGHT)) {
-            edge->tryToPreserveRestrictions(dxdy, RIGHT, reinterpret_cast<void *>(this));
+        if (Point *point = getConnectedPoint(RIGHT)) {
+            point->tryToPreserveRestrictions(dxdy, RIGHT, nullptr, false);
         }
     } else {
-        Q_ASSERT(getConnectedPoint(LEFT) != nullptr && getConnectedPoint(RIGHT) != nullptr);
-
-        const bool result = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, RIGHT,
-                                                                               reinterpret_cast<void *>(this));
-
-        Q_ASSERT(result);
+        _fullPolygonPositionChange(dxdy);
     }
 
     BlockPropagation = false;
@@ -145,27 +148,154 @@ void Point::_propagatePositionChange() {
     }
 }
 
-bool Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, void *startPoint) {
-    if (startPoint == reinterpret_cast<void *>(this)) {
+bool Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Point *blockPoint, bool dryRun) {
+    if (blockPoint == reinterpret_cast<void *>(this)) {
+        return areRestrictionsPreserved();
+    }
+
+    if (areRestrictionsPreserved()) {
         return true;
     }
 
-//    if (m_restriction && !m_restriction->isRestrictionPreserved()) {
-//        QPointF proposedDxdy = m_restriction->tryToPreserveRestriction(direction, dxdy);
-//        QPointF prevPos = scenePos();
-//        setPos(prevPos + proposedDxdy);
-//
-//        if (Edge *edge = getConnectedElement(direction); edge->tryToPreserveRestrictions(proposedDxdy, direction, startPoint)) {
-//            return true;
-//        }
-//
-//        setPos(prevPos);
-//        return false;
-//    }
+    const size_t reversedDirection = swapDirection(direction);
+    Edge *edge = getConnectedElement(reversedDirection);
+    Q_ASSERT(edge);
 
-    if (Edge *edge = getConnectedElement(direction)) {
-        return edge->tryToPreserveRestrictions(dxdy, direction, startPoint);
+    const QPointF restrictionDxdy = edge->getRestriction()->tryToPreserveRestriction(direction, dxdy);
+    moveBy(restrictionDxdy.x(), restrictionDxdy.y());
+    const bool result = getConnectedPoint(direction)->tryToPreserveRestrictions(dxdy, direction, blockPoint, dryRun);
+
+    if (!result || dryRun) {
+        moveBy(-restrictionDxdy.x(), -restrictionDxdy.y());
     }
 
-    return true;
+    return result;
+}
+
+Point *Point::getDistantPoint(size_t direction, uint distance) const {
+    Point *point = getConnectedPoint(direction);
+
+    if (distance == 0) {
+        return point;
+    }
+
+    if (point == nullptr) {
+        return nullptr;
+    }
+
+    return point->getDistantPoint(direction, distance - 1);
+}
+
+int Point::_countPoints(Point *startPoint) {
+    if (this == startPoint) {
+        return 1;
+    }
+
+    Point *pointLeft = getConnectedPoint(LEFT);
+    return pointLeft->_countPoints(startPoint) + 1;
+}
+
+int Point::countPoints() {
+    if (!m_polygon->isFullPolygon()) {
+        return -1;
+    }
+
+    return getConnectedPoint(LEFT)->_countPoints(this);
+}
+
+void Point::_fullPolygonPositionChange(QPointF dxdy) {
+    const int pointCount = countPoints();
+
+    if (pointCount % 2 == 0) {
+        const int midPointDist = (pointCount / 2) - 1;
+        Point *midPoint = getDistantPoint(LEFT, midPointDist);
+
+        Q_ASSERT(midPoint);
+    } else {
+        const int blockPointDist = (pointCount / 2);
+        Point *leftBlock = getDistantPoint(LEFT, blockPointDist);
+        Point *rightBlock = getDistantPoint(RIGHT, blockPointDist);
+
+        Q_ASSERT(leftBlock && rightBlock);
+
+        const bool leftSuccess = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, LEFT, leftBlock, true);
+
+        if (!leftSuccess) {
+            moveWholePolygon(dxdy);
+            qDebug() << "Failed: moved whole polygon";
+            return;
+        }
+
+        const bool rightSuccess = getConnectedPoint(RIGHT)->tryToPreserveRestrictions(dxdy, RIGHT, rightBlock, true);
+
+        if (!rightSuccess) {
+            moveWholePolygon(dxdy);
+            qDebug() << "Failed: moved whole polygon";
+            return;
+        }
+
+        const bool resultLeft = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, LEFT, leftBlock, false);
+        const bool resultRight = getConnectedPoint(RIGHT)->tryToPreserveRestrictions(dxdy, RIGHT, rightBlock, false);
+        updateEdgePositions();
+
+        Q_ASSERT(resultLeft && resultRight);
+    }
+}
+
+void Point::moveWholePolygon(QPointF dxdy) {
+    if (!m_polygon->isFullPolygon()) {
+        return;
+    }
+
+    getConnectedPoint(LEFT)->_moveWholePolygon(this, dxdy);
+    updateEdgePositions();
+}
+
+void Point::_moveWholePolygon(Point *startPoint, QPointF dxdy) {
+    moveBy(dxdy.x(), dxdy.y());
+
+    if (this == startPoint) {
+        return;
+    }
+
+    getConnectedPoint(LEFT)->_moveWholePolygon(startPoint, dxdy);
+}
+
+bool Point::areRestrictionsPreserved() {
+    return (!getConnectedElement(LEFT) || getConnectedElement(LEFT)->isRestrictionPreserved()) &&
+           (!getConnectedElement(RIGHT) || getConnectedElement(RIGHT)->isRestrictionPreserved());
+}
+
+void Point::updateEdgePositions() {
+    if (m_polygon->isFullPolygon()) {
+        Point *point = getConnectedPoint(LEFT);
+        Q_ASSERT(point);
+
+        Edge *edge = getConnectedElement(LEFT);
+        Q_ASSERT(edge);
+
+        edge->repositionByPoints();
+        point->_updateEdgePositions(this, LEFT);
+        return;
+    }
+
+    _updateEdgePositions(nullptr, LEFT);
+    _updateEdgePositions(nullptr, RIGHT);
+}
+
+void Point::_updateEdgePositions(Point *startPoint, size_t direction) {
+    if (this == startPoint) {
+        return;
+    }
+
+    Point *nextPoint = getConnectedPoint(direction);
+
+    if (nextPoint == nullptr) {
+        return;
+    }
+
+    Edge *edge = getConnectedElement(direction);
+    Q_ASSERT(edge);
+
+    edge->repositionByPoints();
 }

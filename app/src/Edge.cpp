@@ -14,13 +14,14 @@
 #include <QPainter>
 #include <cmath>
 
-Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget, Polygon* polygon) : QGraphicsLineItem(
+Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget, Polygon *polygon) : QGraphicsLineItem(
         QLineF(start->getPositionOnPainter(),
                end->getPositionOnPainter())),
-                                                                     IConnectableElement<Point>(
-                                                                             reinterpret_cast<void *>(this)),
-                                                                     IEdgePolygonObject(this, polygon),
-                                                                     m_drawingWidget(drawingWidget) {
+                                                                                       IConnectableElement<Point>(
+                                                                                               reinterpret_cast<void *>(this)),
+                                                                                       IEdgePolygonObject(this,
+                                                                                                          polygon),
+                                                                                       m_drawingWidget(drawingWidget) {
     Q_ASSERT(start != nullptr && end != nullptr);
 
     QPen pen(DEFAULT_COLOR);
@@ -203,14 +204,3 @@ void Edge::_propagatePositionChange(QPointF point) {
     m_isUpdating = false;
 }
 
-bool Edge::tryToPreserveRestrictions(QPointF point, size_t direction, void *startPoint) {
-    if (startPoint == reinterpret_cast<void*>(this)) {
-        return true;
-    }
-
-    if (m_restriction && !m_restriction->isRestrictionPreserved()) {
-          
-    }
-
-    return true;
-}

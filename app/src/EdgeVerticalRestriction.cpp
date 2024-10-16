@@ -21,10 +21,9 @@ bool EdgeVerticalRestriction::applyRestriction() {
     Point *pointLeft = m_edge->getConnectedElement(LEFT);
     Point *pointRight = m_edge->getConnectedElement(RIGHT);
 
-    auto posRight = pointRight->getPositionOnPainter();
-    posRight.setX(pointLeft->getPositionOnPainter().x());
-
-    pointRight->setPositionOnPainter(posRight);
+    auto posLeft = pointLeft->getPositionOnPainter();
+    posLeft.setX(pointRight->getPositionOnPainter().x());
+    pointLeft->setPositionOnPainter(posLeft);
 
     return false;
 }
@@ -48,9 +47,13 @@ bool EdgeVerticalRestriction::validateNoDoubleVerticalRestriction() {
 }
 
 bool EdgeVerticalRestriction::isRestrictionPreserved() {
-    return false;
+    Point *pointLeft = m_edge->getConnectedElement(LEFT);
+    Point *pointRight = m_edge->getConnectedElement(RIGHT);
+    Q_ASSERT(pointRight && pointLeft);
+
+    return pointRight->getPositionOnPainter().x() == pointLeft->getPositionOnPainter().x();
 }
 
-QPointF EdgeVerticalRestriction::tryToPreserveRestriction(size_t direction, QPointF dxdy) {
-
+QPointF EdgeVerticalRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, const QPointF dxdy) {
+    return {dxdy.x(), 0};
 }

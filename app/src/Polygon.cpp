@@ -34,6 +34,7 @@ void Polygon::clearItems() {
     m_drawingWidget->clearContent();
 
     m_startingPoint = m_endingPoint = nullptr;
+    m_pointCount = 0;
 }
 
 bool Polygon::getIsAddingVertices() const {
@@ -75,6 +76,8 @@ void Polygon::addPoint(const int x, const int y) {
 
         m_endingPoint->setConnectedElement(RIGHT, edge);
         m_startingPoint->setConnectedElement(LEFT, edge);
+
+        qDebug() << m_startingPoint->countPoints();
     } else {
         if (m_startingPoint == nullptr) {
             m_startingPoint = m_endingPoint = point;
@@ -128,4 +131,8 @@ void Polygon::setPointRestriction(const std::string &restrictionName) {
     Q_ASSERT(PointRestrictions.find(restrictionName) != PointRestrictions.end());
 
     point->applyRestriction(PointRestrictions[restrictionName](point), m_drawingWidget);
+}
+
+int Polygon::getAndIncrementPointCount() {
+    return m_pointCount++;
 }

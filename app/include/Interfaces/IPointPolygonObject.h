@@ -27,6 +27,8 @@ public:
 
     std::tuple<Point *, Point *> remove(bool isFullPolygon, DrawingWidget *painter) final;
 
+    virtual bool tryToPreserveRestrictions(const QPointF point, const size_t direction, Point *blockPoint, bool dryRun) = 0;
+
     // ------------------------------
     // Class fields
     // ------------------------------

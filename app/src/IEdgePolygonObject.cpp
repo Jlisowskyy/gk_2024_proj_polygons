@@ -8,6 +8,7 @@
 #include "../include/GraphicObjects/Edge.h"
 #include "../include/GraphicObjects/Point.h"
 #include "../include/GraphicObjects/DrawingWidget.h"
+#include "../include/Restrictions/ObjectRestriction.h"
 
 /* external includes */
 #include <QGraphicsScene>
@@ -21,7 +22,7 @@ std::tuple<Point *, Point *> IEdgePolygonObject::remove(bool isFullPolygon, Draw
             if (Edge *itemToRemove2 = itemToRemove1->getConnectedElement(direction); itemToRemove2 != nullptr) {
                 connections[direction] = itemToRemove2->getConnectedElement(direction);
                 Q_ASSERT(connections[direction] != nullptr);
-                connections[direction]->setConnectedElement(SwapDirection(direction), nullptr);
+                connections[direction]->setConnectedElement(swapDirection(direction), nullptr);
 
                 m_edge->scene()->removeItem(itemToRemove2);
             }
@@ -39,4 +40,8 @@ std::tuple<Point *, Point *> IEdgePolygonObject::remove(bool isFullPolygon, Draw
     m_edge->scene()->removeItem(m_edge);
 
     return rv;
+}
+
+bool IEdgePolygonObject::isRestrictionPreserved() {
+    return m_restriction == nullptr || m_restriction->isRestrictionPreserved();
 }

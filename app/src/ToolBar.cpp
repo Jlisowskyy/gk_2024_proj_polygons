@@ -118,8 +118,8 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
 
     m_setHorizontalAction = _addEdgeRestrictionButton(polygon, "horizontal");
     m_setVerticalAction = _addEdgeRestrictionButton(polygon, "vertical");
-    m_setConstLengthAction = _addEdgeRestrictionButton(polygon, "const_length");
-    m_setBezierAction = _addEdgeRestrictionButton(polygon, "bezier");
+//    m_setConstLengthAction = _addEdgeRestrictionButton(polygon, "const_length");
+//    m_setBezierAction = _addEdgeRestrictionButton(polygon, "bezier");
 
     _addSeparator();
 
@@ -134,10 +134,10 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
 
 void ToolBar::_setEdgeButtonsIsDisabledState(bool isDisabled) {
     m_setHorizontalAction->setDisabled(isDisabled);
-    m_setBezierAction->setDisabled(isDisabled);
+//    m_setBezierAction->setDisabled(isDisabled);
     m_cutEdgeAction->setDisabled(isDisabled);
     m_setVerticalAction->setDisabled(isDisabled);
-    m_setConstLengthAction->setDisabled(isDisabled);
+//    m_setConstLengthAction->setDisabled(isDisabled);
 }
 
 void ToolBar::_setVertexButtonsIsDisabledState(bool isDisabled) {

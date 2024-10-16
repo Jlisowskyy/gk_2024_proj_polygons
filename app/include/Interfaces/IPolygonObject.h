@@ -39,8 +39,6 @@ public:
 
     void cleanRestriction();
 
-    virtual bool tryToPreserveRestrictions(QPointF point, size_t direction, void *startPoint) = 0;
-
     // ------------------------------
     // Abstract methods
     // ------------------------------

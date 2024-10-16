@@ -41,8 +41,6 @@ public:
 
     [[nodiscard]] double getLength() const;
 
-    bool tryToPreserveRestrictions(QPointF point, size_t direction, void *startPoint) final;
-
     // ------------------------------
     // Private methods
     // ------------------------------

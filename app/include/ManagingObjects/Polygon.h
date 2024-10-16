@@ -58,6 +58,8 @@ public slots:
 
     void setPointRestriction(const std::string &restrictionName);
 
+    int getAndIncrementPointCount();
+
     // ------------------------------
     // Private methods
     // ------------------------------
@@ -74,6 +76,8 @@ protected:
 
     Point *m_startingPoint{};
     Point *m_endingPoint{};
+
+    int m_pointCount{};
 };
 
 

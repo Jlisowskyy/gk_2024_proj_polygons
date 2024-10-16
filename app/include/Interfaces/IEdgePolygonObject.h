@@ -26,6 +26,12 @@ public:
     ~IEdgePolygonObject() override = default;
 
     // ------------------------------
+    // Class interaction
+    // ------------------------------
+
+    bool isRestrictionPreserved();
+
+    // ------------------------------
     // Abstract methods overrides
     // ------------------------------
 

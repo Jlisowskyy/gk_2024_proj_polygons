@@ -43,7 +43,17 @@ public:
 
     [[nodiscard]] Point *getConnectedPoint(size_t direction) const;
 
-    bool tryToPreserveRestrictions(QPointF point, size_t direction, void *startPoint) final;
+    [[nodiscard]] Point *getDistantPoint(size_t direction, uint distance) const;
+
+    [[nodiscard]] int countPoints();
+
+    bool tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Point *blockPoint, bool dryRun) final;
+
+    void moveWholePolygon(QPointF dxdy);
+
+    bool areRestrictionsPreserved();
+
+    void updateEdgePositions();
 
     // ------------------------------
     // Private methods
@@ -58,6 +68,14 @@ private:
 
     void _propagatePositionChange();
 
+    [[nodiscard]] int _countPoints(Point *startPoint);
+
+    void _fullPolygonPositionChange(QPointF dxdy);
+
+    void _moveWholePolygon(Point* startPoint, QPointF dxdy);
+
+    void _updateEdgePositions(Point *startPoint, size_t direction);
+
     // ------------------------------
     // Protected Methods
     // ------------------------------
@@ -68,6 +86,8 @@ protected:
     // ------------------------------
     // Class fields
     // ------------------------------
+
+    const int m_pointId;
 };
 
 
