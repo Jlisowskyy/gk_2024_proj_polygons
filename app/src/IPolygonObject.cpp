@@ -5,8 +5,10 @@
 /* internal includes */
 #include "../include/Interfaces/IPolygonObject.h"
 #include "../include/GraphicObjects/Point.h"
-#include "../include/GraphicObjects/DrawingWidget.h"
 #include "../include/Restrictions/ObjectRestriction.h"
+#include "../include/GraphicObjects/Edge.h"
+#include "../include/GraphicObjects/DrawingWidget.h"
+#include "../include/ManagingObjects/Polygon.h"
 
 void
 IPolygonObject::_addEdgeIfNotTriangle(Point **connections, const bool isFullPolygon, DrawingWidget *const painter) {

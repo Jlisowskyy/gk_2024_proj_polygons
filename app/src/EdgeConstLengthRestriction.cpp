@@ -11,6 +11,7 @@
 
 /* external includes */
 #include <cmath>
+#include <QLineF>
 
 bool EdgeConstLengthRestriction::applyRestriction() {
     LengthDialog dialog(nullptr, m_edge->getLength());
@@ -24,9 +25,10 @@ bool EdgeConstLengthRestriction::applyRestriction() {
             Point *point = m_edge->getConnectedElement(LEFT);
             Q_ASSERT(point);
 
+            const QPointF dxdy = tryToPreserveRestriction(LEFT, QPointF(0, 0));
+            point->setPositionOnPainter(point->getPositionOnPainter() + dxdy);
+        } else {
 
-
-            /* TODO : HANDLE THAT */
         }
 
         return false;
@@ -43,8 +45,19 @@ EdgeConstLengthRestriction::EdgeConstLengthRestriction(Edge *edge) : EdgeRestric
 
 }
 
-QPointF EdgeConstLengthRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, const QPointF dxdy) {
-    return dxdy;
+QPointF EdgeConstLengthRestriction::tryToPreserveRestriction(size_t direction, [[maybe_unused]] const QPointF dxdy) {
+    Point* point1 = direction == LEFT ? m_edge->getConnectedElement(RIGHT) : m_edge->getConnectedElement(LEFT);
+    Point* point2 = m_edge->getConnectedElement(direction);
+
+    Q_ASSERT(point1 && point2);
+
+    QPointF pos1 = point1->getPositionOnPainter();
+    QPointF pos2 = point2->getPositionOnPainter();
+
+    QLineF line(pos1, pos2);
+    line.setLength(m_length);
+
+    return line.p2() - pos2;
 }
 
 

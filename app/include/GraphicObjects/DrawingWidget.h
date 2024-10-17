@@ -13,11 +13,14 @@
 #include <QGraphicsItem>
 
 /* internal includes */
-#include "Point.h"
-#include "Edge.h"
+#include "../Constants.h"
 
 /* Forward declaration */
 class Polygon;
+
+class Edge;
+
+class Point;
 
 class DrawingWidget : public QGraphicsView {
 Q_OBJECT

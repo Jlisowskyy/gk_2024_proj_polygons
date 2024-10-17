@@ -6,14 +6,18 @@
 #define APP_POLYGON_H
 
 /* internal includes */
-#include "../GraphicObjects/Edge.h"
-#include "../GraphicObjects/Point.h"
-#include "../GraphicObjects/DrawingWidget.h"
 
 /* external includes */
 #include <vector>
 #include <QObject>
 #include <tuple>
+
+/* Forward declarations */
+class Point;
+
+class DrawingWidget;
+
+class Edge;
 
 class Polygon : public QObject {
 Q_OBJECT

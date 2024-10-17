@@ -9,14 +9,13 @@
 #include "../Constants.h"
 #include "../Interfaces/IConnectableElement.h"
 #include "../Interfaces/IPointPolygonObject.h"
+#include "../ManagingObjects/Polygon.h"
 
 /* external includes */
 #include <QGraphicsEllipseItem>
 #include <tuple>
 
 /* Forward declaration */
-class Polygon;
-
 class Edge;
 
 class DrawingWidget;
@@ -47,13 +46,19 @@ public:
 
     [[nodiscard]] int countPoints();
 
-    bool tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Point *blockPoint, bool dryRun) final;
+    bool tryToPreserveRestrictions(QPointF dxdy, size_t direction, Point *blockPoint, bool dryRun) final;
 
     void moveWholePolygon(QPointF dxdy);
 
     bool areRestrictionsPreserved();
 
     void updateEdgePositions();
+
+    template<typename ActionT>
+    void iteratePoints(ActionT action);
+
+    template<typename ActionT>
+    void iterateEdges(ActionT action);
 
     // ------------------------------
     // Private methods
@@ -66,13 +71,7 @@ private:
 
     void _propagatePositionChange();
 
-    [[nodiscard]] int _countPoints(Point *startPoint);
-
     void _fullPolygonPositionChange(QPointF dxdy);
-
-    void _moveWholePolygon(Point* startPoint, QPointF dxdy);
-
-    void _updateEdgePositions(Point *startPoint, size_t direction);
 
     // ------------------------------
     // Protected Methods
@@ -88,6 +87,49 @@ protected:
     const int m_pointId;
     QPointF m_prevPos{};
 };
+
+template<typename ActionT>
+void Point::iteratePoints(ActionT action) {
+    Point *point = this;
+    do {
+        action(point);
+        point = point->getConnectedPoint(LEFT);
+    } while (point != this || point == nullptr);
+
+    if (m_polygon->isFullPolygon()) {
+        return;
+    }
+
+    point = this->getConnectedPoint(RIGHT);
+    while (point != nullptr) {
+        action(point);
+        point = point->getConnectedPoint(RIGHT);
+    }
+}
+
+template<typename ActionT>
+void Point::iterateEdges(ActionT action) {
+    Point *point = this;
+
+    do {
+        if (getConnectedElement(LEFT) == nullptr) {
+            break;
+        }
+
+        action(point->getConnectedElement(LEFT));
+        point = point->getConnectedPoint(LEFT);
+    } while (point != this);
+
+    if (m_polygon->isFullPolygon()) {
+        return;
+    }
+
+    point = this;
+    while (point != nullptr && point->getConnectedElement(RIGHT) != nullptr) {
+        action(point->getConnectedElement(RIGHT));
+        point = point->getConnectedPoint(RIGHT);
+    }
+}
 
 
 #endif //APP_POINT_H

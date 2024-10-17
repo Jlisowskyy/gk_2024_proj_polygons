@@ -18,6 +18,7 @@ bool PointContinuousRestriction::isRestrictionPreserved() {
     return true;
 }
 
-QPointF PointContinuousRestriction::tryToPreserveRestriction(size_t direction, QPointF dxdy) {
+QPointF
+PointContinuousRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, [[maybe_unused]] QPointF dxdy) {
     return {0, 0};
 }

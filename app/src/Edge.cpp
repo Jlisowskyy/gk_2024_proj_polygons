@@ -202,12 +202,8 @@ void Edge::_propagatePositionChange(QPointF point) {
         return;
     }
 
-    const double leftRadius = getConnectedElement(LEFT)->getRadius();
-    const double rightRadius = getConnectedElement(RIGHT)->getRadius();
-
     m_isUpdating = true;
-    getConnectedElement(LEFT)->setPos(line().p1() + point - QPointF(leftRadius, leftRadius));
-    getConnectedElement(RIGHT)->setPos(line().p2() + point - QPointF(rightRadius, rightRadius));
+    getConnectedElement(LEFT)->setPositionOnPainter(line().p1() + point);
+    getConnectedElement(RIGHT)->setPositionOnPainter(line().p2() + point);
     m_isUpdating = false;
 }
-

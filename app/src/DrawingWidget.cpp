@@ -6,6 +6,7 @@
 #include "../include/GraphicObjects/DrawingWidget.h"
 #include "../include/GraphicObjects/Point.h"
 #include "../include/ManagingObjects/Polygon.h"
+#include "../include/GraphicObjects/Edge.h"
 
 /* external includes */
 #include <QGraphicsEllipseItem>

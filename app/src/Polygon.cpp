@@ -8,6 +8,9 @@
 #include "../include/Restrictions/Restrictions.h"
 #include "../include/Restrictions/EdgeRestriction.h"
 #include "../include/Restrictions/PointRestriction.h"
+#include "../include/GraphicObjects/Edge.h"
+#include "../include/GraphicObjects/Point.h"
+#include "../include/GraphicObjects/DrawingWidget.h"
 
 /* external includes */
 

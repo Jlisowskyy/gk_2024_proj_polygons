@@ -176,21 +176,14 @@ Point *Point::getDistantPoint(const size_t direction, const uint distance) const
     return point->getDistantPoint(direction, distance - 1);
 }
 
-int Point::_countPoints(Point *startPoint) {
-    if (this == startPoint) {
-        return 1;
-    }
-
-    Point *pointLeft = getConnectedPoint(LEFT);
-    return pointLeft->_countPoints(startPoint) + 1;
-}
-
 int Point::countPoints() {
-    if (!m_polygon->isFullPolygon()) {
-        return -1;
-    }
+    int count = 0;
 
-    return getConnectedPoint(LEFT)->_countPoints(this);
+    iteratePoints([&count](Point *) {
+        count++;
+    });
+
+    return count;
 }
 
 void Point::_fullPolygonPositionChange(const QPointF dxdy) {
@@ -234,21 +227,9 @@ void Point::_fullPolygonPositionChange(const QPointF dxdy) {
 }
 
 void Point::moveWholePolygon(const QPointF dxdy) {
-    if (!m_polygon->isFullPolygon()) {
-        return;
-    }
-
-    getConnectedPoint(LEFT)->_moveWholePolygon(this, dxdy);
-}
-
-void Point::_moveWholePolygon(Point *startPoint, const QPointF dxdy) {
-    moveBy(dxdy.x(), dxdy.y());
-
-    if (this == startPoint) {
-        return;
-    }
-
-    getConnectedPoint(LEFT)->_moveWholePolygon(startPoint, dxdy);
+    iteratePoints([dxdy](Point *point) {
+        point->moveBy(dxdy.x(), dxdy.y());
+    });
 }
 
 bool Point::areRestrictionsPreserved() {
@@ -257,38 +238,9 @@ bool Point::areRestrictionsPreserved() {
 }
 
 void Point::updateEdgePositions() {
-    if (m_polygon->isFullPolygon()) {
-        Point *point = getConnectedPoint(LEFT);
-        Q_ASSERT(point);
-
-        Edge *edge = getConnectedElement(LEFT);
-        Q_ASSERT(edge);
-
+    iterateEdges([](Edge *edge) {
         edge->repositionByPoints();
-        point->_updateEdgePositions(this, LEFT);
-        return;
-    }
-
-    _updateEdgePositions(nullptr, LEFT);
-    _updateEdgePositions(nullptr, RIGHT);
+    });
 }
 
-void Point::_updateEdgePositions(Point *startPoint, const size_t direction) {
-    qDebug() << "update edge positions: " << m_pointId;
 
-    if (this == startPoint) {
-        return;
-    }
-
-    Point *nextPoint = getConnectedPoint(direction);
-
-    if (nextPoint == nullptr) {
-        return;
-    }
-
-    Edge *edge = getConnectedElement(direction);
-    Q_ASSERT(edge);
-
-    edge->repositionByPoints();
-    nextPoint->_updateEdgePositions(startPoint, direction);
-}
