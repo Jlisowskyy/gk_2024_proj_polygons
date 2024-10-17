@@ -58,18 +58,23 @@ QVariant Point::_onSelectionChange(const QVariant &value) {
     setPen(QPen(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR));
     setBrush(QBrush(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR));
 
-    const QPointF center = rect().center();
+    const auto prevRadius = rect().width() / 2;
     const auto radius = getRadius();
     setRect(QRectF(
-            center.x() - radius,
-            center.y() - radius,
+            0,
+            0,
             radius * 2,
             radius * 2
     ));
 
+    const double offset = prevRadius - radius;
+
+    BlockPropagation = true;
+    setPos(scenePos() + QPointF(offset, offset));
+    BlockPropagation = false;
+
     return value;
 }
-
 
 QPointF Point::getPositionOnPainter() const {
     const auto radius = getRadius();
