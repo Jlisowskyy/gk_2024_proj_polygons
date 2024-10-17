@@ -33,6 +33,15 @@ public:
     std::string getIconName() override;
 
     // ------------------------------
+    // Protected methods
+    // ------------------------------
+protected:
+
+    bool _isLegalUsage();
+
+
+
+    // ------------------------------
     // Class fields
     // ------------------------------
 

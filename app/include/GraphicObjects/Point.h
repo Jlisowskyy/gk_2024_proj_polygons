@@ -112,7 +112,7 @@ void Point::iterateEdges(ActionT action) {
     Point *point = this;
 
     do {
-        if (getConnectedElement(LEFT) == nullptr) {
+        if (point->getConnectedElement(LEFT) == nullptr) {
             break;
         }
 

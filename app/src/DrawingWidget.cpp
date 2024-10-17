@@ -93,9 +93,6 @@ void DrawingWidget::mousePressEvent(QMouseEvent *event) {
 
     if (scenePos.x() > 0 && scenePos.y() > 0) {
         m_polygon->addPoint(scenePos.x(), scenePos.y());
-        qDebug() << "Adding point on coordinates: " << scenePos;
-    } else {
-        qDebug() << "Point on wrong coordinates: " << scenePos;
     }
 }
 

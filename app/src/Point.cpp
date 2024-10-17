@@ -58,20 +58,18 @@ QVariant Point::_onSelectionChange(const QVariant &value) {
     setPen(QPen(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR));
     setBrush(QBrush(isSelected() ? SELECTED_COLOR : DEFAULT_COLOR));
 
-    const auto prevRadius = rect().width() / 2;
+    const QPointF center = rect().center();
     const auto radius = getRadius();
     setRect(QRectF(
-            0,
-            0,
+            center.x() - radius,
+            center.y() - radius,
             radius * 2,
             radius * 2
     ));
 
-    const double offset = prevRadius - radius;
-    setPos(scenePos() + QPointF(offset, offset));
-
     return value;
 }
+
 
 QPointF Point::getPositionOnPainter() const {
     const auto radius = getRadius();
@@ -84,6 +82,8 @@ QVariant Point::_onPositionChanged(const QVariant &value) {
     if (m_restriction) {
         m_restriction->onReposition();
     }
+
+    qDebug() << "Point position changed: " << value.toPointF();
 
     _propagatePositionChange();
     m_prevPos = scenePos();
@@ -187,6 +187,9 @@ int Point::countPoints() {
 }
 
 void Point::_fullPolygonPositionChange(const QPointF dxdy) {
+    moveWholePolygon(dxdy);
+    return;
+
     const int pointCount = countPoints();
 
     Point *leftBlock = nullptr;
@@ -220,15 +223,17 @@ void Point::_fullPolygonPositionChange(const QPointF dxdy) {
         return;
     }
 
-    const bool resultLeft = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, LEFT, leftBlock, false);
-    const bool resultRight = getConnectedPoint(RIGHT)->tryToPreserveRestrictions(dxdy, RIGHT, rightBlock, false);
+    const bool resultLeft = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, LEFT, leftBlock, true);
+    const bool resultRight = getConnectedPoint(RIGHT)->tryToPreserveRestrictions(dxdy, RIGHT, rightBlock, true);
 
     Q_ASSERT(resultLeft && resultRight);
 }
 
 void Point::moveWholePolygon(const QPointF dxdy) {
-    iteratePoints([dxdy](Point *point) {
-        point->moveBy(dxdy.x(), dxdy.y());
+    iteratePoints([dxdy, this](Point *point) {
+        if (point != this) {
+            point->moveBy(dxdy.x(), dxdy.y());
+        }
     });
 }
 
