@@ -28,7 +28,10 @@ Point::Point(const int x, const int y, Polygon *polygon) : QGraphicsEllipseItem(
              QGraphicsItem::ItemSendsScenePositionChanges);
     setPen(QPen(DEFAULT_COLOR));
     setBrush(QBrush(DEFAULT_COLOR));
+
+    BlockPropagation = true;
     setPos(QPointF(x - DEFAULT_POINT_RADIUS, y - DEFAULT_POINT_RADIUS));
+    BlockPropagation = false;
 
     /* Points should be displayed above edges */
     setZValue(1);
@@ -192,9 +195,6 @@ int Point::countPoints() {
 }
 
 void Point::_fullPolygonPositionChange(const QPointF dxdy) {
-    moveWholePolygon(dxdy);
-    return;
-
     const int pointCount = countPoints();
 
     Point *leftBlock = nullptr;
@@ -228,8 +228,8 @@ void Point::_fullPolygonPositionChange(const QPointF dxdy) {
         return;
     }
 
-    const bool resultLeft = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, LEFT, leftBlock, true);
-    const bool resultRight = getConnectedPoint(RIGHT)->tryToPreserveRestrictions(dxdy, RIGHT, rightBlock, true);
+    const bool resultLeft = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, LEFT, leftBlock, false);
+    const bool resultRight = getConnectedPoint(RIGHT)->tryToPreserveRestrictions(dxdy, RIGHT, rightBlock, false);
 
     Q_ASSERT(resultLeft && resultRight);
 }
