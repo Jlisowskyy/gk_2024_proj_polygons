@@ -139,3 +139,15 @@ void Polygon::setPointRestriction(const std::string &restrictionName) {
 int Polygon::getAndIncrementPointCount() {
     return m_pointCount++;
 }
+
+void Polygon::moveVertex(const int vertexIdx, const QPointF dxdy) {
+    if (m_startingPoint == nullptr) {
+        return;
+    }
+
+    m_startingPoint->iteratePoints([&](Point* point) {
+        if (point->getId() == vertexIdx) {
+            point->moveBy(dxdy.x(), dxdy.y());
+        }
+    });
+}

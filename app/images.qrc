@@ -11,5 +11,6 @@
         <file>icons/cut_edge.png</file>
         <file>icons/draw_algo.png</file>
         <file>icons/move.png</file>
+        <file>icons/debug.png</file>
     </qresource>
 </RCC>

@@ -62,6 +62,8 @@ public:
     template<typename ActionT>
     void iterateEdges(ActionT action);
 
+    [[nodiscard]] int getId() const { return m_pointId; }
+
     // ------------------------------
     // Private methods
     // ------------------------------

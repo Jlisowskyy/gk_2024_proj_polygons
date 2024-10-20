@@ -60,6 +60,8 @@ set(PROJECT_SOURCES
         src/Constants.cpp
         src/LengthDialog.cpp
         include/GraphicObjects/LengthDialog.h
+        include/DebugDialog.cpp
+        include/GraphicObjects/DebugDialog.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

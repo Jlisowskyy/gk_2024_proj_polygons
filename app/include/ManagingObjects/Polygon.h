@@ -45,6 +45,8 @@ public:
 
     [[nodiscard]] bool isFullPolygon() const;
 
+    void moveVertex(int vertexIdx, QPointF dxdy);
+
     // ------------------------------
     // Class slots
     // ------------------------------

@@ -11,6 +11,7 @@
 #include "../include/GraphicObjects/Edge.h"
 #include "../include/ManagingObjects/Polygon.h"
 #include "../include/Restrictions/Restrictions.h"
+#include "../include/GraphicObjects/DebugDialog.h"
 
 #include <string>
 
@@ -89,6 +90,7 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
             "Add vertex tool"
     );
     m_addVertexAction->setCheckable(true);
+    m_addVertexAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_V));
 
     m_moveAction = _addButtonToToolbar(
             "Move space",
@@ -97,6 +99,22 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
     );
     m_moveAction->setCheckable(true);
     m_moveAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+
+    m_debug = _addButtonToToolbar(
+            "Debug",
+            ":/icons/debug.png",
+            "Move the polygon"
+    );
+    m_debug->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
+    connect(m_debug, &QAction::triggered, [&]() {
+        VertexInputDialog dialog(m_toolBar);
+        if (dialog.exec() == QDialog::Accepted) {
+            int vertexIdx = dialog.getVertexIdx();
+            QPointF moveBy = dialog.getMoveBy();
+
+            polygon->moveVertex(vertexIdx, moveBy);
+        }
+    });
 
     _addSeparator();
 

@@ -75,6 +75,7 @@ public:
     QAction *m_cutEdgeAction{};
     QAction *m_drawAlgorithmAction{};
     QAction *m_moveAction{};
+    QAction *m_debug{};
 
 protected:
     // ------------------------------
