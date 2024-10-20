@@ -41,6 +41,8 @@ public:
 
     [[nodiscard]] double getLength() const;
 
+    void verifyRestrictions() const;
+
     // ------------------------------
     // Private methods
     // ------------------------------

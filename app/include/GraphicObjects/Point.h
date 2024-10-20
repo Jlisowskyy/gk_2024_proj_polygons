@@ -46,7 +46,9 @@ public:
 
     [[nodiscard]] int countPoints();
 
-    bool tryToPreserveRestrictions(QPointF dxdy, size_t direction, Point *blockPoint, bool dryRun) final;
+    bool
+    tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Point *blockPoint, const bool dryRun,
+                              std::function<bool()> func) final;
 
     void moveWholePolygon(QPointF dxdy);
 

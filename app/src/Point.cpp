@@ -91,8 +91,6 @@ QVariant Point::_onPositionChanged(const QVariant &value) {
         m_restriction->onReposition();
     }
 
-    qDebug() << "Point position changed: " << value.toPointF();
-
     _propagatePositionChange();
     m_prevPos = scenePos();
     return value;
@@ -128,12 +126,13 @@ void Point::_propagatePositionChange() {
 
     if (!m_polygon->isFullPolygon()) {
         if (Point *point = getConnectedPoint(LEFT)) {
-            const bool result = point->tryToPreserveRestrictions(dxdy, LEFT, nullptr, false);
+            const bool result = point->tryToPreserveRestrictions(dxdy, LEFT, nullptr, false, nullptr);
             Q_ASSERT(result);
         }
 
         if (Point *point = getConnectedPoint(RIGHT)) {
-            const bool result = point->tryToPreserveRestrictions(dxdy, RIGHT, nullptr, false);
+            const bool result = point->tryToPreserveRestrictions(dxdy, RIGHT, nullptr, false,
+                                                                 nullptr);
             Q_ASSERT(result);
         }
     } else {
@@ -145,26 +144,39 @@ void Point::_propagatePositionChange() {
 }
 
 bool
-Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Point *blockPoint, const bool dryRun) {
+Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Point *blockPoint, const bool dryRun,
+                                 std::function<bool()> func) {
     if (blockPoint == reinterpret_cast<void *>(this)) {
-        return areRestrictionsPreserved();
-    }
+        if (func == nullptr) {
+            return areRestrictionsPreserved();
+        }
 
-    if (areRestrictionsPreserved()) {
-        return true;
+        return func();
     }
 
     const size_t reversedDirection = swapDirection(direction);
     Edge *edge = getConnectedElement(reversedDirection);
     Q_ASSERT(edge);
 
+    if (edge->isRestrictionPreserved()) {
+        if (func == nullptr) {
+            return true;
+        }
+
+        return func();
+    }
+
     const QPointF restrictionDxdy = edge->getRestriction()->tryToPreserveRestriction(direction, dxdy);
     moveBy(restrictionDxdy.x(), restrictionDxdy.y());
     const bool result = (!getConnectedPoint(direction) ||
-                         getConnectedPoint(direction)->tryToPreserveRestrictions(dxdy, direction, blockPoint, dryRun));
+                         getConnectedPoint(direction)->tryToPreserveRestrictions(restrictionDxdy, direction, blockPoint, dryRun,
+                                                                                 func));
 
     if (!result || dryRun) {
         moveBy(-restrictionDxdy.x(), -restrictionDxdy.y());
+    } else {
+        qDebug() << (direction == LEFT ? "[LEFT]" : "[RIGHT]") << " Moving pt: " << m_pointId << " by: "
+                 << restrictionDxdy;
     }
 
     return result;
@@ -195,43 +207,35 @@ int Point::countPoints() {
 }
 
 void Point::_fullPolygonPositionChange(const QPointF dxdy) {
-    const int pointCount = countPoints();
+    const auto algorithm = [&](bool dryRun) {
+        return this->getConnectedPoint(LEFT)->tryToPreserveRestrictions(
+                dxdy,
+                LEFT,
+                this,
+                dryRun,
+                [&]() {
+                    return this->getConnectedPoint(RIGHT)->tryToPreserveRestrictions(
+                            dxdy,
+                            RIGHT,
+                            this,
+                            dryRun,
+                            nullptr
+                    );
+                }
+        );
+    };
 
-    Point *leftBlock = nullptr;
-    Point *rightBlock = nullptr;
+    /* Dry run */
+    const bool isSuccess = algorithm(true);
 
-    if (pointCount % 2 == 0) {
-        const int midPointDist = (pointCount / 2) - 1;
-        leftBlock = getDistantPoint(LEFT, midPointDist);
-        rightBlock = leftBlock;
-    } else {
-        const int blockPointDist = (pointCount / 2);
-        leftBlock = getDistantPoint(LEFT, blockPointDist);
-        rightBlock = getDistantPoint(RIGHT, blockPointDist);
-    }
-
-    Q_ASSERT(leftBlock && rightBlock);
-
-    const bool leftSuccess = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, LEFT, leftBlock, true);
-
-    if (!leftSuccess) {
+    if (!isSuccess) {
         moveWholePolygon(dxdy);
-        qDebug() << "Failed: moved whole polygon";
+        qDebug() << "Moved whole polygon";
         return;
     }
 
-    const bool rightSuccess = getConnectedPoint(RIGHT)->tryToPreserveRestrictions(dxdy, RIGHT, rightBlock, true);
-
-    if (!rightSuccess) {
-        moveWholePolygon(dxdy);
-        qDebug() << "Failed: moved whole polygon";
-        return;
-    }
-
-    const bool resultLeft = getConnectedPoint(LEFT)->tryToPreserveRestrictions(dxdy, LEFT, leftBlock, false);
-    const bool resultRight = getConnectedPoint(RIGHT)->tryToPreserveRestrictions(dxdy, RIGHT, rightBlock, false);
-
-    Q_ASSERT(resultLeft && resultRight);
+    /* Real run */
+    Q_ASSERT(algorithm(false));
 }
 
 void Point::moveWholePolygon(const QPointF dxdy) {

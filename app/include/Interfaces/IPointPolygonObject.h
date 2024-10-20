@@ -6,6 +6,7 @@
 #define APP_IPOINTPOLYGONOBJECT_H
 
 /* internal includes */
+#include <functional>
 #include "IPolygonObject.h"
 
 /* Forward declaration */
@@ -27,7 +28,9 @@ public:
 
     std::tuple<Point *, Point *> remove(bool isFullPolygon, DrawingWidget *painter) final;
 
-    virtual bool tryToPreserveRestrictions(const QPointF point, const size_t direction, Point *blockPoint, bool dryRun) = 0;
+    virtual bool
+    tryToPreserveRestrictions(const QPointF point, const size_t direction, Point *blockPoint, const bool dryRun,
+                              std::function<bool()> func) = 0;
 
     // ------------------------------
     // Class fields

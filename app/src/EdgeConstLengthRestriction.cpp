@@ -14,14 +14,14 @@
 #include <QLineF>
 
 bool EdgeConstLengthRestriction::applyRestriction() {
-    LengthDialog dialog(nullptr, m_edge->getLength());
+    static constexpr double PRECISION_LIMIT = 0.5;
 
-    /* TODO: validate there is no all const length constraints */
+    LengthDialog dialog(nullptr, m_edge->getLength());
 
     if (dialog.exec() == QDialog::Accepted) {
         m_length = dialog.getLength();
 
-        if (m_length != m_edge->getLength()) {
+        if (std::abs(m_length - m_edge->getLength()) > PRECISION_LIMIT) {
             if (!_isLegalUsage()) {
                 return true;
             }
@@ -74,8 +74,8 @@ bool EdgeConstLengthRestriction::_isLegalUsage() {
     Q_ASSERT(point);
 
     bool isThereEdgeWithoutConstLenRestriction = false;
-    point->iterateEdges([&isThereEdgeWithoutConstLenRestriction](Edge *edge) {
-        if (dynamic_cast<EdgeConstLengthRestriction *>(edge->getRestriction()) == nullptr) {
+    point->iterateEdges([&isThereEdgeWithoutConstLenRestriction, this](Edge *edge) {
+        if (m_edge != edge && dynamic_cast<EdgeConstLengthRestriction *>(edge->getRestriction()) == nullptr) {
             isThereEdgeWithoutConstLenRestriction = true;
         }
     });

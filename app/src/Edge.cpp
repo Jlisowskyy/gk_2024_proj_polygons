@@ -90,6 +90,8 @@ QVariant Edge::_onPositionChanged(const QVariant &value) {
 }
 
 bool Edge::repositionByPoints() {
+    verifyRestrictions();
+
     if (line().p1() == getConnectedElement(LEFT)->getPositionOnPainter() &&
         line().p2() == getConnectedElement(RIGHT)->getPositionOnPainter()) {
         return false;
@@ -206,4 +208,16 @@ void Edge::_propagatePositionChange(QPointF point) {
     getConnectedElement(LEFT)->setPositionOnPainter(line().p1() + point);
     getConnectedElement(RIGHT)->setPositionOnPainter(line().p2() + point);
     m_isUpdating = false;
+}
+
+void Edge::verifyRestrictions() const {
+    if (!m_restriction) {
+        return;
+    }
+
+    const bool result = m_restriction->isRestrictionPreserved();
+
+    if (!result) {
+        qDebug() << "[ WARNING: EDGE ]: Edge restriction is not preserved!";
+    }
 }
