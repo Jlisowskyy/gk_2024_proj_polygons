@@ -146,7 +146,7 @@ void Polygon::moveVertex(const int vertexIdx, const QPointF dxdy) {
     }
 
     m_startingPoint->iteratePoints([&](Point* point) {
-        if (point->getId() == vertexIdx) {
+        if (point != nullptr && point->getId() == vertexIdx) {
             point->moveBy(dxdy.x(), dxdy.y());
         }
     });

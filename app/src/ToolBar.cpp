@@ -106,12 +106,13 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon) {
             "Move the polygon"
     );
     m_debug->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
-    connect(m_debug, &QAction::triggered, [&]() {
-        VertexInputDialog dialog(m_toolBar);
+    connect(m_debug, &QAction::triggered, [polygon]() {
+        VertexInputDialog dialog(nullptr);
         if (dialog.exec() == QDialog::Accepted) {
             int vertexIdx = dialog.getVertexIdx();
             QPointF moveBy = dialog.getMoveBy();
 
+            qDebug() << "----------- DEBUG RUN-----------";
             polygon->moveVertex(vertexIdx, moveBy);
         }
     });

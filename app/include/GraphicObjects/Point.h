@@ -95,10 +95,11 @@ protected:
 template<typename ActionT>
 void Point::iteratePoints(ActionT action) {
     Point *point = this;
+    Q_ASSERT(point != nullptr);
     do {
         action(point);
         point = point->getConnectedPoint(LEFT);
-    } while (point != this || point == nullptr);
+    } while (point != this && point != nullptr);
 
     if (m_polygon->isFullPolygon()) {
         return;
