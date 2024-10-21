@@ -48,8 +48,12 @@ std::string EdgeHorizontalRestriction::getIconName() {
     return EdgeRestrictionIconPath("horizontal");
 }
 
-QPointF EdgeHorizontalRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, const QPointF dxdy) {
-    return {0, dxdy.y()};
+QPointF
+EdgeHorizontalRestriction::tryToPreserveRestriction(const size_t direction, [[maybe_unused]]  const QPointF dxdy) {
+    const qreal dy = m_edge->getConnectedElement(swapDirection(direction))->getPositionOnPainter().y() -
+                      m_edge->getConnectedElement(direction)->getPositionOnPainter().y();
+
+    return {0, dy};
 }
 
 bool EdgeHorizontalRestriction::isRestrictionPreserved() {

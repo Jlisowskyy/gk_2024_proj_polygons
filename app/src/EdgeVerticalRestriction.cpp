@@ -54,6 +54,11 @@ bool EdgeVerticalRestriction::isRestrictionPreserved() {
     return pointRight->getPositionOnPainter().x() == pointLeft->getPositionOnPainter().x();
 }
 
-QPointF EdgeVerticalRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, const QPointF dxdy) {
+QPointF EdgeVerticalRestriction::tryToPreserveRestriction(const size_t direction, [[maybe_unused]] const QPointF dxdy) {
+    const qreal dx = m_edge->getConnectedElement(swapDirection(direction))->getPositionOnPainter().x() -
+                      m_edge->getConnectedElement(direction)->getPositionOnPainter().x();
+
+    return {dx, 0};
+
     return {dxdy.x(), 0};
 }
