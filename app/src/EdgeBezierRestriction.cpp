@@ -159,13 +159,45 @@ void EdgeBezierRestriction::_fillBezierPath(QPainterPath &path) {
     QPointF controlPoint2 = m_point2->getPositionOnPainter();
 
     path.moveTo(startPos);
-    path.cubicTo(controlPoint1, controlPoint2, endPos);
+//    path.cubicTo(controlPoint1, controlPoint2, endPos);
+
+    static constexpr size_t CONTROL_POINTS = 4;
+
+    double x = 0.0;
+    double y = 0.0;
+    double t = 0.0;
+    double step = std::min(0.1, 1.0 /
+                                ((m_line2->line().length() + m_line1->line().length() + m_line3->line().length()) / 5));
+    double xCords[] = {startPos.x(), controlPoint1.x(), controlPoint2.x(), endPos.x()};
+    double yCords[] = {startPos.y(), controlPoint1.y(), controlPoint2.y(), endPos.y()};
+    double prevX = startPos.x();
+    double prevY = startPos.y();
+
+    while (t <= 1.0) {
+        y = x = 0.0;
+
+        const double coefs[]{
+                (1 - t) * (1 - t) * (1 - t),
+                3 * (1 - t) * (1 - t) * t,
+                3 * (1 - t) * t * t,
+                t * t * t
+        };
+
+        for (size_t j = 0; j < CONTROL_POINTS; j++) {
+            x += coefs[j] * xCords[j];
+            y += coefs[j] * yCords[j];
+        }
+
+        t += step;
+        path.lineTo(x, y);
+    }
 }
 
 bool EdgeBezierRestriction::isRestrictionPreserved() {
-    return false;
+    return true;
 }
 
-QPointF EdgeBezierRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, [[maybe_unused]] QPointF dxdy) {
+QPointF
+EdgeBezierRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, [[maybe_unused]] QPointF dxdy) {
     return {0, 0};
 }
