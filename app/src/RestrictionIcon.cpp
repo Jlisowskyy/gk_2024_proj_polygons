@@ -35,8 +35,8 @@ RestrictionIcon::RestrictionIcon(const std::string &str, ObjectRestriction *rest
 
     setPixmap(pixmap.scaled(48, 48, Qt::KeepAspectRatio));
 
-    /* icons should be above points and edges */
-    setZValue(2);
+    /* icons should be above edges but below points */
+    setZValue(1);
 }
 
 void RestrictionIcon::mousePressEvent(QGraphicsSceneMouseEvent *event) {

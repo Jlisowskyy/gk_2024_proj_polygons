@@ -33,8 +33,8 @@ Point::Point(const int x, const int y, Polygon *polygon) : QGraphicsEllipseItem(
     setPos(QPointF(x - DEFAULT_POINT_RADIUS, y - DEFAULT_POINT_RADIUS));
     BlockPropagation = false;
 
-    /* Points should be displayed above edges */
-    setZValue(1);
+    /* Points should be displayed above edges and icons*/
+    setZValue(2);
 
     /* display point Id above the point */
     QGraphicsTextItem *text = new QGraphicsTextItem(QString::number(m_pointId), this);

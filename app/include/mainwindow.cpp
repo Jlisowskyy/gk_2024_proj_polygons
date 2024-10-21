@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->setupUi(this);
     m_drawingWidget->setupPainter(m_polygon, m_label);
     m_polygon->setupMgr(m_drawingWidget);
-    m_toolBar->setupToolBar(m_ui->toolBar, m_polygon);
+    m_toolBar->setupToolBar(m_ui->toolBar, m_polygon, m_drawingWidget);
 
     m_ui->verticalLayout->addWidget(m_drawingWidget);
 

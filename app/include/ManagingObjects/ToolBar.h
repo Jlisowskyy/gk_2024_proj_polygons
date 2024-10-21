@@ -6,8 +6,6 @@
 #define APP_TOOLBAR_H
 
 /* internal includes */
-#include "../GraphicObjects/DrawingWidget.h"
-#include "Polygon.h"
 
 /* external includes */
 #include <QObject>
@@ -16,6 +14,8 @@
 
 /* Forward declaration */
 class Polygon;
+
+class DrawingWidget;
 
 class ToolBar : public QObject {
 Q_OBJECT
@@ -33,7 +33,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    void setupToolBar(QToolBar *toolBar, Polygon *polygon);
+    void setupToolBar(QToolBar *toolBar, Polygon *polygon, DrawingWidget *drawingWidget);
 
     // ------------------------------
     // Class slots
@@ -72,6 +72,7 @@ public:
     QAction *m_setConstLengthAction{};
     QAction *m_setBezierAction{};
     QAction *m_setContinuousAction{};
+    QAction *m_setGContinuousAction{};
     QAction *m_cutEdgeAction{};
     QAction *m_drawAlgorithmAction{};
     QAction *m_moveAction{};
@@ -83,6 +84,7 @@ protected:
     // ------------------------------
 
     QToolBar *m_toolBar{};
+    DrawingWidget *m_drawingWidget{};
 };
 
 

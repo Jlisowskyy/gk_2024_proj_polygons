@@ -60,8 +60,10 @@ set(PROJECT_SOURCES
         src/Constants.cpp
         src/LengthDialog.cpp
         include/GraphicObjects/LengthDialog.h
-        include/DebugDialog.cpp
+        src/DebugDialog.cpp
         include/GraphicObjects/DebugDialog.h
+        src/PointGContinuousRestriction.cpp
+        include/Restrictions/PointGContinuousRestriction.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

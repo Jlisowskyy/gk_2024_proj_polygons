@@ -12,5 +12,6 @@
         <file>icons/draw_algo.png</file>
         <file>icons/move.png</file>
         <file>icons/debug.png</file>
+        <file>icons/g_continuous_point_restriction_icon.png</file>
     </qresource>
 </RCC>

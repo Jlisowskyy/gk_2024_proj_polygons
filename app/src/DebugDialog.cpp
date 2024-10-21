@@ -2,7 +2,7 @@
 // Created by Jlisowskyy on 20/10/24.
 //
 
-#include "GraphicObjects/DebugDialog.h"
+#include "../include/GraphicObjects/DebugDialog.h"
 
 VertexInputDialog::VertexInputDialog(QWidget *parent) : QDialog(parent)
 {

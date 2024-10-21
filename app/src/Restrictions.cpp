@@ -17,6 +17,7 @@
 
 /* Point restrictions includes */
 #include "../include/Restrictions/PointContinuousRestriction.h"
+#include "../include/Restrictions/PointGContinuousRestriction.h"
 
 std::unordered_map<std::string, EdgeRestriction *(*)(Edge *)> EdgeRestrictions{
         {"horizontal",   [](Edge *edge) -> EdgeRestriction * { return new EdgeHorizontalRestriction(edge); }},
@@ -27,4 +28,5 @@ std::unordered_map<std::string, EdgeRestriction *(*)(Edge *)> EdgeRestrictions{
 
 std::unordered_map<std::string, PointRestriction *(*)(Point *)> PointRestrictions{
         {"continuous", [](Point *point) -> PointRestriction * { return new PointContinuousRestriction(point); }},
+        {"g_continuous", [](Point *point) -> PointRestriction * { return new PointGContinuousRestriction(point); }}
 };

@@ -135,10 +135,6 @@ Edge *DrawingWidget::addEdge(Point *start, Point *end) {
 }
 
 void DrawingWidget::setSelectedItem(QGraphicsItem *item) {
-    if (m_selectedItem == item) {
-        return;
-    }
-
     m_selectedItem = item;
     emit selectedItemChanged(item);
 }
