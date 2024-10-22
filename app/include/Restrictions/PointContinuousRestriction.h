@@ -10,6 +10,9 @@
 
 /* external includes */
 
+/* Forward declarations */
+class EdgeBezierRestriction;
+
 class PointContinuousRestriction : public PointRestriction {
     // ------------------------------
     // Class creation
@@ -37,6 +40,7 @@ public:
     // ------------------------------
 protected:
 
+    QPointF _processDirectionBezier(size_t direction, QPointF dxdy, EdgeBezierRestriction *bezier);
 };
 
 

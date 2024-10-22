@@ -10,6 +10,8 @@
 #include "../include/GraphicObjects/DrawingWidget.h"
 #include "../include/Interfaces/IPointPolygonObject.h"
 #include "../include/Restrictions/ObjectRestriction.h"
+#include "../include/Restrictions/EdgeBezierRestriction.h"
+#include "../include/Restrictions/PointContinuousRestriction.h"
 
 /* external includes */
 #include <QPen>
@@ -168,7 +170,32 @@ Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Poi
     Edge *edge = getConnectedElement(reversedDirection);
     Q_ASSERT(edge);
 
-    if (edge->isRestrictionPreserved()) {
+    if (dynamic_cast<EdgeBezierRestriction *>(edge->getRestriction())) {
+        auto *restriction = dynamic_cast<PointContinuousRestriction *>(getConnectedPoint(
+                reversedDirection)->getRestriction());
+        if (restriction == nullptr) {
+            if (!dryRun) {
+                qDebug() << "Stopped run on direction: " << (direction == LEFT ? "LEFT" : "RIGHT") << " on point: "
+                         << m_pointId;
+            }
+
+            if (func == nullptr) {
+                return true;
+            }
+
+            return func();
+        }
+
+        if (!dryRun) {
+            restriction->tryToPreserveRestriction(direction, dxdy);
+        }
+
+        if (func == nullptr) {
+            return true;
+        }
+
+        return func();
+    } else if (edge->isRestrictionPreserved()) {
         if (!dryRun) {
             qDebug() << "Stopped run on direction: " << (direction == LEFT ? "LEFT" : "RIGHT") << " on point: "
                      << m_pointId;

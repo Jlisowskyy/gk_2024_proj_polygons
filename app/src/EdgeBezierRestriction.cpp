@@ -201,3 +201,7 @@ QPointF
 EdgeBezierRestriction::tryToPreserveRestriction([[maybe_unused]] size_t direction, [[maybe_unused]] QPointF dxdy) {
     return {0, 0};
 }
+
+BezierPoint *EdgeBezierRestriction::getDirectedBezierPoint(size_t direction) const {
+    return direction == LEFT ? m_point2 : m_point1;
+}
