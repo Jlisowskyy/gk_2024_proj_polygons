@@ -10,6 +10,10 @@
 #include "../include/Restrictions/EdgeBezierRestriction.h"
 #include "../include/GraphicObjects/BezierPoint.h"
 
+PointContinuousRestriction::PointContinuousRestriction(Point *point, const qreal coef): PointRestriction(point),
+    m_coef(coef) {
+}
+
 bool PointContinuousRestriction::applyRestriction() {
     return false;
 }
@@ -47,13 +51,13 @@ PointContinuousRestriction::_processDirectionBezier(size_t direction, QPointF dx
 
     QPointF prevPoint;
     if (auto *prevBezier = dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(
-            reverseDirection)->getRestriction())) {
+        reverseDirection)->getRestriction())) {
         BezierPoint *prevBezierPoint = prevBezier->getDirectedBezierPoint(reverseDirection);
         Q_ASSERT(prevBezierPoint != nullptr);
         prevPoint = prevBezierPoint->getPositionOnPainter();
     } else {
         prevPoint = m_point->getConnectedElement(reverseDirection)->getConnectedElement(
-                reverseDirection)->getPositionOnPainter();
+            reverseDirection)->getPositionOnPainter();
     }
 
     QLineF line(prevPoint, m_point->getPositionOnPainter());
@@ -62,4 +66,3 @@ PointContinuousRestriction::_processDirectionBezier(size_t direction, QPointF dx
     bezierPoint->setPos(line.p2());
     return {0, 0};
 }
-

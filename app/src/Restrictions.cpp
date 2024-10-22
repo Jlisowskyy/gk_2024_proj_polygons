@@ -16,17 +16,19 @@
 #include "../include/Restrictions/EdgeBezierRestriction.h"
 
 /* Point restrictions includes */
-#include "../include/Restrictions/PointContinuousRestriction.h"
 #include "../include/Restrictions/PointGContinuousRestriction.h"
+#include "../include/Restrictions/PointC1ContinuousRestriction.h"
+#include "../include/Restrictions/PointG1ContinuousRestriction.h"
 
 std::unordered_map<std::string, EdgeRestriction *(*)(Edge *)> EdgeRestrictions{
-        {"horizontal",   [](Edge *edge) -> EdgeRestriction * { return new EdgeHorizontalRestriction(edge); }},
-        {"vertical",     [](Edge *edge) -> EdgeRestriction * { return new EdgeVerticalRestriction(edge); }},
-        {"const_length", [](Edge *edge) -> EdgeRestriction * { return new EdgeConstLengthRestriction(edge); }},
-        {"bezier",       [](Edge *edge) -> EdgeRestriction * { return new EdgeBezierRestriction(edge); }}
+    {"horizontal", [](Edge *edge) -> EdgeRestriction *{ return new EdgeHorizontalRestriction(edge); }},
+    {"vertical", [](Edge *edge) -> EdgeRestriction *{ return new EdgeVerticalRestriction(edge); }},
+    {"const_length", [](Edge *edge) -> EdgeRestriction *{ return new EdgeConstLengthRestriction(edge); }},
+    {"bezier", [](Edge *edge) -> EdgeRestriction *{ return new EdgeBezierRestriction(edge); }}
 };
 
 std::unordered_map<std::string, PointRestriction *(*)(Point *)> PointRestrictions{
-        {"continuous", [](Point *point) -> PointRestriction * { return new PointContinuousRestriction(point); }},
-        {"g_continuous", [](Point *point) -> PointRestriction * { return new PointGContinuousRestriction(point); }}
+    {"c1_continuous", [](Point *point) -> PointRestriction *{ return new PointC1ContinuousRestriction(point); }},
+    {"g1_continuous", [](Point *point) -> PointRestriction *{ return new PointG1ContinuousRestriction(point); }},
+    {"g_continuous", [](Point *point) -> PointRestriction *{ return new PointGContinuousRestriction(point); }}
 };

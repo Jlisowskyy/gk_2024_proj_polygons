@@ -151,8 +151,9 @@ void ToolBar::setupToolBar(QToolBar *toolBar, Polygon *polygon, DrawingWidget *d
     /* Vertex actions */
     _addToolbarLiteral("Vertex:");
 
-    m_setContinuousAction = _addPointRestrictionButton(polygon, "continuous");
     m_setGContinuousAction = _addPointRestrictionButton(polygon, "g_continuous");
+    m_setG1ContinuousAction = _addPointRestrictionButton(polygon, "g1_continuous");
+    m_setC1ContinuousAction = _addPointRestrictionButton(polygon, "c1_continuous");
 
     _setEdgeButtonsIsDisabledState(true);
     _setVertexButtonsIsDisabledState(true);
@@ -168,7 +169,8 @@ void ToolBar::_setEdgeButtonsIsDisabledState(bool isDisabled) {
 
 void ToolBar::_setVertexButtonsIsDisabledState(bool isDisabled) {
     if (isDisabled) {
-        m_setContinuousAction->setDisabled(isDisabled);
+        m_setG1ContinuousAction->setDisabled(isDisabled);
+        m_setC1ContinuousAction->setDisabled(isDisabled);
         m_setGContinuousAction->setDisabled(isDisabled);
     } else if (Point *point = m_drawingWidget->getSelectedPoint()) {
         Edge *edges[] = {point->getConnectedElement(LEFT), point->getConnectedElement(RIGHT)};
@@ -179,7 +181,8 @@ void ToolBar::_setVertexButtonsIsDisabledState(bool isDisabled) {
                     edge != nullptr && dynamic_cast<EdgeBezierRestriction *>(edge->getRestriction()) != nullptr;
         }
 
-        m_setContinuousAction->setDisabled(!isNeighborBezier);
+        m_setG1ContinuousAction->setDisabled(!isNeighborBezier);
+        m_setC1ContinuousAction->setDisabled(!isNeighborBezier);
         m_setGContinuousAction->setDisabled(!isNeighborBezier);
     }
 

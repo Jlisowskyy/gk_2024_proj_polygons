@@ -4,7 +4,6 @@
         <file>icons/trash.png</file>
         <file>icons/vertical_edge_restriction_icon.png</file>
         <file>icons/horizontal_edge_restriction_icon.png</file>
-        <file>icons/continuous_point_restriction_icon.png</file>
         <file>icons/const_length_edge_restriction_icon.png</file>
         <file>icons/add_vertex.png</file>
         <file>icons/bezier_edge_restriction_icon.png</file>
@@ -13,5 +12,7 @@
         <file>icons/move.png</file>
         <file>icons/debug.png</file>
         <file>icons/g_continuous_point_restriction_icon.png</file>
+        <file>icons/g1_continuous_point_restriction_icon.png</file>
+        <file>icons/c1_continuous_point_restriction_icon.png</file>
     </qresource>
 </RCC>

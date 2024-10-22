@@ -71,7 +71,8 @@ public:
     QAction *m_setVerticalAction{};
     QAction *m_setConstLengthAction{};
     QAction *m_setBezierAction{};
-    QAction *m_setContinuousAction{};
+    QAction *m_setC1ContinuousAction{};
+    QAction *m_setG1ContinuousAction{};
     QAction *m_setGContinuousAction{};
     QAction *m_cutEdgeAction{};
     QAction *m_drawAlgorithmAction{};

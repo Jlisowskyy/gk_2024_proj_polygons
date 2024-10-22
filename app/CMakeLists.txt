@@ -64,6 +64,8 @@ set(PROJECT_SOURCES
         include/GraphicObjects/DebugDialog.h
         src/PointGContinuousRestriction.cpp
         include/Restrictions/PointGContinuousRestriction.h
+        include/Restrictions/PointC1ContinuousRestriction.h
+        include/Restrictions/PointG1ContinuousRestriction.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -17,12 +17,12 @@ class PointContinuousRestriction : public PointRestriction {
     // ------------------------------
     // Class creation
     // ------------------------------
-public:
-
-    using PointRestriction::PointRestriction;
+protected:
+    PointContinuousRestriction(Point *point, qreal coef);
 
     ~PointContinuousRestriction() override = default;
 
+public:
     // ------------------------------
     // Abstract methods override
     // ------------------------------
@@ -39,8 +39,13 @@ public:
     // protected methods
     // ------------------------------
 protected:
-
     QPointF _processDirectionBezier(size_t direction, QPointF dxdy, EdgeBezierRestriction *bezier);
+
+    // ------------------------------
+    // Class fields
+    // ------------------------------
+
+    qreal m_coef;
 };
 
 
