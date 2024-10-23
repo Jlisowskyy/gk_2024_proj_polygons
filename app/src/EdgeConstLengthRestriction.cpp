@@ -16,27 +16,29 @@
 bool EdgeConstLengthRestriction::applyRestriction() {
     static constexpr double PRECISION_LIMIT = 0.5;
 
-    LengthDialog dialog(nullptr, m_edge->getLength());
+    if (m_length == 0) {
+        LengthDialog dialog(nullptr, m_edge->getLength());
 
-    if (dialog.exec() == QDialog::Accepted) {
-        m_length = dialog.getLength();
-
-        if (std::abs(m_length - m_edge->getLength()) > PRECISION_LIMIT) {
-            if (!_isLegalUsage()) {
-                return true;
-            }
-
-            Point *point = m_edge->getConnectedElement(LEFT);
-            Q_ASSERT(point);
-
-            const QPointF dxdy = tryToPreserveRestriction(LEFT, QPointF(0, 0));
-            point->setPositionOnPainter(point->getPositionOnPainter() + dxdy);
+        if (dialog.exec() == QDialog::Accepted) {
+            m_length = dialog.getLength();
+        } else {
+            return true;
         }
-
-        return false;
     }
 
-    return true;
+    if (std::abs(m_length - m_edge->getLength()) > PRECISION_LIMIT) {
+        if (!_isLegalUsage()) {
+            return true;
+        }
+
+        Point *point = m_edge->getConnectedElement(LEFT);
+        Q_ASSERT(point);
+
+        const QPointF dxdy = tryToPreserveRestriction(LEFT, QPointF(0, 0));
+        point->setPositionOnPainter(point->getPositionOnPainter() + dxdy);
+    }
+
+    return false;
 }
 
 std::string EdgeConstLengthRestriction::getIconName() {
@@ -46,6 +48,12 @@ std::string EdgeConstLengthRestriction::getIconName() {
 EdgeConstLengthRestriction::EdgeConstLengthRestriction(Edge *edge) : EdgeRestriction(edge) {
 
 }
+
+EdgeConstLengthRestriction::EdgeConstLengthRestriction(Edge *edge, qreal length) : EdgeRestriction(edge),
+                                                                                   m_length(length) {
+
+}
+
 
 QPointF EdgeConstLengthRestriction::tryToPreserveRestriction(size_t direction, [[maybe_unused]] const QPointF dxdy) {
     Point *point1 = direction == LEFT ? m_edge->getConnectedElement(RIGHT) : m_edge->getConnectedElement(LEFT);

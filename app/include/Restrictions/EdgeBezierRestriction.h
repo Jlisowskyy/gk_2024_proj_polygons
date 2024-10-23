@@ -57,7 +57,9 @@ protected:
 
     void _drawBezierLine();
 
-    void _fillBezierPath(QPainterPath& path);
+    void _fillBezierPath(QPainterPath &path);
+
+    void _updateEdgeStorage();
 
     // ------------------------------
     // Class fields
@@ -70,6 +72,7 @@ protected:
     QGraphicsLineItem *m_line3{};
 
     QGraphicsPathItem *m_bezierLine{};
+
 };
 
 #endif //APP_EDGEBEZIERRESTRICTION_H

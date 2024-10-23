@@ -148,17 +148,7 @@ void Point::_propagatePositionChange() {
 bool
 Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Point *blockPoint, const bool dryRun,
                                  std::function<bool()> func) {
-    if (!dryRun) {
-        qDebug() << "Received dxdy: " << dxdy << " direction: " << (direction == LEFT ? "LEFT" : "RIGHT")
-                 << "on point: " << m_pointId;
-    }
-
     if (blockPoint == reinterpret_cast<void *>(this)) {
-        if (!dryRun) {
-            qDebug() << "Stopped run on direction: " << (direction == LEFT ? "LEFT" : "RIGHT") << " on point: "
-                     << m_pointId;
-        }
-
         if (func == nullptr) {
             return areRestrictionsPreserved();
         }
@@ -170,37 +160,7 @@ Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Poi
     Edge *edge = getConnectedElement(reversedDirection);
     Q_ASSERT(edge);
 
-    if (dynamic_cast<EdgeBezierRestriction *>(edge->getRestriction())) {
-        auto *restriction = dynamic_cast<PointContinuousRestriction *>(getConnectedPoint(
-                reversedDirection)->getRestriction());
-        if (restriction == nullptr) {
-            if (!dryRun) {
-                qDebug() << "Stopped run on direction: " << (direction == LEFT ? "LEFT" : "RIGHT") << " on point: "
-                         << m_pointId;
-            }
-
-            if (func == nullptr) {
-                return true;
-            }
-
-            return func();
-        }
-
-        if (!dryRun) {
-            restriction->tryToPreserveRestriction(direction, dxdy);
-        }
-
-        if (func == nullptr) {
-            return true;
-        }
-
-        return func();
-    } else if (edge->isRestrictionPreserved()) {
-        if (!dryRun) {
-            qDebug() << "Stopped run on direction: " << (direction == LEFT ? "LEFT" : "RIGHT") << " on point: "
-                     << m_pointId;
-        }
-
+    if (edge->isRestrictionPreserved()) {
         if (func == nullptr) {
             return true;
         }
@@ -209,6 +169,8 @@ Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Poi
     }
 
     const QPointF restrictionDxdy = edge->getRestriction()->tryToPreserveRestriction(direction, dxdy);
+    Q_ASSERT(restrictionDxdy != QPointF(0, 0));
+
     moveBy(restrictionDxdy.x(), restrictionDxdy.y());
     const bool result = (!getConnectedPoint(direction) ||
                          getConnectedPoint(direction)->tryToPreserveRestrictions(restrictionDxdy, direction, blockPoint,
@@ -217,9 +179,6 @@ Point::tryToPreserveRestrictions(const QPointF dxdy, const size_t direction, Poi
 
     if (!result || dryRun) {
         moveBy(-restrictionDxdy.x(), -restrictionDxdy.y());
-    } else {
-        qDebug() << (direction == LEFT ? "[LEFT]" : "[RIGHT]") << " Moving pt: " << m_pointId << " by: "
-                 << restrictionDxdy;
     }
 
     return result;

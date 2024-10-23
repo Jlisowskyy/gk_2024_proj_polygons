@@ -7,6 +7,7 @@
 #include "../include/Restrictions/Restrictions.h"
 #include "../include/GraphicObjects/Edge.h"
 #include "../include/GraphicObjects/BezierPoint.h"
+#include "../include/Restrictions/PointContinuousRestriction.h"
 
 /* external includes */
 #include <QPen>
@@ -29,6 +30,7 @@ bool EdgeBezierRestriction::applyRestriction() {
     _allocateBezierHelpingPoints();
     _redrawBezierHelpingPoints();
     _drawBezierLine();
+    _updateEdgeStorage();
 
     return false;
 }
@@ -62,6 +64,8 @@ void EdgeBezierRestriction::_redrawBezierHelpingPoints() {
     Point *pLeft = m_edge->getConnectedElement(LEFT);
     Point *pRight = m_edge->getConnectedElement(RIGHT);
 
+    _updateEdgeStorage();
+
     m_line1->setLine(pLeft->getPositionOnPainter().x(),
                      pLeft->getPositionOnPainter().y(),
                      m_point1->getPositionOnPainter().x(),
@@ -76,7 +80,6 @@ void EdgeBezierRestriction::_redrawBezierHelpingPoints() {
                      m_point2->getPositionOnPainter().y(),
                      pRight->getPositionOnPainter().x(),
                      pRight->getPositionOnPainter().y());
-
 }
 
 void EdgeBezierRestriction::_deallocateBezierHelpingPoints() {
@@ -159,7 +162,6 @@ void EdgeBezierRestriction::_fillBezierPath(QPainterPath &path) {
     QPointF controlPoint2 = m_point2->getPositionOnPainter();
 
     path.moveTo(startPos);
-//    path.cubicTo(controlPoint1, controlPoint2, endPos);
 
     static constexpr size_t CONTROL_POINTS = 4;
 
@@ -194,6 +196,20 @@ void EdgeBezierRestriction::_fillBezierPath(QPainterPath &path) {
 }
 
 bool EdgeBezierRestriction::isRestrictionPreserved() {
+    Point *pLeft = m_edge->getConnectedElement(LEFT);
+    Point *pRight = m_edge->getConnectedElement(RIGHT);
+
+    ObjectRestriction *restrictionLeft = pLeft->getRestriction();
+    if (auto continuousLeft = dynamic_cast<PointContinuousRestriction *>(restrictionLeft); continuousLeft != nullptr) {
+        continuousLeft->tryToPreserveRestriction(RIGHT, QPointF(0, 0));
+    }
+
+    ObjectRestriction *restrictionRight = pRight->getRestriction();
+    if (auto continuousRight = dynamic_cast<PointContinuousRestriction *>(restrictionRight); continuousRight !=
+                                                                                             nullptr) {
+        continuousRight->tryToPreserveRestriction(LEFT, QPointF(0, 0));
+    }
+
     return true;
 }
 
@@ -208,4 +224,9 @@ BezierPoint *EdgeBezierRestriction::getDirectedBezierPoint(size_t direction) con
 
 QGraphicsLineItem *EdgeBezierRestriction::getDirectedBezierEdge(size_t direction) const {
     return direction == LEFT ? m_line3 : m_line1;
+}
+
+void EdgeBezierRestriction::_updateEdgeStorage() {
+    m_line3->setData(0, QVariant::fromValue(m_line3->line()));
+    m_line1->setData(0, QVariant::fromValue(m_line1->line()));
 }

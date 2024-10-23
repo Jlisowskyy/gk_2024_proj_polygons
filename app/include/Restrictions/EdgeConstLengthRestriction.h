@@ -18,6 +18,8 @@ public:
 
     explicit EdgeConstLengthRestriction(Edge *edge);
 
+    explicit EdgeConstLengthRestriction(Edge *edge, qreal length);
+
     ~EdgeConstLengthRestriction() override = default;
 
     // ------------------------------

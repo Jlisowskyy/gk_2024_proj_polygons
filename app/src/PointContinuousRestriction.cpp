@@ -24,23 +24,16 @@ bool PointContinuousRestriction::isRestrictionPreserved() {
 
 QPointF
 PointContinuousRestriction::tryToPreserveRestriction(size_t direction, [[maybe_unused]] QPointF dxdy) {
-    Edge *edge = m_point->getConnectedElement(direction);
-    if (edge == nullptr) {
-        return {0, 0};
-    }
-
-    ObjectRestriction *restriction = edge->getRestriction();
-
-    if (auto *bezier = dynamic_cast<EdgeBezierRestriction *>(restriction)) {
-        return _processDirectionBezier(direction, dxdy, bezier);
-    }
-
-    qDebug() << "NOT IMPLEMENTED";
+    _processDirectionBezier(direction);
     return {0, 0};
 }
 
 QPointF
-PointContinuousRestriction::_processDirectionBezier(size_t direction, QPointF dxdy, EdgeBezierRestriction *bezier) {
+PointContinuousRestriction::_processDirectionBezier(size_t direction) {
+    EdgeBezierRestriction *bezier =
+            dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(direction)->getRestriction());
+    Q_ASSERT(bezier != nullptr);
+
     const size_t reverseDirection = swapDirection(direction);
     BezierPoint *bezierPoint = bezier->getDirectedBezierPoint(direction);
     Q_ASSERT(bezierPoint != nullptr);
@@ -61,7 +54,11 @@ PointContinuousRestriction::_processDirectionBezier(size_t direction, QPointF dx
         line.setLength(m_coef * line.length());
     } else {
         QGraphicsLineItem *bezierEdge = bezier->getDirectedBezierEdge(direction);
-        line.setLength(line.length() + bezierEdge->line().length());
+        const qreal bezierLength = bezierEdge->data(0).toLineF().length();
+        const qreal edgeLength = line.length();
+        const qreal totalLength = bezierLength + edgeLength;
+
+        line.setLength(totalLength);
     }
 
     bezierPoint->setPos(line.p2());

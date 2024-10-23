@@ -11,6 +11,7 @@
 #include "../include/GraphicObjects/Edge.h"
 #include "../include/GraphicObjects/Point.h"
 #include "../include/GraphicObjects/DrawingWidget.h"
+#include "../include/Restrictions/EdgeConstLengthRestriction.h"
 
 /* external includes */
 
@@ -31,6 +32,13 @@ void Polygon::setupMgr(DrawingWidget *painter) {
     const auto p3 = m_drawingWidget->mapToScene(300, 300);
     addPoint(p3.x(), p3.y());
     setIsAddingVertices(false);
+
+    auto edge1 = m_startingPoint->getConnectedElement(RIGHT);
+    edge1->applyRestriction(EdgeRestrictions["bezier"](edge1), m_drawingWidget);
+    auto edge2 = m_endingPoint->getConnectedElement(LEFT);
+    edge2->applyRestriction(new EdgeConstLengthRestriction(edge2, edge2->line().length()), m_drawingWidget);
+    auto pMiddle = edge1->getConnectedElement(RIGHT);
+    pMiddle->applyRestriction(PointRestrictions["g1_continuous"](pMiddle), m_drawingWidget);
 }
 
 void Polygon::clearItems() {
@@ -145,7 +153,7 @@ void Polygon::moveVertex(const int vertexIdx, const QPointF dxdy) {
         return;
     }
 
-    m_startingPoint->iteratePoints([&](Point* point) {
+    m_startingPoint->iteratePoints([&](Point *point) {
         if (point != nullptr && point->getId() == vertexIdx) {
             point->moveBy(dxdy.x(), dxdy.y());
         }

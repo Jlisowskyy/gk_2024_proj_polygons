@@ -37,7 +37,7 @@ public:
     // protected methods
     // ------------------------------
 protected:
-    QPointF _processDirectionBezier(size_t direction, QPointF dxdy, EdgeBezierRestriction *bezier);
+    QPointF _processDirectionBezier(size_t direction);
 
     // ------------------------------
     // Class fields
