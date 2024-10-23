@@ -36,6 +36,7 @@ QVariant BezierPoint::itemChange(QGraphicsItem::GraphicsItemChange change, const
         case QGraphicsItem::GraphicsItemChange::ItemPositionHasChanged:
             if (m_edgeBezierRestriction) {
                 m_edgeBezierRestriction->onReposition();
+                m_edgeBezierRestriction->setBezierPointMoving(this);
             }
             return value;
         default:

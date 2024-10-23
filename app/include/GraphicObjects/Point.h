@@ -64,6 +64,8 @@ public:
 
     [[nodiscard]] int getId() const { return m_pointId; }
 
+    bool tryToMovePoint(QPointF dxdy, std::function<bool()> func);
+
     // ------------------------------
     // Private methods
     // ------------------------------

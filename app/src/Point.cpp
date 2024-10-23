@@ -259,4 +259,19 @@ void Point::updateEdgePositions() {
     });
 }
 
+bool Point::tryToMovePoint(QPointF dxdy, std::function<bool()> func) {
+    bool result = true;
+
+    BlockPropagation = true;
+    moveBy(dxdy.x(), dxdy.y());
+
+    if (func != nullptr) {
+        if (!func()) {
+            moveBy(-dxdy.x(), -dxdy.y());
+            result = false;
+        }
+    }
+    BlockPropagation = false;
+    return result;
+}
 

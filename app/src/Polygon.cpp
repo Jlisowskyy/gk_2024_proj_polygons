@@ -38,7 +38,7 @@ void Polygon::setupMgr(DrawingWidget *painter) {
     auto edge2 = m_endingPoint->getConnectedElement(LEFT);
     edge2->applyRestriction(new EdgeConstLengthRestriction(edge2, edge2->line().length()), m_drawingWidget);
     auto pMiddle = edge1->getConnectedElement(RIGHT);
-    pMiddle->applyRestriction(PointRestrictions["g1_continuous"](pMiddle), m_drawingWidget);
+    pMiddle->applyRestriction(PointRestrictions["c1_continuous"](pMiddle), m_drawingWidget);
 }
 
 void Polygon::clearItems() {

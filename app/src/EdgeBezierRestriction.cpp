@@ -58,6 +58,11 @@ void EdgeBezierRestriction::onReposition() {
 
     _redrawBezierHelpingPoints();
     _drawBezierLine();
+
+    if (m_bezierPoint) {
+        _bezierPointMoved();
+    }
+    m_bezierPoint = nullptr;
 }
 
 void EdgeBezierRestriction::_redrawBezierHelpingPoints() {
@@ -227,6 +232,24 @@ QGraphicsLineItem *EdgeBezierRestriction::getDirectedBezierEdge(size_t direction
 }
 
 void EdgeBezierRestriction::_updateEdgeStorage() {
-    m_line3->setData(0, QVariant::fromValue(m_line3->line()));
-    m_line1->setData(0, QVariant::fromValue(m_line1->line()));
+    m_line3->setData(0, m_line3->line());
+    m_line1->setData(0, m_line3->line());
+}
+
+void EdgeBezierRestriction::_bezierPointMoved() {
+    if (m_bezierPoint == m_point1) {
+        _bezierPointMoved(m_edge->getConnectedElement(LEFT));
+    } else if (m_bezierPoint == m_point2) {
+        _bezierPointMoved(m_edge->getConnectedElement(RIGHT));
+    } else {
+        Q_ASSERT(false);
+    }
+}
+
+void EdgeBezierRestriction::_bezierPointMoved(Point *point) {
+    auto *restriction = dynamic_cast<PointContinuousRestriction *>(point->getRestriction());
+
+    if (restriction != nullptr) {
+        restriction->tryToPropagateControlPointChange(m_edge->getConnectedElement(LEFT) == point ? LEFT : RIGHT);
+    }
 }

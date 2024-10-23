@@ -32,6 +32,8 @@ public:
     bool isRestrictionPreserved() final;
 
     QPointF tryToPreserveRestriction(size_t direction, QPointF dxdy) final;
+
+    virtual bool tryToPropagateControlPointChange(size_t direction);
     
     // ------------------------------
     // protected methods

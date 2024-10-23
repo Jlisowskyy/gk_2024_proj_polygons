@@ -7,6 +7,7 @@
 
 /* internal includes */
 #include "EdgeRestriction.h"
+#include "../GraphicObjects/Point.h"
 
 /* external includes */
 #include <QGraphicsLineItem>
@@ -44,6 +45,8 @@ public:
 
     [[nodiscard]] QGraphicsLineItem *getDirectedBezierEdge(size_t direction) const;
 
+    void setBezierPointMoving(BezierPoint *point) { m_bezierPoint = point; }
+
     // ------------------------------
     // protected methods
     // ------------------------------
@@ -61,10 +64,15 @@ protected:
 
     void _updateEdgeStorage();
 
+    void _bezierPointMoved();
+
+    void _bezierPointMoved(Point *point);
+
     // ------------------------------
     // Class fields
     // ------------------------------
 
+    BezierPoint *m_bezierPoint{};
     QGraphicsLineItem *m_line1{};
     BezierPoint *m_point1{};
     QGraphicsLineItem *m_line2{};
