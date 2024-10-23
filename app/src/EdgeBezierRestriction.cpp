@@ -205,3 +205,7 @@ EdgeBezierRestriction::tryToPreserveRestriction([[maybe_unused]] size_t directio
 BezierPoint *EdgeBezierRestriction::getDirectedBezierPoint(size_t direction) const {
     return direction == LEFT ? m_point2 : m_point1;
 }
+
+QGraphicsLineItem *EdgeBezierRestriction::getDirectedBezierEdge(size_t direction) const {
+    return direction == LEFT ? m_line3 : m_line1;
+}

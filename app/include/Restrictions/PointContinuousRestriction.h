@@ -32,9 +32,7 @@ public:
     bool isRestrictionPreserved() final;
 
     QPointF tryToPreserveRestriction(size_t direction, QPointF dxdy) final;
-
-    std::string getIconName() override;
-
+    
     // ------------------------------
     // protected methods
     // ------------------------------

@@ -19,6 +19,10 @@ public:
     }
 
     ~PointG1ContinuousRestriction() override = default;
+
+    std::string getIconName() override {
+        return PointIconRestrictionPath("g1_continuous");
+    }
 };
 
 #endif //POINTG1CONTINUOUSRESTRICTION_H

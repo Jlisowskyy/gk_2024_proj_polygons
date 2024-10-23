@@ -40,7 +40,9 @@ public:
 
     QPointF tryToPreserveRestriction(size_t direction, QPointF dxdy) final;
 
-    BezierPoint *getDirectedBezierPoint(size_t direction) const;
+    [[nodiscard]] BezierPoint *getDirectedBezierPoint(size_t direction) const;
+
+    [[nodiscard]] QGraphicsLineItem *getDirectedBezierEdge(size_t direction) const;
 
     // ------------------------------
     // protected methods
