@@ -42,6 +42,7 @@ bool PointContinuousRestriction::isRestrictionPreserved() {
 
 QPointF
 PointContinuousRestriction::tryToPreserveRestriction(size_t direction, [[maybe_unused]] QPointF dxdy) {
+    qDebug() << dxdy;
     _processDirectionBezier(direction);
     return {0, 0};
 }
@@ -106,27 +107,37 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t directi
     const qreal lineLen = line.length();
     qreal expectedLength;
 
-    if (m_coef == 0) {
-        expectedLength = edge->line().length();
-    } else {
-        const qreal bCoef=  m_coef - 1.0;
-        const qreal reversedCoef = 1.0 / (bCoef);
+//    if (m_coef == 0) {
+//        expectedLength = edge->line().length();
+//    } else {
+//        const qreal bCoef=  m_coef - 1.0;
+//        const qreal reversedCoef = 1.0 / (bCoef);
+//
+//        expectedLength = (1.0 + reversedCoef) * lineLen;
+//    }
+//
+//    line.setLength(expectedLength);
+//    const QPointF dxdy = line.p2() - nextPoint->getPositionOnPainter();
+//    bool wasMoved = nextPoint->tryToMovePoint(dxdy, [&]() {
+//        return nextPoint->areRestrictionsPreserved() &&
+//                nextPoint->tryToPreserveRestrictions(dxdy, direction, nullptr, true, nullptr);
+//    });
+//
+//    if (wasMoved) {
+//        nextPoint->tryToPreserveRestrictions(dxdy, direction, nullptr, false, nullptr);
+//    } else {
+//        const QPointF moveDxdy = bezierPoint->getPositionOnPainter() - bezierPoint->getPrevPos();
+//        nextPoint->moveWholePolygon(moveDxdy);
+//    }
 
-        expectedLength = (1.0 + reversedCoef) * line.length();
-    }
 
-    line.setLength(expectedLength);
-    const QPointF dxdy = line.p2() - nextPoint->getPositionOnPainter();
-    bool wasMoved = nextPoint->tryToMovePoint(dxdy, [&]() {
+    const QPointF moveDxdy = bezierPoint->getPositionOnPainter() - bezierPoint->getPrevPos();
+    bool wasMoved = nextPoint->tryToMovePoint(moveDxdy, [&]() {
         return nextPoint->areRestrictionsPreserved() &&
-                nextPoint->tryToPreserveRestrictions(dxdy, direction, nullptr, true, nullptr);
+                nextPoint->tryToPreserveRestrictions(moveDxdy, direction, nullptr, false, nullptr);
     });
 
-    qDebug() << wasMoved;
-    if (wasMoved) {
-        nextPoint->tryToPreserveRestrictions(dxdy, direction, nullptr, false, nullptr);
-    } else {
-        const QPointF moveDxdy = bezierPoint->getPositionOnPainter() - bezierPoint->getPrevPos();
+    if (!wasMoved) {
         nextPoint->moveWholePolygon(moveDxdy);
     }
 
