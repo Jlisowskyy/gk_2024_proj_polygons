@@ -43,12 +43,13 @@ public:
 
     [[nodiscard]] BezierPoint *getDirectedBezierPoint(size_t direction) const;
 
-    [[nodiscard]] QGraphicsLineItem *getDirectedBezierEdge(size_t direction) const;
-
     void setBezierPointMoving(BezierPoint *point) { m_bezierPoint = point; }
 
     [[nodiscard]] QLineF getPrevEdgeLine(size_t direction) const { return m_edgeLines[direction]; }
 
+    void setBlockPropagation(bool blockPropagation) { m_blockPropagation = blockPropagation; }
+
+    [[nodiscard]] bool getBlockPropagation() const { return m_blockPropagation; }
 
     // ------------------------------
     // protected methods
@@ -85,6 +86,8 @@ protected:
     QGraphicsPathItem *m_bezierLine{};
 
     QLineF m_edgeLines[2]{};
+
+    bool m_blockPropagation{};
 };
 
 #endif //APP_EDGEBEZIERRESTRICTION_H

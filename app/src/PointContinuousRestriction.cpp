@@ -43,14 +43,17 @@ bool PointContinuousRestriction::isRestrictionPreserved() {
 QPointF
 PointContinuousRestriction::tryToPreserveRestriction(size_t direction, [[maybe_unused]] QPointF dxdy) {
     qDebug() << dxdy;
-    _processDirectionBezier(direction);
-    return {0, 0};
+    return _processDirectionBezier(direction);
 }
 
 QPointF
 PointContinuousRestriction::_processDirectionBezier(size_t direction) {
     auto *bezier = dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(direction)->getRestriction());
     Q_ASSERT(bezier != nullptr);
+
+    if (bezier->getBlockPropagation()) {
+        return {0, 0};
+    }
 
     const size_t reverseDirection = swapDirection(direction);
     BezierPoint *bezierPoint = bezier->getDirectedBezierPoint(direction);
@@ -75,6 +78,7 @@ PointContinuousRestriction::_processDirectionBezier(size_t direction) {
     bezierPoint->setPos(line.p2());
     BlockBezierPropagation = false;
 
+    qDebug() << "WTF";
     return {0, 0};
 }
 
@@ -122,16 +126,17 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t directi
 //        nextPoint->moveWholePolygon(moveDxdy);
 //    }
 
-
+    bezier->setBlockPropagation(true);
     const QPointF moveDxdy = bezierPoint->getPositionOnPainter() - bezierPoint->getPrevPos();
     bool wasMoved = nextPoint->tryToMovePoint(moveDxdy, [&]() {
         return nextPoint->areRestrictionsPreserved() &&
-                nextPoint->tryToPreserveRestrictions(moveDxdy, direction, nullptr, false, nullptr);
+               nextPoint->tryToPreserveRestrictions(moveDxdy, direction, nullptr, false, nullptr);
     });
 
     if (!wasMoved) {
         nextPoint->moveWholePolygon(moveDxdy);
     }
+    bezier->setBlockPropagation(false);
 
     return false;
 }

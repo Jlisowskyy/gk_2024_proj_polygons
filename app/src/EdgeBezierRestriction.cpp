@@ -233,10 +233,6 @@ BezierPoint *EdgeBezierRestriction::getDirectedBezierPoint(size_t direction) con
     return direction == LEFT ? m_point2 : m_point1;
 }
 
-QGraphicsLineItem *EdgeBezierRestriction::getDirectedBezierEdge(size_t direction) const {
-    return direction == LEFT ? m_line3 : m_line1;
-}
-
 void EdgeBezierRestriction::_updateEdgeStorage() {
     m_edgeLines[LEFT] = m_line1->line();
     m_edgeLines[RIGHT] = m_line3->line();
