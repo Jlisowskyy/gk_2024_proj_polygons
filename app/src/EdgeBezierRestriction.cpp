@@ -61,7 +61,7 @@ void EdgeBezierRestriction::onReposition() {
     _drawBezierLine();
 
     if (m_bezierPoint) {
-        qDebug() << "PROPAGATED";
+//        qDebug() << "PROPAGATED";
         _bezierPointMoved();
     }
 }
