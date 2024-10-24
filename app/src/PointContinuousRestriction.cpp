@@ -56,23 +56,15 @@ PointContinuousRestriction::_processDirectionBezier(size_t direction) {
     BezierPoint *bezierPoint = bezier->getDirectedBezierPoint(direction);
     Q_ASSERT(bezierPoint != nullptr);
 
-    QPointF prevPoint;
-    if (auto *prevBezier = dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(
-            reverseDirection)->getRestriction())) {
-        BezierPoint *prevBezierPoint = prevBezier->getDirectedBezierPoint(reverseDirection);
-        Q_ASSERT(prevBezierPoint != nullptr);
-        prevPoint = prevBezierPoint->getPositionOnPainter();
-    } else {
-        prevPoint = m_point->getConnectedElement(reverseDirection)->getConnectedElement(
-                reverseDirection)->getPositionOnPainter();
-    }
+    const QPointF prevPoint = m_point->getConnectedElement(reverseDirection)->getConnectedElement(
+            reverseDirection)->getPositionOnPainter();
 
     QLineF line(prevPoint, m_point->getPositionOnPainter());
     if (m_coef != 0) {
         line.setLength(m_coef * line.length());
     } else {
-        QGraphicsLineItem *bezierEdge = bezier->getDirectedBezierEdge(direction);
-        const qreal bezierLength = bezierEdge->line().length();
+        QLineF bezierLine = bezier->getPrevEdgeLine(direction);
+        const qreal bezierLength = bezierLine.length();
         const qreal edgeLength = line.length();
         const qreal totalLength = bezierLength + edgeLength;
 

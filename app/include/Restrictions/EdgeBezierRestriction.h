@@ -47,6 +47,9 @@ public:
 
     void setBezierPointMoving(BezierPoint *point) { m_bezierPoint = point; }
 
+    [[nodiscard]] QLineF getPrevEdgeLine(size_t direction) const { return m_edgeLines[direction]; }
+
+
     // ------------------------------
     // protected methods
     // ------------------------------
@@ -81,6 +84,7 @@ protected:
 
     QGraphicsPathItem *m_bezierLine{};
 
+    QLineF m_edgeLines[2]{};
 };
 
 #endif //APP_EDGEBEZIERRESTRICTION_H

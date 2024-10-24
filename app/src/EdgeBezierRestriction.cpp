@@ -238,8 +238,8 @@ QGraphicsLineItem *EdgeBezierRestriction::getDirectedBezierEdge(size_t direction
 }
 
 void EdgeBezierRestriction::_updateEdgeStorage() {
-    m_line3->setData(0, m_line3->line());
-    m_line1->setData(0, m_line3->line());
+    m_edgeLines[LEFT] = m_line1->line();
+    m_edgeLines[RIGHT] = m_line3->line();
 }
 
 void EdgeBezierRestriction::_bezierPointMoved() {
