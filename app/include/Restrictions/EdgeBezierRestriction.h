@@ -66,7 +66,7 @@ protected:
 
     void _bezierPointMoved();
 
-    void _bezierPointMoved(Point *point);
+    void _bezierPointMoved(size_t direction);
 
     // ------------------------------
     // Class fields

@@ -15,6 +15,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <cmath>
+#include <QGraphicsTextItem>
 
 bool EdgeBezierRestriction::applyRestriction() {
     QPen pen = m_edge->pen();
@@ -60,9 +61,9 @@ void EdgeBezierRestriction::onReposition() {
     _drawBezierLine();
 
     if (m_bezierPoint) {
+        qDebug() << "PROPAGATED";
         _bezierPointMoved();
     }
-    m_bezierPoint = nullptr;
 }
 
 void EdgeBezierRestriction::_redrawBezierHelpingPoints() {
@@ -139,7 +140,12 @@ void EdgeBezierRestriction::_allocateBezierHelpingPoints() {
     m_edge->scene()->addItem(m_point2 = new BezierPoint(p2X, p2Y));
 
     m_point1->setEdgeBezierRestriction(this);
+    QGraphicsTextItem *text = new QGraphicsTextItem(QString::number(1), m_point1);
+    text->setPos(-20, -20);
+
     m_point2->setEdgeBezierRestriction(this);
+    text = new QGraphicsTextItem(QString::number(2), m_point2);
+    text->setPos(-20, -20);
 
     m_edge->scene()->addItem(m_bezierLine = new QGraphicsPathItem());
 }
@@ -238,18 +244,21 @@ void EdgeBezierRestriction::_updateEdgeStorage() {
 
 void EdgeBezierRestriction::_bezierPointMoved() {
     if (m_bezierPoint == m_point1) {
-        _bezierPointMoved(m_edge->getConnectedElement(LEFT));
+        m_bezierPoint = nullptr;
+        _bezierPointMoved(LEFT);
     } else if (m_bezierPoint == m_point2) {
-        _bezierPointMoved(m_edge->getConnectedElement(RIGHT));
+        m_bezierPoint = nullptr;
+        _bezierPointMoved(RIGHT);
     } else {
         Q_ASSERT(false);
     }
 }
 
-void EdgeBezierRestriction::_bezierPointMoved(Point *point) {
+void EdgeBezierRestriction::_bezierPointMoved(size_t direction) {
+    Point *point = m_edge->getConnectedElement(direction);
     auto *restriction = dynamic_cast<PointContinuousRestriction *>(point->getRestriction());
 
     if (restriction != nullptr) {
-        restriction->tryToPropagateControlPointChange(m_edge->getConnectedElement(LEFT) == point ? LEFT : RIGHT);
+        restriction->tryToPropagateControlPointChange(direction);
     }
 }

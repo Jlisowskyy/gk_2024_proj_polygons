@@ -45,5 +45,6 @@ enum LineDrawingAlgorithmType : size_t {
 };
 
 extern bool BlockPropagation;
+extern bool BlockBezierPropagation;
 
 #endif //APP_CONSTANTS_H

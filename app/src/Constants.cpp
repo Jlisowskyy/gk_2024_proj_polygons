@@ -7,3 +7,4 @@
 
 /* temporary */
 bool BlockPropagation = false;
+bool BlockBezierPropagation = false;

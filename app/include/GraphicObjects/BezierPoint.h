@@ -35,9 +35,15 @@ public:
     }
 
     // ------------------------------
-    // Class fields
+    // Protected methods
     // ------------------------------
 protected:
+
+    void _onPositionChange();
+
+    // ------------------------------
+    // Class fields
+    // ------------------------------
 
     EdgeBezierRestriction *m_edgeBezierRestriction{};
 };

@@ -78,11 +78,20 @@ PointContinuousRestriction::_processDirectionBezier(size_t direction) {
         line.setLength(totalLength);
     }
 
+    BlockBezierPropagation = true;
     bezierPoint->setPos(line.p2());
+    BlockBezierPropagation = false;
+
     return {0, 0};
 }
 
 bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t direction) {
+    Point *nextPoint = m_point->getConnectedPoint(direction);
+
+    if (nextPoint == nullptr) {
+        return true;
+    }
+
     Edge *edge = m_point->getConnectedElement(direction);
     const size_t reverseDirection = swapDirection(direction);
 
@@ -90,20 +99,26 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t directi
             reverseDirection)->getRestriction());
     Q_ASSERT(bezier != nullptr);
 
-    BezierPoint *bezierPoint = bezier->getDirectedBezierPoint(direction);
+    BezierPoint *bezierPoint = bezier->getDirectedBezierPoint(reverseDirection);
     Q_ASSERT(bezierPoint != nullptr);
 
     QLineF line(bezierPoint->getPositionOnPainter(), m_point->getPositionOnPainter());
+    const qreal lineLen = line.length();
     qreal expectedLength;
 
     if (m_coef == 0) {
         expectedLength = edge->line().length();
     } else {
-        qreal reversedCoef = 1.0 / (1.0 - m_coef);
+        const qreal bCoef=  m_coef - 1.0;
+        const qreal reversedCoef = 1.0 / (bCoef);
 
-        expectedLength = reversedCoef * line.length();
+        expectedLength = (1.0 + reversedCoef) * line.length();
     }
 
-
+    qDebug() << "Before: " << m_point->getConnectedPoint(direction)->getPositionOnPainter() << " After: " << line.p2();
+    line.setLength(expectedLength);
+    nextPoint->tryToMovePoint(line.p2() - nextPoint->getPositionOnPainter(), [&]() {
+        return true;
+    });
     return false;
 }

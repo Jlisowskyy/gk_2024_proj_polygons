@@ -24,7 +24,7 @@ BezierPoint::BezierPoint(const int x, const int y) :
     setPos(QPointF(x - DEFAULT_POINT_RADIUS, y - DEFAULT_POINT_RADIUS));
 
     /* Points should be displayed above edges */
-    setZValue(1);
+    setZValue(2);
 }
 
 QPointF BezierPoint::getPositionOnPainter() const {
@@ -34,12 +34,20 @@ QPointF BezierPoint::getPositionOnPainter() const {
 QVariant BezierPoint::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) {
     switch (change) {
         case QGraphicsItem::GraphicsItemChange::ItemPositionHasChanged:
-            if (m_edgeBezierRestriction) {
-                m_edgeBezierRestriction->onReposition();
-                m_edgeBezierRestriction->setBezierPointMoving(this);
-            }
+            _onPositionChange();
             return value;
         default:
             return QGraphicsEllipseItem::itemChange(change, value);
     }
+}
+
+void BezierPoint::_onPositionChange() {
+    if (!m_edgeBezierRestriction) {
+        return;
+    }
+
+    if (!BlockBezierPropagation) {
+        m_edgeBezierRestriction->setBezierPointMoving(this);
+    }
+    m_edgeBezierRestriction->onReposition();
 }
