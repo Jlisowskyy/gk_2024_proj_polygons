@@ -115,10 +115,20 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t directi
         expectedLength = (1.0 + reversedCoef) * line.length();
     }
 
-    qDebug() << "Before: " << m_point->getConnectedPoint(direction)->getPositionOnPainter() << " After: " << line.p2();
     line.setLength(expectedLength);
-    nextPoint->tryToMovePoint(line.p2() - nextPoint->getPositionOnPainter(), [&]() {
-        return true;
+    const QPointF dxdy = line.p2() - nextPoint->getPositionOnPainter();
+    bool wasMoved = nextPoint->tryToMovePoint(dxdy, [&]() {
+        return nextPoint->areRestrictionsPreserved() &&
+                nextPoint->tryToPreserveRestrictions(dxdy, direction, nullptr, true, nullptr);
     });
+
+    qDebug() << wasMoved;
+    if (wasMoved) {
+        nextPoint->tryToPreserveRestrictions(dxdy, direction, nullptr, false, nullptr);
+    } else {
+        const QPointF moveDxdy = bezierPoint->getPositionOnPainter() - bezierPoint->getPrevPos();
+        nextPoint->moveWholePolygon(moveDxdy);
+    }
+
     return false;
 }

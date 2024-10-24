@@ -36,6 +36,8 @@ QVariant BezierPoint::itemChange(QGraphicsItem::GraphicsItemChange change, const
         case QGraphicsItem::GraphicsItemChange::ItemPositionHasChanged:
             _onPositionChange();
             return value;
+        case QGraphicsItem::GraphicsItemChange::ItemPositionChange:
+            m_prevPos = getPositionOnPainter();
         default:
             return QGraphicsEllipseItem::itemChange(change, value);
     }

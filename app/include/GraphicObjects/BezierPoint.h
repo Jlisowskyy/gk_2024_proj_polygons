@@ -34,6 +34,10 @@ public:
         m_edgeBezierRestriction = edgeBezierRestriction;
     }
 
+    [[nodiscard]] QPointF getPrevPos() const {
+        return m_prevPos;
+    }
+
     // ------------------------------
     // Protected methods
     // ------------------------------
@@ -46,6 +50,8 @@ protected:
     // ------------------------------
 
     EdgeBezierRestriction *m_edgeBezierRestriction{};
+
+    QPointF m_prevPos{};
 };
 
 #endif //APP_BEZIERPOINT_H
