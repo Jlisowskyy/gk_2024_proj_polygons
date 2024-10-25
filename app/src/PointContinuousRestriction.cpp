@@ -97,49 +97,54 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t directi
     BezierPoint *bezierPoint = bezier->getDirectedBezierPoint(reverseDirection);
     Q_ASSERT(bezierPoint != nullptr);
 
-    QLineF line(bezierPoint->getPositionOnPainter(), m_point->getPositionOnPainter());
-    const qreal lineLen = line.length();
-    qreal expectedLength;
+    const QLineF prevLine(bezierPoint->getPrevPos(), m_point->getPositionOnPainter());
+    const qreal prevLen = prevLine.length();
+    QLineF curLine(bezierPoint->getPositionOnPainter(), m_point->getPositionOnPainter());
 
-//    if (m_coef == 0) {
-//        expectedLength = edge->line().length();
-//    } else {
-//        const qreal bCoef=  m_coef - 1.0;
+    qreal point1Dist;
+    qreal point2Dist;
+    if (m_coef == 0) {
+        point1Dist = curLine.length();
+        point2Dist = edge->getLength();
+    } else {
+//        const qreal bCoef = m_coef - 1.0;
 //        const qreal reversedCoef = 1.0 / (bCoef);
-//
-//        expectedLength = (1.0 + reversedCoef) * lineLen;
-//    }
-//
-//    line.setLength(expectedLength);
-//    const QPointF dxdy = line.p2() - nextPoint->getPositionOnPainter();
-//    bool wasMoved = nextPoint->tryToMovePoint(dxdy, [&]() {
-//        return nextPoint->areRestrictionsPreserved() &&
-//                nextPoint->tryToPreserveRestrictions(dxdy, direction, nullptr, true, nullptr);
-//    });
-//
-//    if (wasMoved) {
-//        nextPoint->tryToPreserveRestrictions(dxdy, direction, nullptr, false, nullptr);
-//    } else {
-//        const QPointF moveDxdy = bezierPoint->getPositionOnPainter() - bezierPoint->getPrevPos();
-//        nextPoint->moveWholePolygon(moveDxdy);
-//    }
+//        expectedLength = (1.0 + reversedCoef) * prevLen;
+
+        point1Dist = prevLine.length();
+        point2Dist = edge->getLength();
+    }
+
+
+    QLineF moveLine1(bezierPoint->getPositionOnPainter(), m_point->getPositionOnPainter());
+    moveLine1.setLength(point1Dist);
+
+    QLineF moveLine2(bezierPoint->getPositionOnPainter(), m_point->getPositionOnPainter());
+    moveLine2.setLength(point2Dist + point1Dist);
+
+    const QPointF move1dxdy = moveLine1.p2() - m_point->getPositionOnPainter();
+    const QPointF move2dxdy = moveLine2.p2() - nextPoint->getPositionOnPainter();
 
     bezier->setBlockPropagation(true);
-    const QPointF moveDxdy = bezierPoint->getPositionOnPainter() - bezierPoint->getPrevPos();
 
-    bool wasMoved = m_point->tryToMovePoint(moveDxdy, [&]() {
+    bool wasMoved = m_point->tryToMovePoint(move1dxdy, [&]() {
         return m_point->areRestrictionsPreserved() &&
-                m_point->tryToPreserveRestrictions(moveDxdy, direction, nullptr, true, nullptr);
+               nextPoint->tryToMovePoint(move2dxdy, [&]() {
+                   return nextPoint->areRestrictionsPreserved() &&
+                          nextPoint->tryToPreserveRestrictions(move2dxdy, direction, nullptr, true, nullptr);
+               });
     });
 
     if (!wasMoved) {
+        const QPointF moveDxdy = bezierPoint->getPositionOnPainter() - bezierPoint->getPrevPos();
         m_point->moveWholePolygon(moveDxdy);
         BlockPropagation = true;
         m_point->moveBy(moveDxdy.x(), moveDxdy.y());
         m_point->updateEdgePositions();
         BlockPropagation = false;
     } else {
-        m_point->tryToPreserveRestrictions(moveDxdy, direction, nullptr, false, nullptr);
+        nextPoint->tryToPreserveRestrictions(move2dxdy, direction, nullptr, false, nullptr);
+        m_point->updateEdgePositions();
     }
     bezier->setBlockPropagation(false);
 
