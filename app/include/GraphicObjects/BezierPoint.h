@@ -27,6 +27,8 @@ public:
 
     [[nodiscard]] QPointF getPositionOnPainter() const;
 
+    void setPositionOnPainter(const QPointF &position);
+
     QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value) override;
 
     void setEdgeBezierRestriction(EdgeBezierRestriction *edgeBezierRestriction) {

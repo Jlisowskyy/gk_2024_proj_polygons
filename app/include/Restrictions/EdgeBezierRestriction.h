@@ -51,6 +51,8 @@ public:
 
     [[nodiscard]] bool getBlockPropagation() const { return m_blockPropagation; }
 
+    void fixControlPointPositions();
+
     // ------------------------------
     // protected methods
     // ------------------------------

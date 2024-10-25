@@ -54,3 +54,7 @@ void BezierPoint::_onPositionChange() {
     }
     m_edgeBezierRestriction->onReposition();
 }
+
+void BezierPoint::setPositionOnPainter(const QPointF &position) {
+    setPos(position - QPointF(BEZIER_CONTROL_POINT_RADIUS, BEZIER_CONTROL_POINT_RADIUS));
+}

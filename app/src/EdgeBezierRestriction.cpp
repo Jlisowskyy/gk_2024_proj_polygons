@@ -207,20 +207,6 @@ void EdgeBezierRestriction::_fillBezierPath(QPainterPath &path) {
 }
 
 bool EdgeBezierRestriction::isRestrictionPreserved() {
-    Point *pLeft = m_edge->getConnectedElement(LEFT);
-    Point *pRight = m_edge->getConnectedElement(RIGHT);
-
-    ObjectRestriction *restrictionLeft = pLeft->getRestriction();
-    if (auto continuousLeft = dynamic_cast<PointContinuousRestriction *>(restrictionLeft); continuousLeft != nullptr) {
-        continuousLeft->tryToPreserveRestriction(RIGHT, QPointF(0, 0));
-    }
-
-    ObjectRestriction *restrictionRight = pRight->getRestriction();
-    if (auto continuousRight = dynamic_cast<PointContinuousRestriction *>(restrictionRight); continuousRight !=
-                                                                                             nullptr) {
-        continuousRight->tryToPreserveRestriction(LEFT, QPointF(0, 0));
-    }
-
     return true;
 }
 
@@ -256,5 +242,20 @@ void EdgeBezierRestriction::_bezierPointMoved(size_t direction) {
 
     if (restriction != nullptr) {
         restriction->tryToPropagateControlPointChange(direction);
+    }
+}
+
+void EdgeBezierRestriction::fixControlPointPositions() {
+    Point *pLeft = m_edge->getConnectedElement(LEFT);
+    Point *pRight = m_edge->getConnectedElement(RIGHT);
+
+    ObjectRestriction *restrictionLeft = pLeft->getRestriction();
+    if (auto continuousLeft = dynamic_cast<PointContinuousRestriction *>(restrictionLeft); continuousLeft != nullptr) {
+        continuousLeft->tryToPreserveRestriction(RIGHT, QPointF(0, 0));
+    }
+
+    ObjectRestriction *restrictionRight = pRight->getRestriction();
+    if (auto continuousRight = dynamic_cast<PointContinuousRestriction *>(restrictionRight); continuousRight !=nullptr) {
+        continuousRight->tryToPreserveRestriction(LEFT, QPointF(0, 0));
     }
 }

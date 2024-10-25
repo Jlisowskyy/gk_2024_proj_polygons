@@ -74,7 +74,7 @@ PointContinuousRestriction::_processDirectionBezier(size_t direction) {
     }
 
     BlockBezierPropagation = true;
-    bezierPoint->setPos(line.p2());
+    bezierPoint->setPositionOnPainter(line.p2());
     BlockBezierPropagation = false;
 
     return {0, 0};

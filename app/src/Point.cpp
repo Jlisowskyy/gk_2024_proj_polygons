@@ -142,6 +142,11 @@ void Point::_propagatePositionChange() {
     }
 
     updateEdgePositions();
+    iterateEdges([](Edge *edge) {
+        if (auto *bezierRestriction = dynamic_cast<EdgeBezierRestriction *>(edge->getRestriction())) {
+            bezierRestriction->fixControlPointPositions();
+        }
+    });
     BlockPropagation = false;
 }
 

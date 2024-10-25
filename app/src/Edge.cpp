@@ -90,7 +90,7 @@ QVariant Edge::_onPositionChanged(const QVariant &value) {
 }
 
 bool Edge::repositionByPoints() {
-//    verifyRestrictions();
+    verifyRestrictions();
 
     if (line().p1() == getConnectedElement(LEFT)->getPositionOnPainter() &&
         line().p2() == getConnectedElement(RIGHT)->getPositionOnPainter()) {
