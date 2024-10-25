@@ -21,8 +21,8 @@ bool PointContinuousRestriction::applyRestriction() {
     auto *edgeBezierLeft = edgeLeft ? dynamic_cast<EdgeBezierRestriction *>(edgeLeft->getRestriction()) : nullptr;
     auto *edgeBezierRight = edgeRight ? dynamic_cast<EdgeBezierRestriction *>(edgeRight->getRestriction()) : nullptr;
 
-    if (edgeBezierLeft && edgeBezierRight && m_coef != 0) {
-        return true;
+    if (edgeBezierLeft && edgeBezierRight) {
+        _processDoubleBezier();
     }
 
     if (edgeBezierLeft) {
@@ -51,6 +51,11 @@ PointContinuousRestriction::_processDirectionBezier(size_t direction) {
     Q_ASSERT(bezier != nullptr);
 
     if (bezier->getBlockPropagation()) {
+        return {0, 0};
+    }
+
+    if (dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(
+            swapDirection(direction))->getRestriction())) {
         return {0, 0};
     }
 
@@ -149,4 +154,27 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t directi
     bezier->setBlockPropagation(false);
 
     return false;
+}
+
+void PointContinuousRestriction::_processDoubleBezier() {
+    auto *bezierLeft = dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(LEFT)->getRestriction());
+    auto *bezierRight = dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(RIGHT)->getRestriction());
+
+    Q_ASSERT(bezierLeft != nullptr);
+    Q_ASSERT(bezierRight != nullptr);
+
+    const QPointF leftPoint = bezierLeft->getDirectedBezierPoint(LEFT)->getPositionOnPainter();
+    BezierPoint *rightBezier = bezierRight->getDirectedBezierPoint(RIGHT);
+
+    QLineF line(leftPoint, m_point->getPositionOnPainter());
+
+    if (m_coef == 0) {
+        QLineF line1(m_point->getPositionOnPainter(), rightBezier->getPositionOnPainter());
+
+        line.setLength(line.length() + line1.length());
+    } else {
+        line.setLength(2*line.length());
+    }
+
+    rightBezier->setPositionOnPainter(line.p2());
 }

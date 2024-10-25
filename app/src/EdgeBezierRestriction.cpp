@@ -52,6 +52,14 @@ void EdgeBezierRestriction::onRestrictionDelete() {
 //    m_edge->setFlag(QGraphicsItem::GraphicsItemFlag::ItemIsMovable, true);
 
     _deallocateBezierHelpingPoints();
+
+    if (m_edge->getConnectedElement(LEFT)->getRestriction() != nullptr) {
+        m_edge->getConnectedElement(LEFT)->getRestriction()->removeRestriction();
+    }
+
+    if (m_edge->getConnectedElement(RIGHT)->getRestriction() != nullptr) {
+        m_edge->getConnectedElement(RIGHT)->getRestriction()->removeRestriction();
+    }
 }
 
 void EdgeBezierRestriction::onReposition() {
