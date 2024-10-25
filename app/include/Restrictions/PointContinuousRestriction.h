@@ -41,7 +41,9 @@ public:
 protected:
     QPointF _processDirectionBezier(size_t direction);
 
-    void _processDoubleBezier();
+    void _processDoubleBezierInit();
+
+    void _processDoubleBezierControlPointMove(size_t direction);
 
     // ------------------------------
     // Class fields
