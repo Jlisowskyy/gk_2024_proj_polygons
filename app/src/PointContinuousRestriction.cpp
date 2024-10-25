@@ -128,11 +128,10 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t directi
     bezier->setBlockPropagation(true);
 
     bool wasMoved = m_point->tryToMovePoint(move1dxdy, [&]() {
-        return m_point->areRestrictionsPreserved() &&
-               nextPoint->tryToMovePoint(move2dxdy, [&]() {
-                   return nextPoint->areRestrictionsPreserved() &&
-                          nextPoint->tryToPreserveRestrictions(move2dxdy, direction, nullptr, true, nullptr);
-               });
+        return nextPoint->tryToMovePoint(move2dxdy, [&]() {
+            return nextPoint->tryToPreserveRestrictions(move2dxdy, direction, nullptr, true, nullptr) &&
+                   nextPoint->areRestrictionsPreserved() && m_point->areRestrictionsPreserved();
+        });
     });
 
     if (!wasMoved) {
@@ -142,6 +141,7 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(size_t directi
         m_point->moveBy(moveDxdy.x(), moveDxdy.y());
         m_point->updateEdgePositions();
         BlockPropagation = false;
+        bezier->getDirectedBezierPoint(direction)->moveBy(moveDxdy.x(), moveDxdy.y());
     } else {
         nextPoint->tryToPreserveRestrictions(move2dxdy, direction, nullptr, false, nullptr);
         m_point->updateEdgePositions();

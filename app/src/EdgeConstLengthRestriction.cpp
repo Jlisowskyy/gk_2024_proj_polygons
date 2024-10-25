@@ -14,7 +14,7 @@
 #include <QLineF>
 
 bool EdgeConstLengthRestriction::applyRestriction() {
-    static constexpr double PRECISION_LIMIT = 0.2;
+    static constexpr double PRECISION_LIMIT = 1.0;
 
     if (m_length == 0) {
         LengthDialog dialog(nullptr, m_edge->getLength());
