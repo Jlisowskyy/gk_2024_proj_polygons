@@ -70,12 +70,8 @@ PointContinuousRestriction::_processDirectionBezier(const size_t direction) {
     if (m_coef != 0) {
         line.setLength(m_coef * line.length());
     } else {
-        QLineF bezierLine = bezier->getPrevEdgeLine(direction);
-        const qreal bezierLength = bezierLine.length();
-        const qreal edgeLength = line.length();
-        const qreal totalLength = bezierLength + edgeLength;
-
-        line.setLength(totalLength);
+        QLineF line1(bezierPoint->getPrevPos(), m_point->getPositionOnPainter());
+        line.setLength(line1.length() + line.length());
     }
 
     BlockBezierPropagation = true;
