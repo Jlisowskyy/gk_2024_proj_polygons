@@ -66,6 +66,8 @@ public slots:
 
     int getAndIncrementPointCount();
 
+    DrawingWidget *getDrawingWidget() const;
+
     // ------------------------------
     // Private methods
     // ------------------------------

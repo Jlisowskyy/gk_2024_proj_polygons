@@ -37,8 +37,6 @@ void Polygon::setupMgr(DrawingWidget *painter) {
     edge1->applyRestriction(EdgeRestrictions["bezier"](edge1), m_drawingWidget);
     auto edge2 = m_endingPoint->getConnectedElement(LEFT);
     edge2->applyRestriction(new EdgeConstLengthRestriction(edge2, edge2->line().length()), m_drawingWidget);
-    auto pMiddle = edge1->getConnectedElement(RIGHT);
-    pMiddle->applyRestriction(PointRestrictions["c1_continuous"](pMiddle), m_drawingWidget);
 }
 
 void Polygon::clearItems() {
@@ -158,4 +156,8 @@ void Polygon::moveVertex(const int vertexIdx, const QPointF dxdy) {
             point->moveBy(dxdy.x(), dxdy.y());
         }
     });
+}
+
+DrawingWidget *Polygon::getDrawingWidget() const {
+    return m_drawingWidget;
 }

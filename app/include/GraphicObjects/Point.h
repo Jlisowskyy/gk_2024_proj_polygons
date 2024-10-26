@@ -66,6 +66,8 @@ public:
 
     bool tryToMovePoint(QPointF dxdy, std::function<bool()> func);
 
+    DrawingWidget *getDrawingWidget() const;
+
     // ------------------------------
     // Private methods
     // ------------------------------

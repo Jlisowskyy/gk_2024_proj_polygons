@@ -280,3 +280,7 @@ bool Point::tryToMovePoint(QPointF dxdy, std::function<bool()> func) {
     return result;
 }
 
+DrawingWidget *Point::getDrawingWidget() const {
+    return m_polygon->getDrawingWidget();
+}
+

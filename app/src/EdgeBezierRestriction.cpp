@@ -8,6 +8,8 @@
 #include "../include/GraphicObjects/Edge.h"
 #include "../include/GraphicObjects/BezierPoint.h"
 #include "../include/Restrictions/PointContinuousRestriction.h"
+#include "../include/Restrictions/PointC1ContinuousRestriction.h"
+#include "../include/GraphicObjects/Point.h"
 
 /* external includes */
 #include <QPen>
@@ -32,6 +34,17 @@ bool EdgeBezierRestriction::applyRestriction() {
     _redrawBezierHelpingPoints();
     _drawBezierLine();
     _updateEdgeStorage();
+
+    Point *pLeft = m_edge->getConnectedElement(LEFT);
+    Point *pRight = m_edge->getConnectedElement(RIGHT);
+
+    if (pLeft->getRestriction() == nullptr) {
+//        pLeft->applyRestriction(new PointC1ContinuousRestriction(pLeft), pLeft->getDrawingWidget());
+    }
+
+    if (pRight->getRestriction() == nullptr) {
+//        pRight->applyRestriction(new PointC1ContinuousRestriction(pRight), pRight->getDrawingWidget());
+    }
 
     return false;
 }
@@ -263,7 +276,8 @@ void EdgeBezierRestriction::fixControlPointPositions() {
     }
 
     ObjectRestriction *restrictionRight = pRight->getRestriction();
-    if (auto continuousRight = dynamic_cast<PointContinuousRestriction *>(restrictionRight); continuousRight !=nullptr) {
+    if (auto continuousRight = dynamic_cast<PointContinuousRestriction *>(restrictionRight); continuousRight !=
+                                                                                             nullptr) {
         continuousRight->tryToPreserveRestriction(LEFT, QPointF(0, 0));
     }
 }
