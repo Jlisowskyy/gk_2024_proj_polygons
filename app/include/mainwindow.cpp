@@ -1,6 +1,7 @@
 /* internal includes */
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "GraphicObjects/HelpWindow.h"
 
 /* external includes */
 #include <QFrame>
@@ -49,9 +50,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     /* m_polygon -> ??? connects */
 
+
+    
+    connect(m_ui->actionHelp, &QAction::triggered, this, &MainWindow::showHelpWindow);
 }
 
 
 MainWindow::~MainWindow() {
     delete m_ui;
+}
+
+void MainWindow::showHelpWindow() {
+    HelpWindow *helpWindow = new HelpWindow(this);
+    helpWindow->setAttribute(Qt::WA_DeleteOnClose);
+    helpWindow->show();
 }

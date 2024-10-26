@@ -32,8 +32,11 @@ public:
     ~MainWindow();
 
     // ------------------------------
-    // Class private methods
+    // Class protected methods
     // ------------------------------
+protected:
+
+    void showHelpWindow();
 
     // ------------------------------
     // Class fields

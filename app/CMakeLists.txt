@@ -66,6 +66,7 @@ set(PROJECT_SOURCES
         include/Restrictions/PointGContinuousRestriction.h
         include/Restrictions/PointC1ContinuousRestriction.h
         include/Restrictions/PointG1ContinuousRestriction.h
+        include/GraphicObjects/HelpWindow.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

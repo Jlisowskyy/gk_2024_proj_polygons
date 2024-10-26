@@ -104,7 +104,6 @@ bool PointContinuousRestriction::tryToPropagateControlPointChange(const size_t d
     Q_ASSERT(bezierPoint != nullptr);
 
     const QLineF prevLine(bezierPoint->getPrevPos(), m_point->getPositionOnPainter());
-    const qreal prevLen = prevLine.length();
     QLineF curLine(bezierPoint->getPositionOnPainter(), m_point->getPositionOnPainter());
 
     qreal point1Dist;
