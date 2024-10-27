@@ -24,7 +24,6 @@ class Edge : public QGraphicsLineItem, public IConnectableElement<Point>, public
     // Class creation
     // ------------------------------
 public:
-
     explicit Edge(Point *start, Point *end, DrawingWidget *drawingWidget, Polygon *polygon);
 
     ~Edge() override = default;
@@ -43,11 +42,12 @@ public:
 
     void verifyRestrictions() const;
 
+    bool applyRestriction(ObjectRestriction *restriction, DrawingWidget *drawingWidget) override;
+
     // ------------------------------
     // Private methods
     // ------------------------------
 private:
-
     QVariant _onSelectionChange(const QVariant &value);
 
     QVariant _onPositionChange(const QVariant &value);
@@ -62,10 +62,10 @@ private:
     // Protected Methods
     // ------------------------------
 protected:
-
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
 
     // ------------------------------
     // Class fields

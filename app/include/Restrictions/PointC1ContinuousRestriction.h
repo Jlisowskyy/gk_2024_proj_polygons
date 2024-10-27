@@ -7,6 +7,7 @@
 
 /* internal includes */
 #include "PointContinuousRestriction.h"
+#include "Restrictions.h"
 
 /* external includes */
 

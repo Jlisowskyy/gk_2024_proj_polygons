@@ -14,11 +14,14 @@
 #include <QPainter>
 #include <cmath>
 
+#include "../include/Restrictions/EdgeBezierRestriction.h"
+#include "../include/Restrictions/PointC1ContinuousRestriction.h"
+
 Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget, Polygon *polygon) : QGraphicsLineItem(
-        QLineF(start->getPositionOnPainter(),
-               end->getPositionOnPainter())),
+                                                                                           QLineF(start->getPositionOnPainter(),
+                                                                                                  end->getPositionOnPainter())),
                                                                                        IConnectableElement<Point>(
-                                                                                               reinterpret_cast<void *>(this)),
+                                                                                           reinterpret_cast<void *>(this)),
                                                                                        IEdgePolygonObject(this,
                                                                                                           polygon),
                                                                                        m_drawingWidget(drawingWidget) {
@@ -32,8 +35,8 @@ Edge::Edge(Point *start, Point *end, DrawingWidget *drawingWidget, Polygon *poly
     setZValue(0);
 
     setFlag(QGraphicsItem::ItemIsSelectable, true);
-//    setFlag(QGraphicsItem::ItemIsMovable, true);
-//    setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
+    //    setFlag(QGraphicsItem::ItemIsMovable, true);
+    //    setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
 
     setConnectedElement(LEFT, start);
     setConnectedElement(RIGHT, end);
@@ -121,6 +124,27 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
         default:
             Q_ASSERT(false);
     }
+}
+
+bool Edge::applyRestriction(ObjectRestriction *restriction, DrawingWidget *drawingWidget) {
+    const bool result = IEdgePolygonObject::applyRestriction(restriction, drawingWidget);
+
+    if (!result && dynamic_cast<EdgeBezierRestriction *>(restriction) != nullptr) {
+        Point *pLeft = getConnectedElement(LEFT);
+        Point *pRight = getConnectedElement(RIGHT);
+
+        Q_ASSERT(pLeft && pRight);
+
+        if (pLeft->getRestriction() == nullptr) {
+            pLeft->applyRestriction(new PointC1ContinuousRestriction(pLeft), drawingWidget);
+        }
+
+        if (pRight->getRestriction() ==nullptr) {
+            pRight->applyRestriction(new PointC1ContinuousRestriction(pRight), drawingWidget);
+        }
+    }
+
+    return result;
 }
 
 void Edge::_bresenhamLine(QPainter *painter) {

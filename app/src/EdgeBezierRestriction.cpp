@@ -35,17 +35,6 @@ bool EdgeBezierRestriction::applyRestriction() {
     _drawBezierLine();
     _updateEdgeStorage();
 
-    Point *pLeft = m_edge->getConnectedElement(LEFT);
-    Point *pRight = m_edge->getConnectedElement(RIGHT);
-
-    if (pLeft->getRestriction() == nullptr) {
-//        pLeft->applyRestriction(new PointC1ContinuousRestriction(pLeft), pLeft->getDrawingWidget());
-    }
-
-    if (pRight->getRestriction() == nullptr) {
-//        pRight->applyRestriction(new PointC1ContinuousRestriction(pRight), pRight->getDrawingWidget());
-    }
-
     return false;
 }
 

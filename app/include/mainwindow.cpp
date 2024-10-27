@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     
     connect(m_ui->actionHelp, &QAction::triggered, this, &MainWindow::showHelpWindow);
+
+    m_polygon->initElementSetup();
 }
 
 

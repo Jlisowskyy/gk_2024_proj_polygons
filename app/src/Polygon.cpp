@@ -23,20 +23,6 @@ void Polygon::setupMgr(DrawingWidget *painter) {
     Q_ASSERT(painter != nullptr);
     Q_ASSERT(m_drawingWidget == nullptr);
     m_drawingWidget = painter;
-
-    setIsAddingVertices(true);
-    const auto p1 = m_drawingWidget->mapToScene(150, 150);
-    addPoint(p1.x(), p1.y());
-    const auto p2 = m_drawingWidget->mapToScene(330, 120);
-    addPoint(p2.x(), p2.y());
-    const auto p3 = m_drawingWidget->mapToScene(300, 300);
-    addPoint(p3.x(), p3.y());
-    setIsAddingVertices(false);
-
-    auto edge1 = m_startingPoint->getConnectedElement(RIGHT);
-    edge1->applyRestriction(EdgeRestrictions["bezier"](edge1), m_drawingWidget);
-    auto edge2 = m_endingPoint->getConnectedElement(LEFT);
-    edge2->applyRestriction(new EdgeConstLengthRestriction(edge2, edge2->line().length()), m_drawingWidget);
 }
 
 void Polygon::clearItems() {
@@ -160,4 +146,20 @@ void Polygon::moveVertex(const int vertexIdx, const QPointF dxdy) {
 
 DrawingWidget *Polygon::getDrawingWidget() const {
     return m_drawingWidget;
+}
+
+void Polygon::initElementSetup() {
+    setIsAddingVertices(true);
+    const auto p1 = m_drawingWidget->mapToScene(150, 150);
+    addPoint(p1.x(), p1.y());
+    const auto p2 = m_drawingWidget->mapToScene(330, 120);
+    addPoint(p2.x(), p2.y());
+    const auto p3 = m_drawingWidget->mapToScene(300, 300);
+    addPoint(p3.x(), p3.y());
+    setIsAddingVertices(false);
+
+    auto edge1 = m_startingPoint->getConnectedElement(RIGHT);
+    edge1->applyRestriction(EdgeRestrictions["bezier"](edge1), m_drawingWidget);
+    auto edge2 = m_endingPoint->getConnectedElement(LEFT);
+    edge2->applyRestriction(new EdgeConstLengthRestriction(edge2, edge2->line().length()), m_drawingWidget);
 }

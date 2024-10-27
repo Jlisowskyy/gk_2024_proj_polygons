@@ -1,4 +1,3 @@
-
 //
 // Created by Jlisowskyy on 13/10/24.
 //
@@ -24,7 +23,6 @@ class IPolygonObject {
     // Class creation
     // ------------------------------
 public:
-
     explicit IPolygonObject(Polygon *polygon);
 
     virtual ~IPolygonObject() = default;
@@ -33,7 +31,7 @@ public:
     // Class interaction
     // ------------------------------
 
-    bool applyRestriction(ObjectRestriction *restriction, DrawingWidget *drawingWidget);
+    virtual bool applyRestriction(ObjectRestriction *restriction, DrawingWidget *drawingWidget);
 
     [[nodiscard]] ObjectRestriction *getRestriction() const;
 
@@ -49,7 +47,6 @@ public:
     // Protected methods
     // ------------------------------
 protected:
-
     void onRemoved();
 
     // ------------------------------

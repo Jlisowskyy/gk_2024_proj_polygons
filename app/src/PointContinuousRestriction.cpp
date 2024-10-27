@@ -47,6 +47,7 @@ PointContinuousRestriction::tryToPreserveRestriction(const size_t direction, [[m
 
 QPointF
 PointContinuousRestriction::_processDirectionBezier(const size_t direction) {
+    const size_t reverseDirection = swapDirection(direction);
     auto *bezier = dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(direction)->getRestriction());
     Q_ASSERT(bezier != nullptr);
 
@@ -54,12 +55,15 @@ PointContinuousRestriction::_processDirectionBezier(const size_t direction) {
         return {0, 0};
     }
 
-    if (dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(
-            swapDirection(direction))->getRestriction())) {
+    if (m_point->getConnectedElement(reverseDirection) == nullptr) {
         return {0, 0};
     }
 
-    const size_t reverseDirection = swapDirection(direction);
+    if (dynamic_cast<EdgeBezierRestriction *>(m_point->getConnectedElement(
+            reverseDirection)->getRestriction())) {
+        return {0, 0};
+    }
+
     BezierPoint *bezierPoint = bezier->getDirectedBezierPoint(direction);
     Q_ASSERT(bezierPoint != nullptr);
 
